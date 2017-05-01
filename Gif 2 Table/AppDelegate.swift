@@ -16,8 +16,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
+        
+        let navBarColor: UIColor = .green
+        
+        let layout = UICollectionViewFlowLayout()
+        let navController = UINavigationController(rootViewController: MainVC(collectionViewLayout: layout))
+        navController.navigationBar.barTintColor = navBarColor
+        navController.navigationBar.shadowImage = UIImage()
+        navController.navigationBar.isTranslucent = false
+        navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        
+        window?.rootViewController = navController
         return true
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if window == self.window {
+            return .portrait
+        } else {
+            return .landscape
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
