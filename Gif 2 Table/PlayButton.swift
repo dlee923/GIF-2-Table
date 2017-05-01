@@ -20,11 +20,13 @@ class PlayButton: UIButton {
     let buttonReleasedRotation = CGFloat(Double.pi)
     let animationDuration = 0.25
     let buttonScale: CGFloat = 1.35
+    let buttonTransparency: CGFloat = 0.7
     
     func setUpButton() {
         self.layer.cornerRadius = 20
+        self.alpha = buttonTransparency
         self.layer.masksToBounds = true
-        self.backgroundColor = .purple
+        self.backgroundColor = .black
         self.translatesAutoresizingMaskIntoConstraints = false
     }
     

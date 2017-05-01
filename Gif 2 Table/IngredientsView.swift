@@ -28,10 +28,8 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
         self.ingredients = [IngredientObject]()
         
         for ingredient in ingredients {
-            if let ingredientInfo = ingredientDictionary[ingredient] {
-                let ingredientObj = IngredientObject(name: ingredient, description: ingredientInfo)
-                self.ingredients?.append(ingredientObj)
-            }
+            let ingredientObj = IngredientObject(name: ingredient, measurement: "?")
+            self.ingredients?.append(ingredientObj)
         }
     }
     
@@ -87,8 +85,7 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ingredientCell, for: indexPath) as? IngredientCell {
-            print("ingredient cell created")
-            cell.backgroundColor = .purple
+            cell.ingredient = ingredients?[indexPath.item]
             return cell
         
         } else {
@@ -166,14 +163,43 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     }
 }
 
-class IngredientCell: UICollectionViewCell {
+class IngredientCell: BaseCell {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func setUpCell() {
         self.backgroundColor = .purple
+        self.addSubview(ingredientLabel)
+        self.addSubview(whatIsThisButton)
+        self.addSubview(measurement)
+        
+        addConstraintsWithFormat(format: "H:|[v0(75)][v1][v2(40)]|", views: measurement, ingredientLabel, whatIsThisButton)
+        
+        for eachView in self.subviews {
+            addConstraintsWithFormat(format: "V:|[v0]|", views: eachView)
+        }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    var ingredient: IngredientObject? {
+        didSet {
+            ingredientLabel.text = ingredient?.name
+            measurement.text = ingredient?.measurement
+        }
     }
+    
+    let ingredientLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .white
+        return label
+    }()
+    
+    let whatIsThisButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .lightGray
+        return button
+    }()
+    
+    let measurement: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .darkGray
+        return label
+    }()
 }

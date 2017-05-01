@@ -37,7 +37,7 @@ extension UIView {
 
 struct IngredientObject {
     var name: String
-    var description: String
+    var measurement: String
 }
 
 var ingredientDictionary: [String : String] = ["Potato" : "Starchy vegetable white in color",
