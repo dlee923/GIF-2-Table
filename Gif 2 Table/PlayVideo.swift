@@ -19,7 +19,6 @@ class PlayVideo: NSObject, AVPlayerViewControllerDelegate {
         guard let mainVC = mainViewController else { return }
         
         let url = URL(string: videoURL)
-        let url2 = URL(fileURLWithPath: videoURL)
         
         let videoController = AVPlayerViewController()
         let videoPlayer = AVPlayer(url: url!)
@@ -27,9 +26,9 @@ class PlayVideo: NSObject, AVPlayerViewControllerDelegate {
         videoController.player = videoPlayer
 //        mainVC.addChildViewController(videoController)
 //
-////        if let window = UIApplication.shared.keyWindow {
-////            window.addSubview(videoController.view)
-////        }
+//        if let window = UIApplication.shared.keyWindow {
+//            window.addSubview(videoController.view)
+//        }
 //        mainVC.view.addSubview(videoController.view)
 //        videoController.view.frame = mainVC.view.frame
         

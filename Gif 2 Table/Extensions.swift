@@ -31,13 +31,16 @@ extension UIView {
     }
 }
 
-enum IngredientType: String {
-    case potato = "Potato"
-}
+//enum IngredientType: String {
+//    case potato = "Potato"
+//}
 
 struct IngredientObject {
-    var name: IngredientType
+    var name: String
     var description: String
 }
 
-var ingredientDictionary: [IngredientType : String] = [.potato : "Starchy vegetable white in color"]
+var ingredientDictionary: [String : String] = ["Potato" : "Starchy vegetable white in color",
+                                               "Salsa" : "Sauce",
+                                               "Tequila" : "Chips",
+                                               "Corazon" : "Red Stuff"]

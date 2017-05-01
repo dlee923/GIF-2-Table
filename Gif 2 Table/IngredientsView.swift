@@ -19,10 +19,24 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     var recipe: RecipeObject? {
         didSet {
             //when set, update ingredients array which will feed into the collectionView
+            guard let ingredients = recipe?.recipeIngredients else { return }
+            parseRawIngredients(ingredients: ingredients)
+        }
+    }
+    
+    func parseRawIngredients(ingredients: [String]) {
+        self.ingredients = [IngredientObject]()
+        
+        for ingredient in ingredients {
+            if let ingredientInfo = ingredientDictionary[ingredient] {
+                let ingredientObj = IngredientObject(name: ingredient, description: ingredientInfo)
+                self.ingredients?.append(ingredientObj)
+            }
         }
     }
     
     var recipeView: RecipeView?
+    var ingredients: [IngredientObject]?
     
     let ingredientsTitleLabel: UILabel = {
         let label = UILabel()
@@ -68,7 +82,7 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return ingredients?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

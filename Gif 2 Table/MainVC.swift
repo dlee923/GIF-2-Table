@@ -53,16 +53,14 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     //testing****
     func downloadRecipeObjects() {
-        let ingredient = IngredientObject(name: .potato, description: ingredientDictionary[.potato]!)
-        let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: [ingredient], favorite: false)
+        let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false)
         for _ in 0...5 {
             recipes.append(recipe)
         }
     }
     
     func downloadFeatureRecipe() {
-        let ingredient = IngredientObject(name: .potato, description: ingredientDictionary[.potato]!)
-        let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: [ingredient], favorite: false)
+        let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false)
         featureRecipe = recipe
     }
     //testing****

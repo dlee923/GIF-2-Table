@@ -22,6 +22,7 @@ class RecipeView: UIView {
         didSet {
             //when set, call load ingredients list
             recipeTitle.text = recipe?.recipeTitle
+            ingredientsView.recipe = self.recipe
             loadRecipeImage()
         }
     }
@@ -70,13 +71,9 @@ class RecipeView: UIView {
         return view
     }()
     
-    lazy var playButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 20
-        button.layer.masksToBounds = true
-        button.backgroundColor = .purple
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(playRecipe), for: .touchUpInside)
+    lazy var playButton: PlayButton = {
+        let button = PlayButton()
+        button.recipeView = self
         return button
     }()
     
