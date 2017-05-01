@@ -18,8 +18,11 @@ class PlayVideo: NSObject, AVPlayerViewControllerDelegate {
     func playVideo(videoURL: String) {
         guard let mainVC = mainViewController else { return }
         
+        let url = URL(string: videoURL)
+        let url2 = URL(fileURLWithPath: videoURL)
+        
         let videoController = AVPlayerViewController()
-        let videoPlayer = AVPlayer(url: URL(fileURLWithPath: videoURL))
+        let videoPlayer = AVPlayer(url: url!)
         
         videoController.player = videoPlayer
 //        mainVC.addChildViewController(videoController)

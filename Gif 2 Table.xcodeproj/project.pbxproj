@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		700178D51EB76438006AEF48 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 700178D41EB76438006AEF48 /* AVKit.framework */; };
 		700BC9191EAA6843002EB83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9181EAA6843002EB83A /* AppDelegate.swift */; };
 		700BC91B1EAA6843002EB83A /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC91A1EAA6843002EB83A /* MainVC.swift */; };
 		700BC9211EAA6843002EB83A /* Gif_2_Table.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 700BC91F1EAA6843002EB83A /* Gif_2_Table.xcdatamodeld */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		700178D41EB76438006AEF48 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		700BC9151EAA6843002EB83A /* Gif 2 Table.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gif 2 Table.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		700BC9181EAA6843002EB83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		700BC91A1EAA6843002EB83A /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -51,17 +53,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				700178D51EB76438006AEF48 /* AVKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		700178D31EB76438006AEF48 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				700178D41EB76438006AEF48 /* AVKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		700BC90C1EAA6843002EB83A = {
 			isa = PBXGroup;
 			children = (
 				700BC9171EAA6843002EB83A /* Gif 2 Table */,
 				700BC9161EAA6843002EB83A /* Products */,
+				700178D31EB76438006AEF48 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

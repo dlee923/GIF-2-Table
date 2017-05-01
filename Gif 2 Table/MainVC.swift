@@ -20,7 +20,10 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.scrollToPage(itemNumber: 1)
+        if isAppOpening {
+            self.scrollToPage(itemNumber: 1)
+            isAppOpening = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -32,6 +35,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 //        }
     }
     
+    var isAppOpening = true
     let cellID = "sectionCell"
     let featureCellID = "featureCellID"
     let historyFavoritesCellID = "historyFavoritesCellID"
