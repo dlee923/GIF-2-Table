@@ -121,11 +121,11 @@
 			children = (
 				700BC9331EAAC19D002EB83A /* RecipeView.swift */,
 				700178D81EB8B310006AEF48 /* SaveFavoritesView.swift */,
-				700178D61EB7A39B006AEF48 /* PlayButton.swift */,
 				700BC9351EAAC2F2002EB83A /* IngredientsView.swift */,
+				700178D61EB7A39B006AEF48 /* PlayButton.swift */,
+				70FC2FA61EB6D5DA0068B159 /* PlayVideo.swift */,
 				70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */,
 				70EE7E371EB23BC200ADD499 /* EmptyCell.swift */,
-				70FC2FA61EB6D5DA0068B159 /* PlayVideo.swift */,
 			);
 			name = "Recipe Views";
 			sourceTree = "<group>";

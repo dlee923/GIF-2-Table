@@ -35,6 +35,7 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     
     var recipeView: RecipeView?
     var ingredients: [IngredientObject]?
+    let arrowColor = UIColor.white
     
     let ingredientsTitleLabel: UILabel = {
         let label = UILabel()
@@ -42,6 +43,14 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
         label.textAlignment = .center
         label.backgroundColor = .red
         return label
+    }()
+    
+    lazy var ingredientsTitleArrow: UIImageView = {
+        let arrow = UIImageView()
+        arrow.contentMode = .scaleAspectFit
+        arrow.image = UIImage(named: "arrow1")?.withRenderingMode(.alwaysTemplate)
+        arrow.tintColor = self.arrowColor
+        return arrow
     }()
     
     lazy var ingredientsList: UICollectionView = {
@@ -58,12 +67,16 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     
     fileprivate func setUpIngredientsView() {
         self.addSubview(ingredientsTitleLabel)
+        ingredientsTitleLabel.addSubview(ingredientsTitleArrow)
         self.addSubview(ingredientsList)
         
         addConstraintsWithFormat(format: "H:|[v0]|", views: ingredientsTitleLabel)
         addConstraintsWithFormat(format: "H:|[v0]|", views: ingredientsList)
         addConstraintsWithFormat(format: "V:|[v0(75)]", views: ingredientsTitleLabel)
         addConstraintsWithFormat(format: "V:|-55-[v0]|", views: ingredientsList)
+        
+        ingredientsTitleLabel.addConstraintsWithFormat(format: "H:[v0(50)]-|", views: ingredientsTitleArrow)
+        ingredientsTitleLabel.addConstraintsWithFormat(format: "V:|-[v0]-25-|", views: ingredientsTitleArrow)
     }
     
     func setUpIngredientsCv() {
@@ -145,11 +158,21 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
         if isScrollDirectionUp {
             guard let maxPosition = self.recipeView?.yConstantMaxPosition else { return }
             self.recipeView?.ingredientsViewCenterY?.constant = maxPosition
+            
+            UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.ingredientsTitleArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+            }, completion: nil)
+            
             print("push to top!")
             
         } else if !isScrollDirectionUp {
             guard let startPosition = self.recipeView?.yConstantStartPosition else { return }
             self.recipeView?.ingredientsViewCenterY?.constant = startPosition
+            
+            UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.ingredientsTitleArrow.layer.transform = CATransform3DIdentity
+            }, completion: nil)
+            
             print("push to bottom!")
         }
         

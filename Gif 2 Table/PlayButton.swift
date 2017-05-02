@@ -21,12 +21,19 @@ class PlayButton: UIButton {
     let animationDuration = 0.25
     let buttonScale: CGFloat = 1.35
     let buttonTransparency: CGFloat = 0.7
+    let playImage = UIImage(named: "play1")?.withRenderingMode(.alwaysTemplate)
+//    let playImage = UIImage(named: "play2")?.withRenderingMode(.alwaysTemplate)
+    let playImageColor = UIColor.green
+    let playImageInsets: CGFloat = 10
     
     func setUpButton() {
         self.layer.cornerRadius = 20
-        self.alpha = buttonTransparency
+        self.imageEdgeInsets = UIEdgeInsetsMake(playImageInsets, playImageInsets, playImageInsets, playImageInsets)
+        self.imageView?.contentMode = .scaleAspectFit
+        self.tintColor = playImageColor
+        self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: buttonTransparency)
+        self.setImage(playImage, for: .normal)
         self.layer.masksToBounds = true
-        self.backgroundColor = .black
         self.translatesAutoresizingMaskIntoConstraints = false
     }
     
