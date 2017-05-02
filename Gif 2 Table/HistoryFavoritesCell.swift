@@ -71,7 +71,6 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // do nothing as image in cell contains gesture which is connected to call displayRecipeView function
-        print(self.frame)
         guard let cell = collectionView.cellForItem(at: indexPath) as? ListedRecipeCell else { return }
         displayRecipeView(recipeCell: cell, index: indexPath.item, image: cell.recipeImage.image!)
     }
