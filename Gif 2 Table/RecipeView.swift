@@ -77,9 +77,8 @@ class RecipeView: UIView {
         return button
     }()
     
-    let saveToFavoritesView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
+    let saveFavoritesView: SaveFavoritesView = {
+        let view = SaveFavoritesView()
         return view
     }()
     
@@ -100,13 +99,13 @@ class RecipeView: UIView {
         self.addSubview(recipeTitle)
         self.addSubview(recipeImageShadow)
         recipeImageShadow.addSubview(recipeImage)
-        self.addSubview(saveToFavoritesView)
+        self.addSubview(saveFavoritesView)
         
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeTitle)
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeImageShadow)
-        self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: saveToFavoritesView)
+        self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: saveFavoritesView)
         
-        self.addConstraintsWithFormat(format: "V:|-[v0(40)]-8-[v1]-12-[v2(40)]-80-|", views: recipeTitle, recipeImageShadow, saveToFavoritesView)
+        self.addConstraintsWithFormat(format: "V:|-[v0(40)]-8-[v1]-6-[v2(75)]-86-|", views: recipeTitle, recipeImageShadow, saveFavoritesView)
         
         recipeImageShadow.addConstraintsWithFormat(format: "H:|-4-[v0]-4-|", views: recipeImage)
         recipeImageShadow.addConstraintsWithFormat(format: "V:|-4-[v0]-4-|", views: recipeImage)

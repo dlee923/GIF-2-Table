@@ -10,8 +10,6 @@ import UIKit
 
 class FeatureCell: BaseCell {
     
-    //    var recipeObject: RecipeObject?  Should be passed to this cell...
-    //    use didSet to populate view
     var cellMainViewController: MainVC? {
         didSet {
             recipeView.mainViewController = self.cellMainViewController
@@ -32,8 +30,8 @@ class FeatureCell: BaseCell {
     
     override func setUpCell() {
         setUpRecipeView(viewToAdd: self)
-        recipeView.addPlayButton(viewToAddTo: self)
-        bringSubview(toFront: recipeView.ingredientsView)
+//        recipeView.addPlayButton(viewToAddTo: self)
+//        bringSubview(toFront: recipeView.ingredientsView)
     }
 }
 
@@ -44,11 +42,9 @@ class BaseCell: UICollectionViewCell {
     }
     
     func setUpCell() {
-    
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		700178D51EB76438006AEF48 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 700178D41EB76438006AEF48 /* AVKit.framework */; };
 		700178D71EB7A39B006AEF48 /* PlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700178D61EB7A39B006AEF48 /* PlayButton.swift */; };
+		700178D91EB8B310006AEF48 /* SaveFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700178D81EB8B310006AEF48 /* SaveFavoritesView.swift */; };
 		700BC9191EAA6843002EB83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9181EAA6843002EB83A /* AppDelegate.swift */; };
 		700BC91B1EAA6843002EB83A /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC91A1EAA6843002EB83A /* MainVC.swift */; };
 		700BC9211EAA6843002EB83A /* Gif_2_Table.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 700BC91F1EAA6843002EB83A /* Gif_2_Table.xcdatamodeld */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		700178D41EB76438006AEF48 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		700178D61EB7A39B006AEF48 /* PlayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayButton.swift; sourceTree = "<group>"; };
+		700178D81EB8B310006AEF48 /* SaveFavoritesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveFavoritesView.swift; sourceTree = "<group>"; };
 		700BC9151EAA6843002EB83A /* Gif 2 Table.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gif 2 Table.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		700BC9181EAA6843002EB83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		700BC91A1EAA6843002EB83A /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				700BC9331EAAC19D002EB83A /* RecipeView.swift */,
+				700178D81EB8B310006AEF48 /* SaveFavoritesView.swift */,
 				700178D61EB7A39B006AEF48 /* PlayButton.swift */,
 				700BC9351EAAC2F2002EB83A /* IngredientsView.swift */,
 				70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */,
@@ -223,6 +226,7 @@
 				70EE7E341EB231AC00ADD499 /* HistoryFavoritesCell.swift in Sources */,
 				70EE7E361EB2325C00ADD499 /* ListedRecipeCell.swift in Sources */,
 				700BC9191EAA6843002EB83A /* AppDelegate.swift in Sources */,
+				700178D91EB8B310006AEF48 /* SaveFavoritesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

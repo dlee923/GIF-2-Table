@@ -38,7 +38,8 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     var isAppOpening = true
     let cellID = "sectionCell"
     let featureCellID = "featureCellID"
-    let historyFavoritesCellID = "historyFavoritesCellID"
+    let historyCellID = "historyCellID"
+    let favoritesCellID = "favoritesCellID"
     let menuBarHeight: CGFloat = 50
     
     lazy var menuBar: MenuBar = {
@@ -74,7 +75,8 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         collectionView?.alwaysBounceHorizontal = true
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
         collectionView?.register(FeatureCell.self, forCellWithReuseIdentifier: featureCellID)
-        collectionView?.register(HistoryFavoritesCell.self, forCellWithReuseIdentifier: historyFavoritesCellID)
+        collectionView?.register(HistoryFavoritesCell.self, forCellWithReuseIdentifier: historyCellID)
+        collectionView?.register(HistoryFavoritesCell.self, forCellWithReuseIdentifier: favoritesCellID)
         
         collectionView?.contentInset = UIEdgeInsetsMake(menuBarHeight, 0, 0, 0)
     }
@@ -124,18 +126,21 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
                 customCell.recipeView.recipe = self.featureRecipe
                 return customCell
             }
-        } else if indexPath.item == 0 || indexPath.item == 2 {
-            if let customCell = cell(historyFavoritesCellID) as? HistoryFavoritesCell {
+        } else if indexPath.item == 0 {
+            if let customCell = cell(favoritesCellID) as? HistoryFavoritesCell {
                 customCell.mainViewController = self
-                if indexPath.item == 0 {
-                    //filter recipes for favorites
-                    customCell.recipes = self.recipes.filter({$0.favorite == true})
-                } else {
-                    customCell.recipes = self.recipes
-                }
+                customCell.recipes = self.recipes.filter({$0.favorite == true})
+                
                 return customCell
             }
-        } else {
+        } else if indexPath.item == 2 {
+            if let customCell = cell(historyCellID) as? HistoryFavoritesCell {
+                customCell.mainViewController = self
+                customCell.recipes = self.recipes
+                
+                return customCell
+            }
+        }else {
             customCell = cell(cellID)
         }
         

@@ -101,12 +101,16 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         
         //animate image into place?
         //"V:|-[v0(40)]-8-[v1]-12-[v2(40)]-80-|"
+        //"V:|-[v0(40)]-8-[v1]-6-[v2(75)]-86-|" + 4 + 4 FOR FRAMING
         
+        let recipeFrameInset: CGFloat = 4
+        
+        //MOVING IMAGE INTO FOCUS
         UIView.animate(withDuration: 1.0, animations: {
-            let yMovement = (self.frame.height - (self.frame.height - 8 - 40 - 8)) - image.frame.origin.y
-            let endFrame = self.frame.height - 8 - 40 - 8 - 12 - 40 - 80
-            image.transform = CGAffineTransform(translationX: 0, y: yMovement)
-            image.frame.size = CGSize(width: image.frame.width, height: endFrame)
+            let yMovement = (self.frame.height - (self.frame.height - 8 - 40 - 8 - recipeFrameInset)) - image.frame.origin.y
+            let endFrame = self.frame.height - 8 - 40 - 8 - 6 - 75 - 86 - (recipeFrameInset * 2)
+            image.transform = CGAffineTransform(translationX: recipeFrameInset, y: yMovement)
+            image.frame.size = CGSize(width: image.frame.width - (recipeFrameInset * 2), height: endFrame)
             self.recipeView.frame = self.bounds
             self.recipeView.layoutSubviews()
         }, completion: { (_) in
