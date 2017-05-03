@@ -11,7 +11,7 @@ import UIKit
 enum MenuOptions: String {
     case feature = "Feature"
     case favorites = "Favorites"
-    case history = "History"
+    case history = "Past Meals"
 }
 
 class MenuBar: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -38,9 +38,9 @@ class MenuBar: UICollectionView, UICollectionViewDataSource, UICollectionViewDel
     }
     
     fileprivate func declareMenuOptions() {
-        let feature = menuOption(name: .feature, imageName: "menu2")
-        let favorites = menuOption(name: .favorites, imageName: "menu2")
-        let history = menuOption(name: .history, imageName: "menu2")
+        let feature = menuOption(name: .feature, imageName: "feature1")
+        let favorites = menuOption(name: .favorites, imageName: "heart")
+        let history = menuOption(name: .history, imageName: "calendar2")
         print("appending")
         menuObjects = [menuOption]()
         menuObjects?.append(favorites)
@@ -69,6 +69,7 @@ class MenuBar: UICollectionView, UICollectionViewDataSource, UICollectionViewDel
             
             cell.menuLabel.text = menuObjects?[indexPath.item].name.rawValue
             if let imageName = menuObjects?[indexPath.item].imageName {
+                
                 cell.menuImage.image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
             }
             cell.backgroundColor = .green
@@ -107,6 +108,7 @@ class MenuCell: UICollectionViewCell {
     
     let menuLabel: UILabel = {
         let label = UILabel()
+        label.font = fontHello?.withSize(15)
         label.textAlignment = .center
         return label
     }()

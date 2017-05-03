@@ -18,7 +18,6 @@ class FeatureCell: BaseCell {
     
     lazy var recipeView: RecipeView = {
         let view = RecipeView()
-        view.backgroundColor = .orange
         return view
     }()
     

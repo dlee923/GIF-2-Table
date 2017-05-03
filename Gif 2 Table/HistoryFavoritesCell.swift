@@ -77,7 +77,6 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     
     lazy var recipeView: RecipeView = {
         let view = RecipeView()
-        view.backgroundColor = .orange
         return view
     }()
     

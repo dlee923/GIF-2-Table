@@ -10,6 +10,9 @@
 		700178D51EB76438006AEF48 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 700178D41EB76438006AEF48 /* AVKit.framework */; };
 		700178D71EB7A39B006AEF48 /* PlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700178D61EB7A39B006AEF48 /* PlayButton.swift */; };
 		700178D91EB8B310006AEF48 /* SaveFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700178D81EB8B310006AEF48 /* SaveFavoritesView.swift */; };
+		700178DB1EB9788C006AEF48 /* Luna.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 700178DA1EB9788C006AEF48 /* Luna.ttf */; };
+		700178DD1EB97896006AEF48 /* Mandela Script Personal Use.otf in Resources */ = {isa = PBXBuildFile; fileRef = 700178DC1EB97896006AEF48 /* Mandela Script Personal Use.otf */; };
+		700178E01EB97B5B006AEF48 /* HelloIshBig.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 700178DF1EB97B5B006AEF48 /* HelloIshBig.ttf */; };
 		700BC9191EAA6843002EB83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9181EAA6843002EB83A /* AppDelegate.swift */; };
 		700BC91B1EAA6843002EB83A /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC91A1EAA6843002EB83A /* MainVC.swift */; };
 		700BC9211EAA6843002EB83A /* Gif_2_Table.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 700BC91F1EAA6843002EB83A /* Gif_2_Table.xcdatamodeld */; };
@@ -32,6 +35,9 @@
 		700178D41EB76438006AEF48 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		700178D61EB7A39B006AEF48 /* PlayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayButton.swift; sourceTree = "<group>"; };
 		700178D81EB8B310006AEF48 /* SaveFavoritesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveFavoritesView.swift; sourceTree = "<group>"; };
+		700178DA1EB9788C006AEF48 /* Luna.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Luna.ttf; sourceTree = "<group>"; };
+		700178DC1EB97896006AEF48 /* Mandela Script Personal Use.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mandela Script Personal Use.otf"; sourceTree = "<group>"; };
+		700178DF1EB97B5B006AEF48 /* HelloIshBig.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelloIshBig.ttf; sourceTree = "<group>"; };
 		700BC9151EAA6843002EB83A /* Gif 2 Table.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gif 2 Table.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		700BC9181EAA6843002EB83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		700BC91A1EAA6843002EB83A /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -72,6 +78,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		700178DE1EB97914006AEF48 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				700178DF1EB97B5B006AEF48 /* HelloIshBig.ttf */,
+				700178DA1EB9788C006AEF48 /* Luna.ttf */,
+				700178DC1EB97896006AEF48 /* Mandela Script Personal Use.otf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		700BC90C1EAA6843002EB83A = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +108,7 @@
 		700BC9171EAA6843002EB83A /* Gif 2 Table */ = {
 			isa = PBXGroup;
 			children = (
+				700178DE1EB97914006AEF48 /* Fonts */,
 				700BC9181EAA6843002EB83A /* AppDelegate.swift */,
 				700BC92F1EAABE2C002EB83A /* Extensions.swift */,
 				700BC9391EAC15DA002EB83A /* RecipeObject.swift */,
@@ -199,7 +216,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				700178DB1EB9788C006AEF48 /* Luna.ttf in Resources */,
 				700BC9261EAA6843002EB83A /* LaunchScreen.storyboard in Resources */,
+				700178E01EB97B5B006AEF48 /* HelloIshBig.ttf in Resources */,
+				700178DD1EB97896006AEF48 /* Mandela Script Personal Use.otf in Resources */,
 				700BC9231EAA6843002EB83A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

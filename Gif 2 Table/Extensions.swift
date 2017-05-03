@@ -31,6 +31,10 @@ extension UIView {
     }
 }
 
+let fontLuna = UIFont(name: "Luna", size: 5)
+let fontMandela = UIFont(name: "Mandela Script Personal Use", size: 5)
+let fontHello = UIFont(name: "HelloIshBig", size: 5)
+
 //enum IngredientType: String {
 //    case potato = "Potato"
 //}

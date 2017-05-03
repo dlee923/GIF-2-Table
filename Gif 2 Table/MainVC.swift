@@ -13,6 +13,8 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView?.backgroundColor = .white
+        navigationItem.title = "Gif 2 Table"
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontLuna?.withSize(18), NSForegroundColorAttributeName: UIColor.black]
         downloadFeatureRecipe()
         downloadRecipeObjects()
         setUpCollectionView()

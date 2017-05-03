@@ -12,6 +12,7 @@ class RecipeView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .white
         setUpRecipeView()
         addPlayButton(viewToAddTo: self)
         
@@ -41,6 +42,7 @@ class RecipeView: UIView {
     
     let recipeTitle: UILabel = {
         let label = UILabel()
+        label.font = fontMandela?.withSize(30)
         label.backgroundColor = .clear
         label.textAlignment = .center
         label.text = "Generic Recipe Title"
@@ -53,16 +55,12 @@ class RecipeView: UIView {
         image.clipsToBounds = true
         image.backgroundColor = .white
         image.layer.cornerRadius = 10
-//        image.layer.shadowColor = UIColor.black.cgColor
-//        image.layer.shadowRadius = 5
-//        image.layer.shadowOffset = CGSize(width: 5, height: 5)
-//        image.layer.shadowOpacity = 0.5
         return image
     }()
     
     let recipeImageShadow: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
         view.layer.cornerRadius = 10
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowRadius = 5
@@ -124,10 +122,12 @@ class RecipeView: UIView {
         if self.frame.height != 0 {
             // capture frame height
             yConstantStartPosition = (self.frame.height * ingredientsViewSizeMultHeight)/2 + (self.frame.height/2) - 68
+            yConstantMaxPosition = (self.frame.height * (1-ingredientsViewSizeMultHeight))/2
             
         } else if let recipeViewFrameHeight = self.superview?.frame.height {
             // capture superview frame height
             yConstantStartPosition = (recipeViewFrameHeight * ingredientsViewSizeMultHeight)/2 + (recipeViewFrameHeight/2) - 68
+            yConstantMaxPosition = (recipeViewFrameHeight * (1-ingredientsViewSizeMultHeight))/2
             
         }
         if let startPosition = yConstantStartPosition {

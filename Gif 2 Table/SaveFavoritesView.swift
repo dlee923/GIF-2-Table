@@ -23,7 +23,7 @@ class SaveFavoritesView: UIView {
     let pressedSize: CGFloat = 1.3
     
     func setUpView() {
-        self.backgroundColor = .gray
+        self.backgroundColor = .clear
         self.addSubview(happyFace)
         self.addSubview(sadFace)
         self.addSubview(happyText)
