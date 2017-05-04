@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let navBarColor: UIColor = .green
+        let navBarColor: UIColor = .white
         
         let layout = UICollectionViewFlowLayout()
         let navController = UINavigationController(rootViewController: MainVC(collectionViewLayout: layout))

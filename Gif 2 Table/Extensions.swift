@@ -34,6 +34,16 @@ extension UIView {
 let fontLuna = UIFont(name: "Luna", size: 5)
 let fontMandela = UIFont(name: "Mandela Script Personal Use", size: 5)
 let fontHello = UIFont(name: "HelloIshBig", size: 5)
+let fontMessy = UIFont(name: "KG Life is Messy", size: 5)
+
+enum BackgroundImage: String {
+    case b1 = "background1"
+    case b2 = "background2"
+    case b3 = "background3"
+    case b4 = "background4"
+    case b5 = "background5"
+    case b6 = "background6"
+}
 
 //enum IngredientType: String {
 //    case potato = "Potato"

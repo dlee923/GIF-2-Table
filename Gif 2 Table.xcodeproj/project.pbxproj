@@ -13,6 +13,7 @@
 		700178DB1EB9788C006AEF48 /* Luna.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 700178DA1EB9788C006AEF48 /* Luna.ttf */; };
 		700178DD1EB97896006AEF48 /* Mandela Script Personal Use.otf in Resources */ = {isa = PBXBuildFile; fileRef = 700178DC1EB97896006AEF48 /* Mandela Script Personal Use.otf */; };
 		700178E01EB97B5B006AEF48 /* HelloIshBig.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 700178DF1EB97B5B006AEF48 /* HelloIshBig.ttf */; };
+		700178E21EB97F86006AEF48 /* KGLifeisMessy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 700178E11EB97F86006AEF48 /* KGLifeisMessy.ttf */; };
 		700BC9191EAA6843002EB83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9181EAA6843002EB83A /* AppDelegate.swift */; };
 		700BC91B1EAA6843002EB83A /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC91A1EAA6843002EB83A /* MainVC.swift */; };
 		700BC9211EAA6843002EB83A /* Gif_2_Table.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 700BC91F1EAA6843002EB83A /* Gif_2_Table.xcdatamodeld */; };
@@ -24,6 +25,7 @@
 		700BC9361EAAC2F2002EB83A /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9351EAAC2F2002EB83A /* IngredientsView.swift */; };
 		700BC93A1EAC15DA002EB83A /* RecipeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9391EAC15DA002EB83A /* RecipeObject.swift */; };
 		703C3AA31EB4CCC200BA98F1 /* RecipeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703C3AA21EB4CCC200BA98F1 /* RecipeHandler.swift */; };
+		70BDB1131EBA9A3500305EA8 /* CustomBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */; };
 		70EE7E311EB230B000ADD499 /* FeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EE7E301EB230B000ADD499 /* FeatureCell.swift */; };
 		70EE7E341EB231AC00ADD499 /* HistoryFavoritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EE7E331EB231AC00ADD499 /* HistoryFavoritesCell.swift */; };
 		70EE7E361EB2325C00ADD499 /* ListedRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */; };
@@ -38,6 +40,7 @@
 		700178DA1EB9788C006AEF48 /* Luna.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Luna.ttf; sourceTree = "<group>"; };
 		700178DC1EB97896006AEF48 /* Mandela Script Personal Use.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mandela Script Personal Use.otf"; sourceTree = "<group>"; };
 		700178DF1EB97B5B006AEF48 /* HelloIshBig.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelloIshBig.ttf; sourceTree = "<group>"; };
+		700178E11EB97F86006AEF48 /* KGLifeisMessy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KGLifeisMessy.ttf; sourceTree = "<group>"; };
 		700BC9151EAA6843002EB83A /* Gif 2 Table.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gif 2 Table.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		700BC9181EAA6843002EB83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		700BC91A1EAA6843002EB83A /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -51,6 +54,7 @@
 		700BC9351EAAC2F2002EB83A /* IngredientsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
 		700BC9391EAC15DA002EB83A /* RecipeObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeObject.swift; sourceTree = "<group>"; };
 		703C3AA21EB4CCC200BA98F1 /* RecipeHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeHandler.swift; sourceTree = "<group>"; };
+		70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBackground.swift; sourceTree = "<group>"; };
 		70EE7E301EB230B000ADD499 /* FeatureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureCell.swift; sourceTree = "<group>"; };
 		70EE7E331EB231AC00ADD499 /* HistoryFavoritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryFavoritesCell.swift; sourceTree = "<group>"; };
 		70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListedRecipeCell.swift; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 		700178DE1EB97914006AEF48 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				700178E11EB97F86006AEF48 /* KGLifeisMessy.ttf */,
 				700178DF1EB97B5B006AEF48 /* HelloIshBig.ttf */,
 				700178DA1EB9788C006AEF48 /* Luna.ttf */,
 				700178DC1EB97896006AEF48 /* Mandela Script Personal Use.otf */,
@@ -143,6 +148,7 @@
 				70FC2FA61EB6D5DA0068B159 /* PlayVideo.swift */,
 				70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */,
 				70EE7E371EB23BC200ADD499 /* EmptyCell.swift */,
+				70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */,
 			);
 			name = "Recipe Views";
 			sourceTree = "<group>";
@@ -216,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				700178E21EB97F86006AEF48 /* KGLifeisMessy.ttf in Resources */,
 				700178DB1EB9788C006AEF48 /* Luna.ttf in Resources */,
 				700BC9261EAA6843002EB83A /* LaunchScreen.storyboard in Resources */,
 				700178E01EB97B5B006AEF48 /* HelloIshBig.ttf in Resources */,
@@ -241,6 +248,7 @@
 				700BC93A1EAC15DA002EB83A /* RecipeObject.swift in Sources */,
 				700BC9211EAA6843002EB83A /* Gif_2_Table.xcdatamodeld in Sources */,
 				703C3AA31EB4CCC200BA98F1 /* RecipeHandler.swift in Sources */,
+				70BDB1131EBA9A3500305EA8 /* CustomBackground.swift in Sources */,
 				700BC92E1EAA726A002EB83A /* MenuBar.swift in Sources */,
 				700178D71EB7A39B006AEF48 /* PlayButton.swift in Sources */,
 				70EE7E341EB231AC00ADD499 /* HistoryFavoritesCell.swift in Sources */,

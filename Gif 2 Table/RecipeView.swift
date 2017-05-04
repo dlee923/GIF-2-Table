@@ -42,7 +42,7 @@ class RecipeView: UIView {
     
     let recipeTitle: UILabel = {
         let label = UILabel()
-        label.font = fontMandela?.withSize(30)
+        label.font = fontMessy?.withSize(20)
         label.backgroundColor = .clear
         label.textAlignment = .center
         label.text = "Generic Recipe Title"
@@ -90,14 +90,25 @@ class RecipeView: UIView {
         return view
     }()
     
+    lazy var backgroundImg: CustomBackground = {
+        let backgrnd = CustomBackground(frame: .zero)
+        backgrnd.setUpView(backgroundImg: .b5)
+        return backgrnd
+    }()
+    
     var ingredientsViewSizeMultHeight: CGFloat = 0.85
     var ingredientsViewSizeMultWidth: CGFloat = 0.9
     
     fileprivate func setUpRecipeView() {
+        self.addSubview(backgroundImg)
+        
         self.addSubview(recipeTitle)
         self.addSubview(recipeImageShadow)
         recipeImageShadow.addSubview(recipeImage)
         self.addSubview(saveFavoritesView)
+        
+        self.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImg)
+        self.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImg)
         
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeTitle)
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeImageShadow)

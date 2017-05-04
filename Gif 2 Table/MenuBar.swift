@@ -19,7 +19,7 @@ class MenuBar: UICollectionView, UICollectionViewDataSource, UICollectionViewDel
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
         declareMenuOptions()
-        self.backgroundColor = .purple
+        self.backgroundColor = .clear
         self.dataSource = self
         self.delegate = self
         
@@ -38,9 +38,9 @@ class MenuBar: UICollectionView, UICollectionViewDataSource, UICollectionViewDel
     }
     
     fileprivate func declareMenuOptions() {
-        let feature = menuOption(name: .feature, imageName: "feature1")
-        let favorites = menuOption(name: .favorites, imageName: "heart")
-        let history = menuOption(name: .history, imageName: "calendar2")
+        let feature = menuOption(name: .feature, imageName: "feature2")
+        let favorites = menuOption(name: .favorites, imageName: "favorites1")
+        let history = menuOption(name: .history, imageName: "pot1")
         print("appending")
         menuObjects = [menuOption]()
         menuObjects?.append(favorites)
@@ -72,7 +72,6 @@ class MenuBar: UICollectionView, UICollectionViewDataSource, UICollectionViewDel
                 
                 cell.menuImage.image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
             }
-            cell.backgroundColor = .green
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
@@ -108,7 +107,7 @@ class MenuCell: UICollectionViewCell {
     
     let menuLabel: UILabel = {
         let label = UILabel()
-        label.font = fontHello?.withSize(15)
+        label.font = fontMessy?.withSize(12)
         label.textAlignment = .center
         return label
     }()
