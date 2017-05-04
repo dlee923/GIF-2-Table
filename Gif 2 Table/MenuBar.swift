@@ -19,7 +19,7 @@ class MenuBar: UICollectionView, UICollectionViewDataSource, UICollectionViewDel
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
         declareMenuOptions()
-        self.backgroundColor = .clear
+        self.backgroundColor = UIColor(white: 0, alpha: 0.25)
         self.dataSource = self
         self.delegate = self
         
@@ -102,8 +102,8 @@ class MenuCell: UICollectionViewCell {
         setUpCell()
     }
     
-    var highlightColor: UIColor = .blue
-    var normalColor: UIColor = .darkGray
+    var highlightColor: UIColor = .yellow
+    var normalColor: UIColor = .white
     
     let menuLabel: UILabel = {
         let label = UILabel()
@@ -131,7 +131,10 @@ class MenuCell: UICollectionViewCell {
         self.addSubview(menuImage)
         self.addConstraintsWithFormat(format: "H:|[v0]|", views: menuLabel)
         self.addConstraintsWithFormat(format: "H:|[v0]|", views: menuImage)
-        self.addConstraintsWithFormat(format: "V:|[v0]-2-[v1(15)]-2-|", views: menuImage, menuLabel)
+        self.addConstraintsWithFormat(format: "V:|-7-[v0]-5-[v1(15)]-2-|", views: menuImage, menuLabel)
+        
+        self.menuLabel.textColor = isSelected ? highlightColor : normalColor
+        self.menuImage.tintColor = isSelected ? highlightColor : normalColor
     }
     
     required init?(coder aDecoder: NSCoder) {

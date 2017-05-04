@@ -29,8 +29,6 @@ class FeatureCell: BaseCell {
     
     override func setUpCell() {
         setUpRecipeView(viewToAdd: self)
-//        recipeView.addPlayButton(viewToAddTo: self)
-//        bringSubview(toFront: recipeView.ingredientsView)
     }
 }
 

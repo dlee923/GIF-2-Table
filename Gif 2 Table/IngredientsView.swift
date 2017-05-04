@@ -36,12 +36,17 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     var recipeView: RecipeView?
     var ingredients: [IngredientObject]?
     let arrowColor = UIColor.white
+    let ingredientsTitleFont = fontHello?.withSize(25)
+    let ingredientCardInset: CGFloat = 5
+    let ingredientListBackgroundClr = UIColor.lightGray
     
-    let ingredientsTitleLabel: UILabel = {
+    lazy var ingredientsTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Ingredients"
+        label.font = self.ingredientsTitleFont
+        label.textColor = .white
         label.textAlignment = .center
-        label.backgroundColor = .red
+        label.backgroundColor = .black
         return label
     }()
     
@@ -56,7 +61,7 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     lazy var ingredientsList: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = .yellow
+        cv.backgroundColor = self.ingredientListBackgroundClr
         cv.delegate = self
         cv.dataSource = self
         return cv
@@ -72,11 +77,11 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
         
         addConstraintsWithFormat(format: "H:|[v0]|", views: ingredientsTitleLabel)
         addConstraintsWithFormat(format: "H:|[v0]|", views: ingredientsList)
-        addConstraintsWithFormat(format: "V:|[v0(75)]", views: ingredientsTitleLabel)
+        addConstraintsWithFormat(format: "V:|[v0(55)]", views: ingredientsTitleLabel)
         addConstraintsWithFormat(format: "V:|-55-[v0]|", views: ingredientsList)
         
         ingredientsTitleLabel.addConstraintsWithFormat(format: "H:[v0(50)]-|", views: ingredientsTitleArrow)
-        ingredientsTitleLabel.addConstraintsWithFormat(format: "V:|-[v0]-25-|", views: ingredientsTitleArrow)
+        ingredientsTitleLabel.addConstraintsWithFormat(format: "V:|-[v0]-|", views: ingredientsTitleArrow)
     }
     
     func setUpIngredientsCv() {
@@ -109,6 +114,10 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ingredientsList.frame.width, height: 50)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
     
     //------------------------------------------------
@@ -189,40 +198,46 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
 class IngredientCell: BaseCell {
     
     override func setUpCell() {
-        self.backgroundColor = .purple
         self.addSubview(ingredientLabel)
         self.addSubview(whatIsThisButton)
         self.addSubview(measurement)
         
-        addConstraintsWithFormat(format: "H:|[v0(75)][v1][v2(40)]|", views: measurement, ingredientLabel, whatIsThisButton)
+        addConstraintsWithFormat(format: "H:|-[v0(75)][v1][v2(40)]-|", views: measurement, ingredientLabel, whatIsThisButton)
         
         for eachView in self.subviews {
-            addConstraintsWithFormat(format: "V:|[v0]|", views: eachView)
+            addConstraintsWithFormat(format: "V:|-[v0]|", views: eachView)
         }
     }
     
     var ingredient: IngredientObject? {
         didSet {
             ingredientLabel.text = ingredient?.name
-            measurement.text = ingredient?.measurement
+            measurement.text = "\(ingredient!.measurement)   -  "
         }
     }
     
-    let ingredientLabel: UILabel = {
+    let labelFont = fontHello?.withSize(15)
+    
+    lazy var ingredientLabel: UILabel = {
         let label = UILabel()
+        label.font = self.labelFont
         label.backgroundColor = .white
         return label
     }()
     
     let whatIsThisButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .lightGray
+        button.backgroundColor = .white
+        button.setImage(UIImage(named: "huh"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
         return button
     }()
     
-    let measurement: UILabel = {
+    lazy var measurement: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .darkGray
+        label.textAlignment = .right
+        label.font = self.labelFont
+        label.backgroundColor = .white
         return label
     }()
 }

@@ -23,7 +23,7 @@ class PlayButton: UIButton {
     let buttonTransparency: CGFloat = 0.7
     let playImage = UIImage(named: "play1")?.withRenderingMode(.alwaysTemplate)
 //    let playImage = UIImage(named: "play2")?.withRenderingMode(.alwaysTemplate)
-    let playImageColor = UIColor.green
+    let playImageColor = UIColor.yellow
     let playImageInsets: CGFloat = 10
     
     func setUpButton() {

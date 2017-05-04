@@ -20,13 +20,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let navBarColor: UIColor = .green
+        let navBarColor: UIColor = .black
+        
+        let backgroundImg: CustomBackground = {
+            let backgrnd = CustomBackground(frame: .zero)
+            backgrnd.setUpView(backgroundImg: .b5)
+            return backgrnd
+        }()
+        
+//        if let appWindow = UIApplication.shared.keyWindow {
+//            appWindow.addSubview(backgroundImg)
+//            appWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImg)
+//            appWindow.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImg)
+//        }
+        window?.addSubview(backgroundImg)
+        window?.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImg)
+        window?.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImg)
         
         let layout = UICollectionViewFlowLayout()
         let navController = UINavigationController(rootViewController: MainVC(collectionViewLayout: layout))
-        navController.navigationBar.barTintColor = navBarColor
         navController.navigationBar.shadowImage = UIImage()
         navController.navigationBar.isTranslucent = false
+        navController.navigationBar.barTintColor = navBarColor
         navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
         
         window?.rootViewController = navController

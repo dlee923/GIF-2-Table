@@ -12,9 +12,9 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.collectionView?.backgroundColor = .white
-        navigationItem.title = "Gif 2 Table"
-        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontLuna?.withSize(18), NSForegroundColorAttributeName: UIColor.black]
+        self.collectionView?.backgroundColor = .clear
+        navigationItem.title = "GIF Chef"
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontLuna?.withSize(18), NSForegroundColorAttributeName: UIColor.white]
         downloadFeatureRecipe()
         downloadRecipeObjects()
         setUpCollectionView()
@@ -42,7 +42,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     let featureCellID = "featureCellID"
     let historyCellID = "historyCellID"
     let favoritesCellID = "favoritesCellID"
-    let menuBarHeight: CGFloat = 50
+    let menuBarHeight: CGFloat = 60
     
     lazy var menuBar: MenuBar = {
         let bar = MenuBar()

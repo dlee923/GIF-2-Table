@@ -12,7 +12,7 @@ class RecipeView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
         setUpRecipeView()
         addPlayButton(viewToAddTo: self)
         
@@ -88,27 +88,17 @@ class RecipeView: UIView {
         view.layer.masksToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-    }()
-    
-    lazy var backgroundImg: CustomBackground = {
-        let backgrnd = CustomBackground(frame: .zero)
-        backgrnd.setUpView(backgroundImg: .b5)
-        return backgrnd
-    }()
+    }()    
     
     var ingredientsViewSizeMultHeight: CGFloat = 0.85
     var ingredientsViewSizeMultWidth: CGFloat = 0.9
     
     fileprivate func setUpRecipeView() {
-        self.addSubview(backgroundImg)
         
         self.addSubview(recipeTitle)
         self.addSubview(recipeImageShadow)
         recipeImageShadow.addSubview(recipeImage)
         self.addSubview(saveFavoritesView)
-        
-        self.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImg)
-        self.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImg)
         
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeTitle)
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeImageShadow)
