@@ -38,7 +38,7 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     let arrowColor = UIColor.white
     let ingredientsTitleFont = fontHello?.withSize(25)
     let ingredientCardInset: CGFloat = 5
-    let ingredientListBackgroundClr = UIColor.lightGray
+    let ingredientListBackgroundClr = UIColor.darkGray.withAlphaComponent(0.97)
     
     lazy var ingredientsTitleLabel: UILabel = {
         let label = UILabel()

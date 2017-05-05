@@ -25,6 +25,8 @@
 		700BC9361EAAC2F2002EB83A /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9351EAAC2F2002EB83A /* IngredientsView.swift */; };
 		700BC93A1EAC15DA002EB83A /* RecipeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9391EAC15DA002EB83A /* RecipeObject.swift */; };
 		70BDB1131EBA9A3500305EA8 /* CustomBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */; };
+		70BDB1151EBC0D7500305EA8 /* PromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1141EBC0D7500305EA8 /* PromptView.swift */; };
+		70BDB1171EBC248900305EA8 /* TableStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1161EBC248900305EA8 /* TableStyle.swift */; };
 		70EE7E311EB230B000ADD499 /* FeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EE7E301EB230B000ADD499 /* FeatureCell.swift */; };
 		70EE7E341EB231AC00ADD499 /* HistoryFavoritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EE7E331EB231AC00ADD499 /* HistoryFavoritesCell.swift */; };
 		70EE7E361EB2325C00ADD499 /* ListedRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */; };
@@ -53,6 +55,8 @@
 		700BC9351EAAC2F2002EB83A /* IngredientsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
 		700BC9391EAC15DA002EB83A /* RecipeObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeObject.swift; sourceTree = "<group>"; };
 		70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBackground.swift; sourceTree = "<group>"; };
+		70BDB1141EBC0D7500305EA8 /* PromptView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptView.swift; sourceTree = "<group>"; };
+		70BDB1161EBC248900305EA8 /* TableStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableStyle.swift; sourceTree = "<group>"; };
 		70EE7E301EB230B000ADD499 /* FeatureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureCell.swift; sourceTree = "<group>"; };
 		70EE7E331EB231AC00ADD499 /* HistoryFavoritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryFavoritesCell.swift; sourceTree = "<group>"; };
 		70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListedRecipeCell.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 				700BC9181EAA6843002EB83A /* AppDelegate.swift */,
 				700BC92F1EAABE2C002EB83A /* Extensions.swift */,
 				700BC9391EAC15DA002EB83A /* RecipeObject.swift */,
+				70FC2FA61EB6D5DA0068B159 /* PlayVideo.swift */,
 				700BC9381EAC15B0002EB83A /* Recipe Views */,
 				70EE7E321EB230F200ADD499 /* Section Views */,
 				700BC9371EAC1586002EB83A /* General App Views */,
@@ -142,10 +147,10 @@
 				700178D81EB8B310006AEF48 /* SaveFavoritesView.swift */,
 				700BC9351EAAC2F2002EB83A /* IngredientsView.swift */,
 				700178D61EB7A39B006AEF48 /* PlayButton.swift */,
-				70FC2FA61EB6D5DA0068B159 /* PlayVideo.swift */,
 				70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */,
 				70EE7E371EB23BC200ADD499 /* EmptyCell.swift */,
 				70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */,
+				70BDB1141EBC0D7500305EA8 /* PromptView.swift */,
 			);
 			name = "Recipe Views";
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			children = (
 				70EE7E301EB230B000ADD499 /* FeatureCell.swift */,
 				70EE7E331EB231AC00ADD499 /* HistoryFavoritesCell.swift */,
+				70BDB1161EBC248900305EA8 /* TableStyle.swift */,
 			);
 			name = "Section Views";
 			sourceTree = "<group>";
@@ -236,8 +242,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				700BC9341EAAC19D002EB83A /* RecipeView.swift in Sources */,
+				70BDB1151EBC0D7500305EA8 /* PromptView.swift in Sources */,
 				700BC9301EAABE2C002EB83A /* Extensions.swift in Sources */,
 				70EE7E311EB230B000ADD499 /* FeatureCell.swift in Sources */,
+				70BDB1171EBC248900305EA8 /* TableStyle.swift in Sources */,
 				700BC91B1EAA6843002EB83A /* MainVC.swift in Sources */,
 				700BC9361EAAC2F2002EB83A /* IngredientsView.swift in Sources */,
 				70FC2FA71EB6D5DA0068B159 /* PlayVideo.swift in Sources */,

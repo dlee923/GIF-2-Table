@@ -15,9 +15,9 @@ class ListedRecipeCell: BaseCell {
         self.addSubview(recipeLabel)
         self.addSubview(recipeImage)
         
-        addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeLabel)
-        addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeImage)
-        addConstraintsWithFormat(format: "V:|-[v0(40)]-[v1]-|", views: recipeLabel, recipeImage)
+        addConstraintsWithFormat(format: "H:|[v0]|", views: recipeLabel)
+        addConstraintsWithFormat(format: "H:|[v0]|", views: recipeImage)
+        addConstraintsWithFormat(format: "V:|[v0(30)][v1]|", views: recipeLabel, recipeImage)
     }
     
     var recipe: RecipeObject? {
@@ -38,8 +38,9 @@ class ListedRecipeCell: BaseCell {
     
     let recipeLabel: UILabel = {
         let label = UILabel()
+        label.font = fontMessy?.withSize(15)
+        label.backgroundColor = UIColor.darkGray.withAlphaComponent(0.75)
         label.text = "RECIPE TEXT GOES HERE"
-        label.backgroundColor = .purple
         return label
     }()
     

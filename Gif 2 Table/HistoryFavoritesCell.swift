@@ -15,10 +15,20 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         setUpCollectionView()
     }
     
+    lazy var tableStyle: TableStyle = {
+        let button = TableStyle()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.heightAnchor.constraint(equalToConstant: self.tableStyleHeight).isActive = true
+        button.widthAnchor.constraint(equalToConstant: self.tableStyleHeight).isActive = true
+        return button
+    }()
+    
     lazy var recipeList: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.contentInset = UIEdgeInsetsMake((8 + self.tableStyleHeight + 8), 0, 0, 0)
+        cv.backgroundColor = .clear
         cv.delegate = self
         cv.dataSource = self
         
@@ -30,6 +40,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     let listedRecipeCellID = "listedRecipeCellID"
     let emptyCellID = "emptyCellID"
     var mainViewController: MainVC?
+    let tableStyleHeight: CGFloat = 20
     
     func setUpCollectionView() {
         self.addSubview(recipeList)
@@ -65,7 +76,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: recipeList.frame.width, height: recipeList.frame.height / 3.5)
+        let size = CGSize(width: recipeList.frame.width - 16, height: recipeList.frame.height / 3.5)
         return size
     }
     
@@ -99,7 +110,6 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         recipeView.alpha = 0
         
         //animate image into place?
-        //"V:|-[v0(40)]-8-[v1]-12-[v2(40)]-80-|"
         //"V:|-[v0(40)]-8-[v1]-6-[v2(75)]-86-|" + 4 + 4 FOR FRAMING
         
         let recipeFrameInset: CGFloat = 4
@@ -111,10 +121,12 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
             image.transform = CGAffineTransform(translationX: recipeFrameInset, y: yMovement)
             image.frame.size = CGSize(width: image.frame.width - (recipeFrameInset * 2), height: endFrame)
             self.recipeView.frame = self.bounds
+            self.recipeList.alpha = 0
             self.recipeView.layoutSubviews()
         }, completion: { (_) in
             UIView.animate(withDuration: 1.0, animations: {
                 self.recipeView.alpha = 1.0
+//                self.recipeList.alpha = 0
 //                image.alpha = 0
             }, completion: { (_) in
                 image.removeFromSuperview()
