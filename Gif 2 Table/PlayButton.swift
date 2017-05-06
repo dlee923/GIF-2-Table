@@ -18,11 +18,11 @@ class PlayButton: UIButton {
     var recipeView: RecipeView?
     let buttonPressedRotation = CGFloat(Double.pi/4)
     let buttonReleasedRotation = CGFloat(Double.pi)
-    let animationDuration = 0.25
+    let animationDuration = 0.2
     let buttonScale: CGFloat = 1.35
     let buttonTransparency: CGFloat = 0.7
-    let playImage = UIImage(named: "play1")?.withRenderingMode(.alwaysTemplate)
-//    let playImage = UIImage(named: "play2")?.withRenderingMode(.alwaysTemplate)
+//    let playImage = UIImage(named: "play1")?.withRenderingMode(.alwaysTemplate)
+    let playImage = UIImage(named: "play2")?.withRenderingMode(.alwaysTemplate)
     let playImageColor = UIColor.yellow
     let playImageInsets: CGFloat = 10
     
@@ -46,10 +46,12 @@ class PlayButton: UIButton {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        UIView.animate(withDuration: animationDuration) {
+        
+        UIView.animate(withDuration: animationDuration, delay: animationDuration, options: .curveLinear, animations: { 
             self.layer.transform = CATransform3DIdentity
-        }
-        recipeView?.playRecipe()
+        }, completion: {_ in
+            self.recipeView?.playRecipe()
+        })
     }
     
     required init?(coder aDecoder: NSCoder) {

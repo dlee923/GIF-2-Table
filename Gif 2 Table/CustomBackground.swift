@@ -24,6 +24,13 @@ class CustomBackground: UIImageView {
         blurView.alpha = blurAlpha
     }
     
+    func setUpPlainView(blurAlpha: CGFloat) {
+        self.addSubview(blurView)
+        addConstraintsWithFormat(format: "H:|[v0]|", views: blurView)
+        addConstraintsWithFormat(format: "V:|[v0]|", views: blurView)
+        blurView.alpha = blurAlpha
+    }
+    
     lazy var blurView: UIVisualEffectView = {
         let blur = UIVisualEffectView()
         blur.effect = UIBlurEffect(style: UIBlurEffectStyle.light)

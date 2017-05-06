@@ -36,20 +36,25 @@ class SaveFavoritesView: UIView {
         self.addSubview(resetBtn)
         favoriteActive.isHidden = true
         
-        addConstraintsWithFormat(format: "H:[v1(70)][v0(70)]|", views: sadFace, happyFace)
-        addConstraintsWithFormat(format: "H:[v1(70)][v0(70)]|", views: sadText, happyText)
+        addConstraintsWithFormat(format: "H:[v1(50)]-[v0(50)]|", views: sadFace, happyFace)
+        addConstraintsWithFormat(format: "H:|[v0(55)]-[v1(55)]", views: favoriteBtn, randomizeBtn)
+        resetBtn.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0).isActive = true
+        resetBtn.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        addConstraintsWithFormat(format: "H:|[v0(75)]", views: favoriteActive)
         
         addConstraintsWithFormat(format: "V:|[v0]-4-[v1(10)]-5-|", views: sadFace, sadText)
         happyFace.heightAnchor.constraint(equalTo: sadFace.heightAnchor, multiplier: 1).isActive = true
         addConstraintsWithFormat(format: "V:|-15-[v0]-4-[v1(10)]", views: happyFace, happyText)
-        
-        addConstraintsWithFormat(format: "H:|[v0(75)]", views: favoriteActive)
+
         addConstraintsWithFormat(format: "V:|-[v0]|", views: favoriteActive)
-        addConstraintsWithFormat(format: "H:|[v0(75)][v1(75)]", views: favoriteBtn, randomizeBtn)
         addConstraintsWithFormat(format: "V:|-[v0]|", views: favoriteBtn)
-        
         addConstraintsWithFormat(format: "V:|-[v0]|", views: randomizeBtn)
+        addConstraintsWithFormat(format: "V:|-[v0]|", views: resetBtn)
         
+        sadText.centerXAnchor.constraint(equalTo: sadFace.centerXAnchor, constant: 0).isActive = true
+        sadText.widthAnchor.constraint(equalTo: sadFace.widthAnchor, constant: 0).isActive = true
+        happyText.centerXAnchor.constraint(equalTo: happyFace.centerXAnchor, constant: 0).isActive = true
+        happyText.widthAnchor.constraint(equalTo: happyFace.widthAnchor, constant: 0).isActive = true
     }
     
     var face = {(happySad: String, color: UIColor) -> UIButton in

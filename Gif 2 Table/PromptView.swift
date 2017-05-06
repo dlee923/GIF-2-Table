@@ -48,9 +48,10 @@ class PromptView: UIView {
         okay.setTitle("Okay", for: .normal)
         return okay
     }()
-    let cancelBtn: UIButton = {
+    lazy var cancelBtn: UIButton = {
         let cancel = UIButton()
         cancel.setTitle("Cancel", for: .normal)
+        cancel.addTarget(self, action: #selector(self.cancelBtnPressed), for: .touchUpInside)
         return cancel
     }()
     
@@ -72,6 +73,10 @@ class PromptView: UIView {
         self.addConstraintsWithFormat(format: "H:|[v0][v1]|", views: okayBtn, cancelBtn)
         self.addConstraintsWithFormat(format: "V:|[v0][v1]|", views: message, okayBtn)
         self.addConstraintsWithFormat(format: "V:|[v0][v1]|", views: message, cancelBtn)
+    }
+    
+    func cancelBtnPressed() {
+        self.removeFromSuperview()
     }
     
     fileprivate func addCard(startPos: CGPoint, EndPos: CGPoint) {

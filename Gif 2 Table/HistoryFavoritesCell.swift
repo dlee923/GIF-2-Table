@@ -20,14 +20,17 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: self.tableStyleHeight).isActive = true
         button.widthAnchor.constraint(equalToConstant: self.tableStyleHeight).isActive = true
+        button.historyFavCell = self
         return button
     }()
+    
+    var tableStyleCenter: NSLayoutConstraint?
     
     lazy var recipeList: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.contentInset = UIEdgeInsetsMake((8 + self.tableStyleHeight + 8), 0, 0, 0)
+        cv.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         cv.backgroundColor = .clear
         cv.delegate = self
         cv.dataSource = self
@@ -44,8 +47,13 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     
     func setUpCollectionView() {
         self.addSubview(recipeList)
+        self.addSubview(tableStyle)
         addConstraintsWithFormat(format: "H:|[v0]|", views: recipeList)
-        addConstraintsWithFormat(format: "V:|[v0]|", views: recipeList)
+        
+        tableStyleCenter = tableStyle.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0)
+        tableStyleCenter?.isActive = true
+        tableStyle.setNeedsDisplay()
+        addConstraintsWithFormat(format: "V:|-[v1]-[v0]|", views: recipeList, tableStyle)
         
         recipeList.register(ListedRecipeCell.self, forCellWithReuseIdentifier: listedRecipeCellID)
         recipeList.register(EmptyCell.self, forCellWithReuseIdentifier: emptyCellID)
