@@ -119,7 +119,7 @@ class SaveFavoritesView: UIView {
         return reset
     }()
     
-    func pressedAnimation(object: UIView) {
+    func pressedAnimation(object: UIButton) {
         let animationAngle: CGFloat = 30
         UIView.animate(withDuration: 0.2, animations: {
             object.transform = CGAffineTransform(translationX: -(((animationAngle / object.frame.height) * object.frame.width) * 0.25), y: -animationAngle)
@@ -129,26 +129,27 @@ class SaveFavoritesView: UIView {
                 object.layer.transform = CATransform3DIdentity
             })
         }
+        
+        if object.isSelected == false {
+            object.isSelected = true
+        } else {
+            object.isSelected = false
+        }
     }
     
     func favoriteBtnPressed(){
         print("btn pressed")
-        favoriteBtn.tintColor = favoriteBtn.isHighlighted ? UIColor.red : UIColor.black
-        
         pressedAnimation(object: favoriteBtn)
-        
+        favoriteBtn.tintColor = favoriteBtn.isSelected ? UIColor.red : UIColor.black
+        let favMessage = favoriteBtn.isSelected ? "I love this!  Adding to my favorites!" : "Blegh!! I got tired of this!"
         let promptView = PromptView()
-        promptView.setUpPrompt(heightPct: 0.2, widthPct: 0.9, promptMsg: "You liked this!", messageLines: 1, messageOnly: true, doesDisappear: true)
+        promptView.setUpPrompt(heightPct: 0.2, widthPct: 0.9, promptMsg: favMessage, messageLines: 1, messageOnly: true, doesDisappear: true)
     }
     
     func happyBtnPressed() {
         print("Happy face")
         pressedAnimation(object: happyFace)
-        if happyFace.isSelected == false {
-            happyFace.isSelected = true
-        } else {
-            happyFace.isSelected = false
-        }
+
         happyFace.tintColor = happyFace.isSelected ? self.happyColor : self.defaultColor
         happyText.textColor = happyFace.isSelected ? self.happyColor : self.defaultColor
     }
@@ -156,11 +157,7 @@ class SaveFavoritesView: UIView {
     func sadBtnPressed() {
         print("Sad face")
         pressedAnimation(object: sadFace)
-        if sadFace.isSelected == false {
-            sadFace.isSelected = true
-        } else {
-            sadFace.isSelected = false
-        }
+        
         sadFace.tintColor = sadFace.isSelected ? self.sadColor : self.defaultColor
         sadText.textColor = sadFace.isSelected ? self.sadColor : self.defaultColor
     }
