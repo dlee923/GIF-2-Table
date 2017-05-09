@@ -74,15 +74,15 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     fileprivate func setUpIngredientsView() {
         self.addSubview(ingredientsTitleLabel)
         self.addSubview(ingredientsList)
-        ingredientsTitleLabel.addSubview(ingredientsTitleArrow)
+        self.addSubview(ingredientsTitleArrow)
         
         addConstraintsWithFormat(format: "H:|[v0]|", views: ingredientsTitleLabel)
         addConstraintsWithFormat(format: "H:|[v0]|", views: ingredientsList)
         addConstraintsWithFormat(format: "V:|[v0(55)]", views: ingredientsTitleLabel)
         addConstraintsWithFormat(format: "V:|-55-[v0]|", views: ingredientsList)
         
-        ingredientsTitleLabel.addConstraintsWithFormat(format: "H:[v0(50)]-|", views: ingredientsTitleArrow)
-        ingredientsTitleLabel.addConstraintsWithFormat(format: "V:|-[v0]-|", views: ingredientsTitleArrow)
+        addConstraintsWithFormat(format: "H:[v0(50)]-|", views: ingredientsTitleArrow)
+        addConstraintsWithFormat(format: "V:|-[v0(39)]", views: ingredientsTitleArrow)
     }
     
     func setUpIngredientsCv() {
@@ -159,7 +159,6 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         recipeView?.mainViewController?.collectionView?.isScrollEnabled = true
         // final position
         moveIngredientsList()

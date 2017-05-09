@@ -50,10 +50,6 @@ class ListedRecipeCell: BaseCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    
-//    func addRecipeView() {
-//        historyFavCell?.displayRecipeView(recipeCell: self)
-//    }
 }
 
 class SquareRecipeCell: ListedRecipeCell {

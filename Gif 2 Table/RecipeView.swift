@@ -95,7 +95,7 @@ class RecipeView: UIView {
     var ingredientsViewSizeMultHeight: CGFloat = 0.85
     var ingredientsViewSizeMultWidth: CGFloat = 0.9
     
-    fileprivate func setUpRecipeView() {
+    func setUpRecipeView() {
         
         self.addSubview(recipeTitle)
         self.addSubview(recipeImageShadow)
