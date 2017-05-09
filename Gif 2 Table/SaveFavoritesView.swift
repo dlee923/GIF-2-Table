@@ -16,8 +16,9 @@ class SaveFavoritesView: UIView {
     }
     
     let likeDislikeFontSize: CGFloat = 12
-    let happyColor = UIColor.black
-    let sadColor = UIColor.black
+    let happyColor = UIColor.green
+    let sadColor = UIColor.red
+    let defaultColor = UIColor.black
     let heartColor = UIColor.black
     let heartColorFilled = UIColor.red
     let pressedSize: CGFloat = 1.3
@@ -30,23 +31,19 @@ class SaveFavoritesView: UIView {
         self.addSubview(sadFace)
         self.addSubview(happyText)
         self.addSubview(sadText)
-        self.addSubview(favoriteActive)
         self.addSubview(favoriteBtn)
         self.addSubview(randomizeBtn)
         self.addSubview(resetBtn)
-        favoriteActive.isHidden = true
         
         addConstraintsWithFormat(format: "H:[v1(50)]-[v0(50)]|", views: sadFace, happyFace)
-        addConstraintsWithFormat(format: "H:|[v0(55)]-[v1(55)]", views: favoriteBtn, randomizeBtn)
-        resetBtn.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0).isActive = true
-        resetBtn.widthAnchor.constraint(equalToConstant: 55).isActive = true
-        addConstraintsWithFormat(format: "H:|[v0(75)]", views: favoriteActive)
+        addConstraintsWithFormat(format: "H:|[v0(90)]", views: favoriteBtn)
+        addConstraintsWithFormat(format: "H:|-70-[v0(90)]", views: randomizeBtn)
+        addConstraintsWithFormat(format: "H:|-140-[v0(90)]", views: resetBtn)
         
         addConstraintsWithFormat(format: "V:|[v0]-4-[v1(10)]-5-|", views: sadFace, sadText)
         happyFace.heightAnchor.constraint(equalTo: sadFace.heightAnchor, multiplier: 1).isActive = true
         addConstraintsWithFormat(format: "V:|-15-[v0]-4-[v1(10)]", views: happyFace, happyText)
 
-        addConstraintsWithFormat(format: "V:|-[v0]|", views: favoriteActive)
         addConstraintsWithFormat(format: "V:|-[v0]|", views: favoriteBtn)
         addConstraintsWithFormat(format: "V:|-[v0]|", views: randomizeBtn)
         addConstraintsWithFormat(format: "V:|-[v0]|", views: resetBtn)
@@ -55,6 +52,8 @@ class SaveFavoritesView: UIView {
         sadText.widthAnchor.constraint(equalTo: sadFace.widthAnchor, constant: 0).isActive = true
         happyText.centerXAnchor.constraint(equalTo: happyFace.centerXAnchor, constant: 0).isActive = true
         happyText.widthAnchor.constraint(equalTo: happyFace.widthAnchor, constant: 0).isActive = true
+
+        sadFace.tintColor = sadFace.isSelected ? self.sadColor : self.defaultColor
     }
     
     var face = {(happySad: String, color: UIColor) -> UIButton in
@@ -65,28 +64,29 @@ class SaveFavoritesView: UIView {
         return face
     }
     
-    lazy var favoriteActive: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "heartFilled")?.withRenderingMode(.alwaysTemplate)
-        image.tintColor = self.heartColorFilled
-        image.contentMode = .scaleAspectFit
-        return image
-    }()
+    var face2 = {(happySad: String, color: UIColor) -> SaveFavButton in
+        let face = SaveFavButton(type: UIButtonType.custom)
+        face.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10)
+        face.setImage(UIImage(named: happySad)!.withRenderingMode(.alwaysTemplate), for: .normal)
+        face.imageView?.contentMode = .scaleAspectFit
+        face.tintColor = color
+        return face
+    }
     
-    lazy var favoriteBtn: UIButton = {
-        let heart = self.face("heart", self.heartColor)
+    lazy var favoriteBtn: SaveFavButton = {
+        let heart = self.face2("heart", self.defaultColor)
         heart.addTarget(self, action: #selector(self.favoriteBtnPressed), for: .touchUpInside)
         return heart
     }()
     
     lazy var happyFace: UIButton = {
-        let face = self.face("happy", self.happyColor)
+        let face = self.face("happy", self.defaultColor)
         face.addTarget(self, action: #selector(self.happyBtnPressed), for: .touchUpInside)
         return face
     }()
     
     lazy var sadFace: UIButton = {
-        let face = self.face("sad", self.sadColor)
+        let face = self.face("sad", self.defaultColor)
         face.addTarget(self, action: #selector(self.sadBtnPressed), for: .touchUpInside)
         return face
     }()
@@ -94,7 +94,7 @@ class SaveFavoritesView: UIView {
     lazy var happyText: UILabel = {
         let text = UILabel()
         text.text = "0"
-        text.font = UIFont.systemFont(ofSize: self.likeDislikeFontSize)
+        text.font = fontHello?.withSize(self.likeDislikeFontSize)
         text.textAlignment = .center
         return text
     }()
@@ -102,66 +102,80 @@ class SaveFavoritesView: UIView {
     lazy var sadText: UILabel = {
         let text = UILabel()
         text.text = "0"
-        text.font = UIFont.systemFont(ofSize: self.likeDislikeFontSize)
+        text.font = fontHello?.withSize(self.likeDislikeFontSize)
         text.textAlignment = .center
         return text
     }()
     
-    lazy var randomizeBtn: UIButton = {
-        let dice = self.face("dice1", self.diceColor)
+    lazy var randomizeBtn: SaveFavButton = {
+        let dice = self.face2("dice1", self.diceColor)
         dice.addTarget(self, action: #selector(self.randomize), for: .touchUpInside)
         return dice
     }()
     
-    lazy var resetBtn: UIButton = {
-        let reset = self.face("reset2", self.resetColor)
+    lazy var resetBtn: SaveFavButton = {
+        let reset = self.face2("reset2", self.resetColor)
         reset.addTarget(self, action: #selector(self.reset), for: .touchUpInside)
         return reset
     }()
     
+    func pressedAnimation(object: UIView) {
+        let animationAngle: CGFloat = 30
+        UIView.animate(withDuration: 0.2, animations: {
+            object.transform = CGAffineTransform(translationX: -(((animationAngle / object.frame.height) * object.frame.width) * 0.25), y: -animationAngle)
+            
+        }) { (_) in
+            UIView.animate(withDuration: 0.2, animations: {
+                object.layer.transform = CATransform3DIdentity
+            })
+        }
+    }
+    
     func favoriteBtnPressed(){
         print("btn pressed")
         favoriteBtn.tintColor = favoriteBtn.isHighlighted ? UIColor.red : UIColor.black
-        UIView.animate(withDuration: 0.3, animations: { 
-            if self.favoriteActive.isHidden {
-                self.favoriteActive.isHidden = false
-                //add to favorites
-            } else {
-                self.favoriteActive.isHidden = true
-                //remove from favorites
-            }
-            
-            self.favoriteBtn.transform = CGAffineTransform(scaleX: self.pressedSize, y: self.pressedSize)
-            self.favoriteActive.transform = CGAffineTransform(scaleX: self.pressedSize, y: self.pressedSize)
-            
-        }) { (_) in
-            UIView.animate(withDuration: 0.25, animations: { 
-                self.favoriteBtn.layer.transform = CATransform3DIdentity
-                self.favoriteActive.layer.transform = CATransform3DIdentity
-            })
-        }
         
-        if let window = UIApplication.shared.keyWindow {
-            let promptView = PromptView()
-            promptView.setUpPrompt(viewAddedTo: window, heightPct: 0.2, widthPct: 0.9, promptMsg: "You liked this!", messageLines: 1, messageOnly: true)
-        }
+        pressedAnimation(object: favoriteBtn)
         
+        let promptView = PromptView()
+        promptView.setUpPrompt(heightPct: 0.2, widthPct: 0.9, promptMsg: "You liked this!", messageLines: 1, messageOnly: true, doesDisappear: true)
     }
     
     func happyBtnPressed() {
         print("Happy face")
+        pressedAnimation(object: happyFace)
+        if happyFace.isSelected == false {
+            happyFace.isSelected = true
+        } else {
+            happyFace.isSelected = false
+        }
+        happyFace.tintColor = happyFace.isSelected ? self.happyColor : self.defaultColor
+        happyText.textColor = happyFace.isSelected ? self.happyColor : self.defaultColor
     }
     
     func sadBtnPressed() {
         print("Sad face")
+        pressedAnimation(object: sadFace)
+        if sadFace.isSelected == false {
+            sadFace.isSelected = true
+        } else {
+            sadFace.isSelected = false
+        }
+        sadFace.tintColor = sadFace.isSelected ? self.sadColor : self.defaultColor
+        sadText.textColor = sadFace.isSelected ? self.sadColor : self.defaultColor
     }
     
     func randomize() {
         print("Randomize")
+        pressedAnimation(object: randomizeBtn)
     }
     
     func reset() {
         print("Reset")
+        pressedAnimation(object: resetBtn)
+        
+        let promptView = PromptView()
+        promptView.setUpPrompt(heightPct: 0.2, widthPct: 0.9, promptMsg: "Reset to latest feature recipe?", messageLines: 2, messageOnly: false, doesDisappear: false)
     }
     
     required init?(coder aDecoder: NSCoder) {

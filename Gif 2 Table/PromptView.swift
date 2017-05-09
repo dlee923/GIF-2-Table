@@ -14,12 +14,15 @@ class PromptView: UIView {
         super.init(frame: frame)
     }
     
-    func setUpPrompt(viewAddedTo: UIView, heightPct: CGFloat, widthPct: CGFloat, promptMsg: String, messageLines: Int, messageOnly: Bool) {
-        viewAddedTo.addSubview(self)
-        let frameWidth = viewAddedTo.frame.width * widthPct
-        let frameHeight = viewAddedTo.frame.height * heightPct
-        let endPosition = viewAddedTo.center
-        let startPosition = CGPoint(x: viewAddedTo.center.x - (viewAddedTo.frame.width/2) - frameWidth/2, y: viewAddedTo.center.y + 100)
+    func setUpPrompt(heightPct: CGFloat, widthPct: CGFloat, promptMsg: String, messageLines: Int, messageOnly: Bool, doesDisappear: Bool) {
+        
+        guard let window = UIApplication.shared.keyWindow else { return }
+        
+        window.addSubview(self)
+        let frameWidth = window.frame.width * widthPct
+        let frameHeight = window.frame.height * heightPct
+        let endPosition = window.center
+        let startPosition = CGPoint(x: window.center.x - (window.frame.width/2) - frameWidth/2, y: window.center.y + 100)
         
         self.bounds.size = CGSize(width: frameWidth, height: frameHeight)
         self.layer.cornerRadius = 5
@@ -32,25 +35,33 @@ class PromptView: UIView {
             self.messagePrompts(prompt: promptMsg, messageLines: messageLines)
         }
         
-        addCard(startPos: startPosition, EndPos: endPosition)
+        addCard(startPos: startPosition, EndPos: endPosition, doesDisappear: doesDisappear)
     }
     
     let message: UILabel = {
         let message = UILabel()
         message.text = "Default Message"
         message.textAlignment = .center
-        message.font = fontMandela?.withSize(25)
-        message.textColor = .blue
+        message.font = UIFont.systemFont(ofSize: 15, weight: 0.5)
+        message.textColor = .green
         return message
     }()
-    let okayBtn: UIButton = {
+    
+    lazy var okayBtn: UIButton = {
         let okay = UIButton()
-        okay.setTitle("Okay", for: .normal)
+        okay.backgroundColor = .purple
+        okay.titleLabel?.textAlignment = .center
+        okay.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: 0.5)
+        okay.setTitle("Yup", for: .normal)
+        okay.addTarget(self, action: #selector(self.okayBtnPressed), for: .touchUpInside)
         return okay
     }()
     lazy var cancelBtn: UIButton = {
         let cancel = UIButton()
-        cancel.setTitle("Cancel", for: .normal)
+        cancel.backgroundColor = .purple
+        cancel.titleLabel?.textAlignment = .center
+        cancel.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: 0.5)
+        cancel.setTitle("Nope", for: .normal)
         cancel.addTarget(self, action: #selector(self.cancelBtnPressed), for: .touchUpInside)
         return cancel
     }()
@@ -59,7 +70,7 @@ class PromptView: UIView {
         self.addSubview(message)
         message.numberOfLines = messageLines
         message.text = prompt
-        self.addConstraintsWithFormat(format: "H:|[v0]|", views: message)
+        self.addConstraintsWithFormat(format: "H:|-10-[v0]-10-|", views: message)
         self.addConstraintsWithFormat(format: "V:|[v0]|", views: message)
     }
     
@@ -69,8 +80,8 @@ class PromptView: UIView {
         self.addSubview(cancelBtn)
         message.numberOfLines = messageLines
         message.text = prompt
-        self.addConstraintsWithFormat(format: "H:|[v0]|", views: message)
-        self.addConstraintsWithFormat(format: "H:|[v0][v1]|", views: okayBtn, cancelBtn)
+        self.addConstraintsWithFormat(format: "H:|-10-[v0]-10-|", views: message)
+        self.addConstraintsWithFormat(format: "H:|[v0]-2-[v1(v0)]|", views: okayBtn, cancelBtn)
         self.addConstraintsWithFormat(format: "V:|[v0][v1]|", views: message, okayBtn)
         self.addConstraintsWithFormat(format: "V:|[v0][v1]|", views: message, cancelBtn)
     }
@@ -79,7 +90,11 @@ class PromptView: UIView {
         self.removeFromSuperview()
     }
     
-    fileprivate func addCard(startPos: CGPoint, EndPos: CGPoint) {
+    func okayBtnPressed() {
+        print("okay pressed")
+    }
+    
+    fileprivate func addCard(startPos: CGPoint, EndPos: CGPoint, doesDisappear: Bool) {
         self.center = startPos
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.center = EndPos
@@ -90,12 +105,15 @@ class PromptView: UIView {
                 self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
                 self.superview?.layoutSubviews()
             }, completion: {_ in
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.alpha = 0
-                }, completion: { (_) in
-                    self.removeFromSuperview()
-                })
-            } )
+                
+                if doesDisappear {
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.alpha = 0
+                    }, completion: { (_) in
+                        self.removeFromSuperview()
+                    })
+                }
+            })
         }
     }
     

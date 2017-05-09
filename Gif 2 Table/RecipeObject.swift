@@ -53,7 +53,7 @@ extension RecipeObject {
         
         URLSession.shared.dataTask(with: imageURL!) { (data, response, error) in
             if error != nil {
-                print(error)
+                print(error!)
                 return
             }
             

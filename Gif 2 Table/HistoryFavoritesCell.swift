@@ -18,13 +18,31 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     lazy var tableStyle: TableStyle = {
         let button = TableStyle()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: self.tableStyleHeight).isActive = true
-        button.widthAnchor.constraint(equalToConstant: self.tableStyleHeight).isActive = true
+        self.tableStyleHeightConstraint = button.heightAnchor.constraint(equalToConstant: self.tableStyleHeight1)
+        self.tableStyleHeightConstraint?.isActive = true
+        self.tableStyleWidthConstraint = button.widthAnchor.constraint(equalToConstant: self.tableStyleWidth1)
+        self.tableStyleWidthConstraint?.isActive = true
+        button.historyFavCell = self
+        return button
+    }()
+    
+    lazy var tableStyle2: TableStyle2 = {
+        let button = TableStyle2()
+        button.translatesAutoresizingMaskIntoConstraints = false
+//        self.tableStyleHeightConstraint2 = button.heightAnchor.constraint(equalToConstant: self.tableStyleHeight2)
+//        self.tableStyleHeightConstraint2?.isActive = true
+        self.tableStyleWidthConstraint2 = button.widthAnchor.constraint(equalToConstant: self.tableStyleWidth2)
+        self.tableStyleWidthConstraint2?.isActive = true
         button.historyFavCell = self
         return button
     }()
     
     var tableStyleCenter: NSLayoutConstraint?
+    var tableStyleWidthConstraint: NSLayoutConstraint?
+    var tableStyleHeightConstraint: NSLayoutConstraint?
+    var tableStyleCenter2: NSLayoutConstraint?
+    var tableStyleWidthConstraint2: NSLayoutConstraint?
+    var tableStyleHeightConstraint2: NSLayoutConstraint?
     
     lazy var recipeList: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -41,22 +59,90 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     var recipes: [RecipeObject]?
     
     let listedRecipeCellID = "listedRecipeCellID"
+    let squareRecipeCellID = "squareRecipeCellID"
     let emptyCellID = "emptyCellID"
     var mainViewController: MainVC?
-    let tableStyleHeight: CGFloat = 20
+    var tableStyleWidth1: CGFloat = 20
+    var tableStyleHeight1: CGFloat = 20
+    var tableStyleWidth2: CGFloat = 20
+    var tableStyleHeight2: CGFloat = 20
     
     func setUpCollectionView() {
         self.addSubview(recipeList)
+        self.addSubview(tableStyle2)
         self.addSubview(tableStyle)
+        tableStyle.tableStyle2 = self.tableStyle2
+        tableStyle2.tableStyle = self.tableStyle
+        
         addConstraintsWithFormat(format: "H:|[v0]|", views: recipeList)
         
         tableStyleCenter = tableStyle.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0)
         tableStyleCenter?.isActive = true
-        tableStyle.setNeedsDisplay()
         addConstraintsWithFormat(format: "V:|-[v1]-[v0]|", views: recipeList, tableStyle)
         
+        tableStyleCenter2 = tableStyle2.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0)
+        tableStyleCenter2?.isActive = true
+        addConstraintsWithFormat(format: "V:|-[v1]-[v0]|", views: recipeList, tableStyle2)
+        
         recipeList.register(ListedRecipeCell.self, forCellWithReuseIdentifier: listedRecipeCellID)
+        recipeList.register(SquareRecipeCell.self, forCellWithReuseIdentifier: squareRecipeCellID)
         recipeList.register(EmptyCell.self, forCellWithReuseIdentifier: emptyCellID)
+    }
+    
+    var isList = true
+    
+    fileprivate func switchType(isList: Bool ,completion: @escaping () -> () ) {
+        self.isList = isList
+        recipeList.reloadData()
+        recipeList.isHidden = true
+        DispatchQueue.main.async {
+            completion()
+        }
+    }
+    
+    func animateRecipeList() {
+        switchType(isList: true) {
+            self.recipeList.isHidden = false
+            let cells = self.recipeList.visibleCells
+            let listHeight = self.recipeList.bounds.height
+            
+            for cell in cells {
+                cell.transform = CGAffineTransform(translationX: 0, y: listHeight + 50)
+            }
+            
+            var cellDelay: Double = 0
+            
+            for cell in cells {
+                UIView.animate(withDuration: 0.75, delay: 0.05 * cellDelay, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
+                    cell.transform = CGAffineTransform(translationX: 0, y: 0)
+                }, completion: nil)
+                
+                cellDelay += 1
+            }
+        }
+    }
+
+    func animateRecipeSquares() {
+        switchType(isList: false) {
+            self.recipeList.isHidden = false
+            let cells = self.recipeList.visibleCells
+            let listHeight = self.recipeList.bounds.height
+            let listWidth = self.recipeList.bounds.width
+            
+            for cell in cells {
+                cell.transform = CGAffineTransform(translationX: listWidth, y: 0)
+            }
+            
+            var cellDelay: Double = 0
+            
+            for cell in cells {
+                UIView.animate(withDuration: 0.75, delay: 0.05 * cellDelay, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
+                    cell.transform = CGAffineTransform(translationX: 0, y: 0)
+                }, completion: nil)
+                
+                cellDelay += 1
+            }
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -76,16 +162,39 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: emptyCellID, for: indexPath)
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: listedRecipeCellID, for: indexPath) as? ListedRecipeCell
-            cell?.historyFavCell = self
-            cell?.recipe = recipes?[indexPath.item]
-            return cell ?? UICollectionViewCell()
+            if isList {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: listedRecipeCellID, for: indexPath) as? ListedRecipeCell
+                cell?.historyFavCell = self
+                cell?.recipe = recipes?[indexPath.item]
+                return cell ?? UICollectionViewCell()
+            } else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: squareRecipeCellID, for: indexPath) as? SquareRecipeCell
+                cell?.historyFavCell = self
+                cell?.recipe = recipes?[indexPath.item]
+                return cell ?? UICollectionViewCell()
+            }
         }
     }
     
+    var cellWidth: CGSize?
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: recipeList.frame.width - 16, height: recipeList.frame.height / 3.5)
-        return size
+        
+        if isList {
+            cellWidth = CGSize(width: recipeList.frame.width - 16, height: recipeList.frame.height / 3.5)
+        } else {
+            cellWidth = CGSize(width: recipeList.frame.width/2, height: recipeList.frame.height / 3)
+        }
+            
+        return cellWidth ?? CGSize.zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -125,17 +234,28 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         //MOVING IMAGE INTO FOCUS
         UIView.animate(withDuration: 1.0, animations: {
             let yMovement = (self.frame.height - (self.frame.height - 8 - 40 - 8 - recipeFrameInset)) - image.frame.origin.y
-            let endFrame = self.frame.height - 8 - 40 - 8 - 6 - 75 - 86 - (recipeFrameInset * 2)
-            image.transform = CGAffineTransform(translationX: recipeFrameInset, y: yMovement)
-            image.frame.size = CGSize(width: image.frame.width - (recipeFrameInset * 2), height: endFrame)
+            let endFrameHeight = self.frame.height - 8 - 40 - 8 - 6 - 75 - 86 - (recipeFrameInset * 2)
+            
+            var endFrameWidth: CGFloat!
+            if self.isList {
+                endFrameWidth = image.frame.width - (recipeFrameInset * 2)
+                image.transform = CGAffineTransform(translationX: recipeFrameInset, y: yMovement)
+            } else {
+                endFrameWidth = self.frame.width - 8 - (recipeFrameInset * 2) - 8
+                if index % 2 == 0 {
+                    image.transform = CGAffineTransform(translationX: recipeFrameInset + 4, y: yMovement)
+                } else {
+                    image.transform = CGAffineTransform(translationX: -self.frame.width/2 + recipeFrameInset + 4, y: yMovement)
+                }
+            }
+            
+            image.frame.size = CGSize(width: endFrameWidth, height: endFrameHeight)
             self.recipeView.frame = self.bounds
             self.recipeList.alpha = 0
             self.recipeView.layoutSubviews()
         }, completion: { (_) in
             UIView.animate(withDuration: 1.0, animations: {
                 self.recipeView.alpha = 1.0
-//                self.recipeList.alpha = 0
-//                image.alpha = 0
             }, completion: { (_) in
                 image.removeFromSuperview()
             })

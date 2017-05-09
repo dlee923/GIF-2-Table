@@ -47,7 +47,6 @@ class ListedRecipeCell: BaseCell {
     lazy var recipeImage: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .purple
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -55,4 +54,12 @@ class ListedRecipeCell: BaseCell {
 //    func addRecipeView() {
 //        historyFavCell?.displayRecipeView(recipeCell: self)
 //    }
+}
+
+class SquareRecipeCell: ListedRecipeCell {
+    override func setUpCell() {
+        self.addSubview(recipeImage)
+        addConstraintsWithFormat(format: "H:|-4-[v0]-4-|", views: recipeImage)
+        addConstraintsWithFormat(format: "V:|[v0]|", views: recipeImage)
+    }
 }

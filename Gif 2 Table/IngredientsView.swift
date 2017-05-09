@@ -50,11 +50,12 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
         return label
     }()
     
-    lazy var ingredientsTitleArrow: UIImageView = {
-        let arrow = UIImageView()
-        arrow.contentMode = .scaleAspectFit
-        arrow.image = UIImage(named: "arrow1")?.withRenderingMode(.alwaysTemplate)
+    lazy var ingredientsTitleArrow: UIButton = {
+        let arrow = UIButton()
+        arrow.setImage(UIImage(named: "arrow1")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        arrow.imageView?.contentMode = .scaleAspectFit
         arrow.tintColor = self.arrowColor
+        arrow.addTarget(self, action: #selector(self.ingredientsPopButton), for: .touchUpInside)
         return arrow
     }()
     
@@ -72,8 +73,8 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     
     fileprivate func setUpIngredientsView() {
         self.addSubview(ingredientsTitleLabel)
-        ingredientsTitleLabel.addSubview(ingredientsTitleArrow)
         self.addSubview(ingredientsList)
+        ingredientsTitleLabel.addSubview(ingredientsTitleArrow)
         
         addConstraintsWithFormat(format: "H:|[v0]|", views: ingredientsTitleLabel)
         addConstraintsWithFormat(format: "H:|[v0]|", views: ingredientsList)
@@ -160,8 +161,16 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         recipeView?.mainViewController?.collectionView?.isScrollEnabled = true
-        
         // final position
+        moveIngredientsList()
+    }
+    
+    func ingredientsPopButton() {
+        moveIngredientsList()
+        print("ingred pop btn pressed")
+    }
+    
+    fileprivate func moveIngredientsList() {
         guard let isScrollDirectionUp = isScrollingUp else { return }
         
         if isScrollDirectionUp {
@@ -187,7 +196,7 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
         
         UIView.animate(withDuration: 0.35, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.25, options: .curveEaseOut, animations: {
             self.superview?.layoutIfNeeded()
-        }, completion: nil )                
+        }, completion: nil )
     }
     
     required init?(coder aDecoder: NSCoder) {
