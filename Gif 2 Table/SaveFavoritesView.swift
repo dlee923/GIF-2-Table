@@ -25,6 +25,9 @@ class SaveFavoritesView: UIView {
     let diceColor = UIColor.black
     let resetColor = UIColor.black
     
+    var mainViewController: MainVC?
+    var recipeObj: RecipeObject?
+    
     func setUpView() {
         self.backgroundColor = .clear
         self.addSubview(happyFace)
@@ -137,13 +140,33 @@ class SaveFavoritesView: UIView {
         }
     }
     
+    func removeFromFavorites() {
+        let favIndex = self.mainViewController?.favoriteRecipes.index(where: { (recipe) -> Bool in
+            recipe.recipeTitle == self.recipeObj?.recipeTitle
+        })
+        
+        print("this recipe was located on the favorite array at index: \(favIndex)")
+        
+        self.mainViewController?.favoriteRecipes.remove(at: favIndex!)
+    }
+    
     func favoriteBtnPressed(){
         print("btn pressed")
         pressedAnimation(object: favoriteBtn)
+        
+        if favoriteBtn.isSelected {
+            print("adding to favorites")
+            let object = self.recipeObj
+            self.mainViewController?.favoriteRecipes.append(object!)
+        } else {
+            print("removing from favorites")
+            removeFromFavorites()
+        }
+        
         favoriteBtn.tintColor = favoriteBtn.isSelected ? UIColor.red : UIColor.black
         let favMessage = favoriteBtn.isSelected ? "I love this!  Adding to my favorites!" : "Blegh!! I got tired of this!"
         let promptView = PromptView()
-        promptView.setUpPrompt(heightPct: 0.2, widthPct: 0.9, promptMsg: favMessage, messageLines: 1, messageOnly: true, doesDisappear: true)
+        promptView.setUpPrompt(objectCalling: favoriteBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: favMessage, messageLines: 1, messageOnly: true, doesDisappear: true)
     }
     
     func happyBtnPressed() {
@@ -170,9 +193,9 @@ class SaveFavoritesView: UIView {
     func reset() {
         print("Reset")
         pressedAnimation(object: resetBtn)
-        
+        resetBtn.isUserInteractionEnabled = false
         let promptView = PromptView()
-        promptView.setUpPrompt(heightPct: 0.2, widthPct: 0.9, promptMsg: "Reset to latest feature recipe?", messageLines: 2, messageOnly: false, doesDisappear: false)
+        promptView.setUpPrompt(objectCalling: resetBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: "Reset to latest feature recipe?", messageLines: 2, messageOnly: false, doesDisappear: false)
     }
     
     required init?(coder aDecoder: NSCoder) {

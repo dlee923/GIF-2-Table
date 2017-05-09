@@ -14,7 +14,10 @@ class PromptView: UIView {
         super.init(frame: frame)
     }
     
-    func setUpPrompt(heightPct: CGFloat, widthPct: CGFloat, promptMsg: String, messageLines: Int, messageOnly: Bool, doesDisappear: Bool) {
+    func setUpPrompt(objectCalling: UIView, heightPct: CGFloat, widthPct: CGFloat, promptMsg: String, messageLines: Int, messageOnly: Bool, doesDisappear: Bool) {
+        
+        self.objectCalling = objectCalling
+        self.messageOnly = messageOnly
         
         guard let window = UIApplication.shared.keyWindow else { return }
         
@@ -37,6 +40,9 @@ class PromptView: UIView {
         
         addCard(startPos: startPosition, EndPos: endPosition, doesDisappear: doesDisappear)
     }
+    
+    var objectCalling: UIView?
+    var messageOnly: Bool?
     
     let message: UILabel = {
         let message = UILabel()
@@ -87,11 +93,17 @@ class PromptView: UIView {
     }
     
     func cancelBtnPressed() {
+        if self.messageOnly == false {
+            self.objectCalling?.isUserInteractionEnabled = true
+        }
         self.removeFromSuperview()
     }
     
     func okayBtnPressed() {
         print("okay pressed")
+        if self.messageOnly == false {
+            self.objectCalling?.isUserInteractionEnabled = true
+        }
     }
     
     fileprivate func addCard(startPos: CGPoint, EndPos: CGPoint, doesDisappear: Bool) {

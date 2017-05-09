@@ -24,6 +24,7 @@ class RecipeView: UIView {
             //when set, call load ingredients list
             recipeTitle.text = recipe?.recipeTitle
             ingredientsView.recipe = self.recipe
+            saveFavoritesView.recipeObj = self.recipe
             loadRecipeImage()
         }
     }
@@ -37,6 +38,7 @@ class RecipeView: UIView {
     var mainViewController: MainVC? {
         didSet {
             addIngredientListView(viewAddedTo: self)
+            saveFavoritesView.mainViewController = self.mainViewController
         }
     }
     
@@ -75,7 +77,7 @@ class RecipeView: UIView {
         return button
     }()
     
-    let saveFavoritesView: SaveFavoritesView = {
+    lazy var saveFavoritesView: SaveFavoritesView = {
         let view = SaveFavoritesView()
         return view
     }()

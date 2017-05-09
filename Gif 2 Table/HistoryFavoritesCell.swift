@@ -56,7 +56,11 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         return cv
     }()
     
-    var recipes: [RecipeObject]?
+    var recipes: [RecipeObject]? {
+        didSet {
+            self.recipeList.reloadData()
+        }
+    }
     
     let listedRecipeCellID = "listedRecipeCellID"
     let squareRecipeCellID = "squareRecipeCellID"
@@ -66,6 +70,8 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     var tableStyleHeight1: CGFloat = 20
     var tableStyleWidth2: CGFloat = 20
     var tableStyleHeight2: CGFloat = 20
+    let tableRows: CGFloat = 3.5
+    let squareRows: CGFloat = 3
     
     func setUpCollectionView() {
         self.addSubview(recipeList)
@@ -111,7 +117,6 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
             }
             
             var cellDelay: Double = 0
-            
             for cell in cells {
                 UIView.animate(withDuration: 0.75, delay: 0.05 * cellDelay, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
                     cell.transform = CGAffineTransform(translationX: 0, y: 0)
@@ -126,15 +131,20 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         switchType(isList: false) {
             self.recipeList.isHidden = false
             let cells = self.recipeList.visibleCells
-            let listHeight = self.recipeList.bounds.height
+            let listHeight = self.recipeList.bounds.height/self.squareRows
             let listWidth = self.recipeList.bounds.width
             
+            var cellCount = 0
             for cell in cells {
-                cell.transform = CGAffineTransform(translationX: listWidth, y: 0)
+                let row = (cellCount / 2) + 1
+                let column = cellCount % 2 + 1
+                print(column)
+                
+                cell.transform = CGAffineTransform(translationX: (listWidth / CGFloat(column)), y: listHeight/CGFloat(row))
+                cellCount += 1
             }
             
             var cellDelay: Double = 0
-            
             for cell in cells {
                 UIView.animate(withDuration: 0.75, delay: 0.05 * cellDelay, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
                     cell.transform = CGAffineTransform(translationX: 0, y: 0)
@@ -159,9 +169,11 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if recipes!.count == 0 {
+            toggleTableStyles(isHidden: true)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: emptyCellID, for: indexPath)
             return cell
         } else {
+            toggleTableStyles(isHidden: false)
             if isList {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: listedRecipeCellID, for: indexPath) as? ListedRecipeCell
                 cell?.historyFavCell = self
@@ -181,9 +193,9 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if isList {
-            cellWidth = CGSize(width: recipeList.frame.width - 16, height: recipeList.frame.height / 3.5)
+            cellWidth = CGSize(width: recipeList.frame.width - 16, height: recipeList.frame.height / tableRows)
         } else {
-            cellWidth = CGSize(width: recipeList.frame.width/2, height: recipeList.frame.height / 3)
+            cellWidth = CGSize(width: recipeList.frame.width/2, height: recipeList.frame.height / squareRows)
         }
             
         return cellWidth ?? CGSize.zero
@@ -201,12 +213,19 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         // do nothing as image in cell contains gesture which is connected to call displayRecipeView function
         guard let cell = collectionView.cellForItem(at: indexPath) as? ListedRecipeCell else { return }
         displayRecipeView(recipeCell: cell, index: indexPath.item, image: cell.recipeImage.image!)
+        toggleTableStyles(isHidden: true)
     }
     
     lazy var recipeView: RecipeView = {
         let view = RecipeView()
         return view
     }()
+    
+    func toggleTableStyles(isHidden: Bool) {
+        
+        tableStyle.isHidden = isHidden
+        tableStyle2.isHidden = isHidden
+    }
     
     func displayRecipeView(recipeCell: ListedRecipeCell, index: Int, image: UIImage) {
         let image = UIImageView(image: image)
@@ -262,7 +281,5 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         })
         
         image.animateCornerRadius(to: 10, duration: 2.0)
-        
-        print("called")
     }
 }

@@ -53,11 +53,20 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var recipes: [RecipeObject] = [RecipeObject]()
     var featureRecipe: RecipeObject?
+    var favoriteRecipes = [RecipeObject]() {
+        didSet {
+            print("main vc favorite recipes modified")
+            self.collectionView?.reloadData()
+        }
+    }
     
     //testing****
     func downloadRecipeObjects() {
-        let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false)
-        for _ in 0...5 {
+        
+        for x in 0...5 {
+            
+            let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak \(x)", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false)
+            
             recipes.append(recipe)
         }
     }
@@ -131,7 +140,8 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         } else if indexPath.item == 0 {
             if let customCell = cell(favoritesCellID) as? HistoryFavoritesCell {
                 customCell.mainViewController = self
-                customCell.recipes = self.recipes.filter({$0.favorite == true})
+//                customCell.recipes = self.recipes.filter({$0.favorite == true})
+                customCell.recipes = self.favoriteRecipes
                 
                 return customCell
             }
