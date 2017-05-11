@@ -28,6 +28,10 @@
 		70BDB1131EBA9A3500305EA8 /* CustomBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */; };
 		70BDB1151EBC0D7500305EA8 /* PromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1141EBC0D7500305EA8 /* PromptView.swift */; };
 		70BDB1171EBC248900305EA8 /* TableStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1161EBC248900305EA8 /* TableStyle.swift */; };
+		70E029CB1EC3AD84002F5F06 /* Renogare.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 70E029CA1EC3AD84002F5F06 /* Renogare.ttf */; };
+		70E029E31EC4C636002F5F06 /* RecipeModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E029E11EC4C636002F5F06 /* RecipeModel+CoreDataClass.swift */; };
+		70E029E41EC4C636002F5F06 /* RecipeModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E029E21EC4C636002F5F06 /* RecipeModel+CoreDataProperties.swift */; };
+		70E029E71EC4DB6C002F5F06 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E029E61EC4DB6C002F5F06 /* CoreDataManager.swift */; };
 		70EE7E311EB230B000ADD499 /* FeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EE7E301EB230B000ADD499 /* FeatureCell.swift */; };
 		70EE7E341EB231AC00ADD499 /* HistoryFavoritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EE7E331EB231AC00ADD499 /* HistoryFavoritesCell.swift */; };
 		70EE7E361EB2325C00ADD499 /* ListedRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */; };
@@ -59,6 +63,10 @@
 		70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBackground.swift; sourceTree = "<group>"; };
 		70BDB1141EBC0D7500305EA8 /* PromptView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptView.swift; sourceTree = "<group>"; };
 		70BDB1161EBC248900305EA8 /* TableStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableStyle.swift; sourceTree = "<group>"; };
+		70E029CA1EC3AD84002F5F06 /* Renogare.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Renogare.ttf; sourceTree = "<group>"; };
+		70E029E11EC4C636002F5F06 /* RecipeModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RecipeModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		70E029E21EC4C636002F5F06 /* RecipeModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RecipeModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		70E029E61EC4DB6C002F5F06 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = "Gif 2 Table/CoreDataManager.swift"; sourceTree = "<group>"; };
 		70EE7E301EB230B000ADD499 /* FeatureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureCell.swift; sourceTree = "<group>"; };
 		70EE7E331EB231AC00ADD499 /* HistoryFavoritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryFavoritesCell.swift; sourceTree = "<group>"; };
 		70EE7E351EB2325C00ADD499 /* ListedRecipeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListedRecipeCell.swift; sourceTree = "<group>"; };
@@ -92,6 +100,7 @@
 				700178E11EB97F86006AEF48 /* KGLifeisMessy.ttf */,
 				700178DF1EB97B5B006AEF48 /* HelloIshBig.ttf */,
 				700178DA1EB9788C006AEF48 /* Luna.ttf */,
+				70E029CA1EC3AD84002F5F06 /* Renogare.ttf */,
 				700178DC1EB97896006AEF48 /* Mandela Script Personal Use.otf */,
 			);
 			name = Fonts;
@@ -122,6 +131,7 @@
 				700BC92F1EAABE2C002EB83A /* Extensions.swift */,
 				700BC9391EAC15DA002EB83A /* RecipeObject.swift */,
 				70FC2FA61EB6D5DA0068B159 /* PlayVideo.swift */,
+				70E029E51EC4C641002F5F06 /* Core Data */,
 				700BC9381EAC15B0002EB83A /* Recipe Views */,
 				70EE7E321EB230F200ADD499 /* Section Views */,
 				700BC9371EAC1586002EB83A /* General App Views */,
@@ -156,6 +166,17 @@
 				70BDB1141EBC0D7500305EA8 /* PromptView.swift */,
 			);
 			name = "Recipe Views";
+			sourceTree = "<group>";
+		};
+		70E029E51EC4C641002F5F06 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				70E029E61EC4DB6C002F5F06 /* CoreDataManager.swift */,
+				70E029E11EC4C636002F5F06 /* RecipeModel+CoreDataClass.swift */,
+				70E029E21EC4C636002F5F06 /* RecipeModel+CoreDataProperties.swift */,
+			);
+			name = "Core Data";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		70EE7E321EB230F200ADD499 /* Section Views */ = {
@@ -232,6 +253,7 @@
 				700178DB1EB9788C006AEF48 /* Luna.ttf in Resources */,
 				700BC9261EAA6843002EB83A /* LaunchScreen.storyboard in Resources */,
 				700178E01EB97B5B006AEF48 /* HelloIshBig.ttf in Resources */,
+				70E029CB1EC3AD84002F5F06 /* Renogare.ttf in Resources */,
 				700178DD1EB97896006AEF48 /* Mandela Script Personal Use.otf in Resources */,
 				700BC9231EAA6843002EB83A /* Assets.xcassets in Resources */,
 			);
@@ -254,12 +276,15 @@
 				70FC2FA71EB6D5DA0068B159 /* PlayVideo.swift in Sources */,
 				70EE7E381EB23BC200ADD499 /* EmptyCell.swift in Sources */,
 				700BC93A1EAC15DA002EB83A /* RecipeObject.swift in Sources */,
+				70E029E71EC4DB6C002F5F06 /* CoreDataManager.swift in Sources */,
 				700BC9211EAA6843002EB83A /* Gif_2_Table.xcdatamodeld in Sources */,
+				70E029E31EC4C636002F5F06 /* RecipeModel+CoreDataClass.swift in Sources */,
 				70BDB1131EBA9A3500305EA8 /* CustomBackground.swift in Sources */,
 				700BC92E1EAA726A002EB83A /* MenuBar.swift in Sources */,
 				7009F3421EC142E30092471D /* SaveFavButton.swift in Sources */,
 				700178D71EB7A39B006AEF48 /* PlayButton.swift in Sources */,
 				70EE7E341EB231AC00ADD499 /* HistoryFavoritesCell.swift in Sources */,
+				70E029E41EC4C636002F5F06 /* RecipeModel+CoreDataProperties.swift in Sources */,
 				70EE7E361EB2325C00ADD499 /* ListedRecipeCell.swift in Sources */,
 				700BC9191EAA6843002EB83A /* AppDelegate.swift in Sources */,
 				700178D91EB8B310006AEF48 /* SaveFavoritesView.swift in Sources */,

@@ -30,7 +30,7 @@ class PromptView: UIView {
         self.bounds.size = CGSize(width: frameWidth, height: frameHeight)
         self.layer.cornerRadius = 5
         self.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/4))
-        self.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        self.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         
         if messageOnly {
             self.messageOnly(prompt: promptMsg, messageLines: messageLines)
@@ -43,30 +43,36 @@ class PromptView: UIView {
     
     var objectCalling: UIView?
     var messageOnly: Bool?
+    var mainViewController: MainVC?
+    let buttonBackColor = UIColor.white
+    let buttonColors = UIColor.black
+    let messageColor = UIColor.black
     
-    let message: UILabel = {
+    lazy var message: UILabel = {
         let message = UILabel()
         message.text = "Default Message"
         message.textAlignment = .center
-        message.font = UIFont.systemFont(ofSize: 15, weight: 0.5)
-        message.textColor = .green
+        message.font = fontReno?.withSize(15)
+        message.textColor = self.messageColor
         return message
     }()
     
     lazy var okayBtn: UIButton = {
         let okay = UIButton()
-        okay.backgroundColor = .purple
+        okay.backgroundColor = self.buttonBackColor
         okay.titleLabel?.textAlignment = .center
-        okay.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: 0.5)
+        okay.titleLabel?.font = fontReno?.withSize(20)
+        okay.setTitleColor(self.buttonColors, for: .normal)
         okay.setTitle("Yup", for: .normal)
         okay.addTarget(self, action: #selector(self.okayBtnPressed), for: .touchUpInside)
         return okay
     }()
     lazy var cancelBtn: UIButton = {
         let cancel = UIButton()
-        cancel.backgroundColor = .purple
+        cancel.backgroundColor = self.buttonBackColor
         cancel.titleLabel?.textAlignment = .center
-        cancel.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: 0.5)
+        cancel.titleLabel?.font = fontReno?.withSize(20)
+        cancel.setTitleColor(self.buttonColors, for: .normal)
         cancel.setTitle("Nope", for: .normal)
         cancel.addTarget(self, action: #selector(self.cancelBtnPressed), for: .touchUpInside)
         return cancel
@@ -88,8 +94,8 @@ class PromptView: UIView {
         message.text = prompt
         self.addConstraintsWithFormat(format: "H:|-10-[v0]-10-|", views: message)
         self.addConstraintsWithFormat(format: "H:|[v0]-2-[v1(v0)]|", views: okayBtn, cancelBtn)
-        self.addConstraintsWithFormat(format: "V:|[v0][v1]|", views: message, okayBtn)
-        self.addConstraintsWithFormat(format: "V:|[v0][v1]|", views: message, cancelBtn)
+        self.addConstraintsWithFormat(format: "V:|[v0][v1(50)]|", views: message, okayBtn)
+        self.addConstraintsWithFormat(format: "V:|[v0][v1(50)]|", views: message, cancelBtn)
     }
     
     func cancelBtnPressed() {
@@ -104,6 +110,11 @@ class PromptView: UIView {
         if self.messageOnly == false {
             self.objectCalling?.isUserInteractionEnabled = true
         }
+        
+        mainViewController?.featureRecipe = mainViewController?.featureRecipeStored
+        mainViewController?.collectionView?.reloadData()
+        
+        self.removeFromSuperview()
     }
     
     fileprivate func addCard(startPos: CGPoint, EndPos: CGPoint, doesDisappear: Bool) {

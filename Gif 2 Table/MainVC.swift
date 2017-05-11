@@ -15,6 +15,9 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         self.collectionView?.backgroundColor = .clear
         navigationItem.title = "GIF Chef"
         navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontLuna?.withSize(18), NSForegroundColorAttributeName: UIColor.white]
+        
+        loadData()
+        
         downloadFeatureRecipe()
         downloadRecipeObjects()
         setUpCollectionView()
@@ -53,10 +56,10 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var recipes: [RecipeObject] = [RecipeObject]()
     var featureRecipe: RecipeObject?
+    var featureRecipeStored: RecipeObject?
     var favoriteRecipes = [RecipeObject]() {
         didSet {
             print("main vc favorite recipes modified")
-            self.collectionView?.reloadData()
         }
     }
     
@@ -65,15 +68,16 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         
         for x in 0...5 {
             
-            let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak \(x)", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false)
+            let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak \(x)", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false, like: false, dislike: false)
             
             recipes.append(recipe)
         }
     }
     
     func downloadFeatureRecipe() {
-        let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false)
+        let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false, like: false, dislike: false)
         featureRecipe = recipe
+        featureRecipeStored = recipe
     }
     //testing****
     
@@ -140,13 +144,13 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         } else if indexPath.item == 0 {
             if let customCell = cell(favoritesCellID) as? HistoryFavoritesCell {
                 customCell.mainViewController = self
-//                customCell.recipes = self.recipes.filter({$0.favorite == true})
                 customCell.recipes = self.favoriteRecipes
                 
                 return customCell
             }
         } else if indexPath.item == 2 {
             if let customCell = cell(historyCellID) as? HistoryFavoritesCell {
+                customCell.isList = false
                 customCell.mainViewController = self
                 customCell.recipes = self.recipes
                 
@@ -168,6 +172,11 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let pageNumber = targetContentOffset.pointee.x / view.frame.width
         menuBar.selectItem(at: IndexPath(item: Int(pageNumber), section: 0), animated: true, scrollPosition: UICollectionViewScrollPosition.centeredHorizontally)
+    }
+    
+    func loadData() {
+        let coreDataManager = CoreDataManager()
+        self.favoriteRecipes = coreDataManager.loadData()
     }
 }
 

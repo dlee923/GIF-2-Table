@@ -35,6 +35,7 @@ let fontLuna = UIFont(name: "Luna", size: 5)
 let fontMandela = UIFont(name: "Mandela Script Personal Use", size: 5)
 let fontHello = UIFont(name: "HelloIshBig", size: 5)
 let fontMessy = UIFont(name: "KG Life is Messy", size: 5)
+let fontReno = UIFont(name: "Renogare", size: 5)
 
 enum BackgroundImage: String {
     case b1 = "background1"

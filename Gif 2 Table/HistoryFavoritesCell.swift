@@ -118,7 +118,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
             
             var cellDelay: Double = 0
             for cell in cells {
-                UIView.animate(withDuration: 0.75, delay: 0.05 * cellDelay, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
+                UIView.animate(withDuration: 0.65, delay: 0.05 * cellDelay, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
                     cell.transform = CGAffineTransform(translationX: 0, y: 0)
                 }, completion: nil)
                 
@@ -146,7 +146,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
             
             var cellDelay: Double = 0
             for cell in cells {
-                UIView.animate(withDuration: 0.75, delay: 0.05 * cellDelay, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
+                UIView.animate(withDuration: 0.65, delay: 0.05 * cellDelay, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
                     cell.transform = CGAffineTransform(translationX: 0, y: 0)
                 }, completion: nil)
                 
@@ -240,8 +240,8 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         self.addSubview(recipeView)
         self.addSubview(image)
         
-        recipeView.recipe = recipes?[index]
         recipeView.mainViewController = self.mainViewController
+        recipeView.recipe = recipes?[index]        
         recipeView.frame = self.bounds
         recipeView.alpha = 0
         

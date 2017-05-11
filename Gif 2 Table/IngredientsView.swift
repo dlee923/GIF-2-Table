@@ -165,8 +165,15 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     }
     
     func ingredientsPopButton() {
-        moveIngredientsList()
+        
         print("ingred pop btn pressed")
+        if self.recipeView?.ingredientsViewCenterY?.constant == (self.recipeView?.yConstantStartPosition)! {
+            isScrollingUp = true
+        } else {
+            isScrollingUp = false
+        }
+        print(isScrollingUp)
+        moveIngredientsList()
     }
     
     fileprivate func moveIngredientsList() {
@@ -206,11 +213,16 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
 class IngredientCell: BaseCell {
     
     override func setUpCell() {
+        
+        let whiteSpacer = UIView()
+        whiteSpacer.backgroundColor = .white
+        
+        self.addSubview(whiteSpacer)
         self.addSubview(ingredientLabel)
         self.addSubview(whatIsThisButton)
         self.addSubview(measurement)
         
-        addConstraintsWithFormat(format: "H:|-[v0(75)][v1][v2(40)]-|", views: measurement, ingredientLabel, whatIsThisButton)
+        addConstraintsWithFormat(format: "H:|-[v0(75)][v3(15)][v1][v2(40)]-|", views: measurement, ingredientLabel, whatIsThisButton, whiteSpacer)
         
         for eachView in self.subviews {
             addConstraintsWithFormat(format: "V:|-[v0]|", views: eachView)
@@ -220,7 +232,7 @@ class IngredientCell: BaseCell {
     var ingredient: IngredientObject? {
         didSet {
             ingredientLabel.text = ingredient?.name
-            measurement.text = "\(ingredient!.measurement)   -  "
+            measurement.text = "\(ingredient!.measurement)"
         }
     }
     
@@ -233,11 +245,12 @@ class IngredientCell: BaseCell {
         return label
     }()
     
-    let whatIsThisButton: UIButton = {
+    lazy var whatIsThisButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
         button.setImage(UIImage(named: "huh"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFill
+        button.addTarget(self, action: #selector(self.whatIsThisPopUp), for: .touchUpInside)
         return button
     }()
     
@@ -248,4 +261,17 @@ class IngredientCell: BaseCell {
         label.backgroundColor = .white
         return label
     }()
+    
+    var whatIsThisInfo: PromptView?
+    func whatIsThisPopUp() {
+        print("what is this?!")
+        whatIsThisInfo = PromptView()
+        whatIsThisInfo?.setUpPrompt(objectCalling: self.whatIsThisButton, heightPct: 0.5, widthPct: 0.9, promptMsg: "This is a description of the ingredient!! - which needs to be passed to this cell", messageLines: 100, messageOnly: true, doesDisappear: false)
+        let disappearTap = UITapGestureRecognizer(target: self, action: #selector(self.popOff))
+        whatIsThisInfo?.addGestureRecognizer(disappearTap)
+    }
+    
+    func popOff() {
+        whatIsThisInfo?.removeFromSuperview()
+    }
 }

@@ -19,14 +19,44 @@ class SaveFavoritesView: UIView {
     let happyColor = UIColor.green
     let sadColor = UIColor.red
     let defaultColor = UIColor.black
-    let heartColor = UIColor.black
-    let heartColorFilled = UIColor.red
+    let heartColor = UIColor.red
     let pressedSize: CGFloat = 1.3
     let diceColor = UIColor.black
     let resetColor = UIColor.black
     
     var mainViewController: MainVC?
-    var recipeObj: RecipeObject?
+    var recipeObj: RecipeObject? {
+        didSet {
+//            favoriteBtn.isSelected = (recipeObj?.favorite)!
+//            favoriteBtn.tintColor = favoriteBtn.isSelected ? heartColor : defaultColor
+            checkIfFavorite()
+            
+            happyFace.isSelected = (recipeObj?.isLiked)!
+            sadFace.isSelected = (recipeObj?.isDisliked)!
+            setHappyFaceColors()
+            setSadFaceColors()
+        }
+    }
+    
+    func checkIfFavorite() {
+        print("checking favorite for \(recipeObj?.recipeTitle)")
+        print(self.mainViewController?.favoriteRecipes.count)
+        for recipe in (self.mainViewController?.favoriteRecipes)! {
+            print(recipe.recipeTitle)
+        }
+        
+        let favoriteIndex = self.mainViewController?.favoriteRecipes.index(where: { (recipe) -> Bool in
+            recipe.recipeTitle == self.recipeObj?.recipeTitle
+        })
+        
+        if favoriteIndex != nil {
+            print("favorite exists \(favoriteIndex)")
+            favoriteBtn.isSelected = true
+            favoriteBtn.tintColor = favoriteBtn.isSelected ? heartColor : defaultColor
+        }
+    }
+    
+    let coreDataManager = CoreDataManager()
     
     func setUpView() {
         self.backgroundColor = .clear
@@ -122,14 +152,20 @@ class SaveFavoritesView: UIView {
         return reset
     }()
     
-    func pressedAnimation(object: UIButton) {
-        let animationAngle: CGFloat = 30
+    func pressedAnimation(object: UIButton, needsReload: Bool) {
+        let animationDistance: CGFloat = 30
         UIView.animate(withDuration: 0.2, animations: {
-            object.transform = CGAffineTransform(translationX: -(((animationAngle / object.frame.height) * object.frame.width) * 0.25), y: -animationAngle)
+            object.transform = CGAffineTransform(translationX: -(((animationDistance / object.frame.height) * object.frame.width) * 0.25), y: -animationDistance)
             
         }) { (_) in
             UIView.animate(withDuration: 0.2, animations: {
                 object.layer.transform = CATransform3DIdentity
+            }, completion: { (_) in
+                if needsReload {
+                    self.mainViewController?.collectionView?.reloadData()
+                } else {
+                    // do nothing
+                }
             })
         }
         
@@ -147,23 +183,31 @@ class SaveFavoritesView: UIView {
         
         print("this recipe was located on the favorite array at index: \(favIndex)")
         
+        if let titleToRemove = self.mainViewController?.favoriteRecipes[favIndex!].recipeTitle {
+            coreDataManager.deleteData(recipeTitle: titleToRemove)
+        }
+        
         self.mainViewController?.favoriteRecipes.remove(at: favIndex!)
     }
     
     func favoriteBtnPressed(){
         print("btn pressed")
-        pressedAnimation(object: favoriteBtn)
+        pressedAnimation(object: favoriteBtn, needsReload: true)
         
         if favoriteBtn.isSelected {
             print("adding to favorites")
-            let object = self.recipeObj
-            self.mainViewController?.favoriteRecipes.append(object!)
+            self.recipeObj?.favorite = true
+            if let object = self.recipeObj {
+                self.mainViewController?.favoriteRecipes.append(object)
+                coreDataManager.saveData(recipe: object)
+            }            
         } else {
             print("removing from favorites")
+            self.recipeObj?.favorite = false
             removeFromFavorites()
         }
         
-        favoriteBtn.tintColor = favoriteBtn.isSelected ? UIColor.red : UIColor.black
+        favoriteBtn.tintColor = favoriteBtn.isSelected ? heartColor : defaultColor
         let favMessage = favoriteBtn.isSelected ? "I love this!  Adding to my favorites!" : "Blegh!! I got tired of this!"
         let promptView = PromptView()
         promptView.setUpPrompt(objectCalling: favoriteBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: favMessage, messageLines: 1, messageOnly: true, doesDisappear: true)
@@ -171,31 +215,71 @@ class SaveFavoritesView: UIView {
     
     func happyBtnPressed() {
         print("Happy face")
-        pressedAnimation(object: happyFace)
-
+        pressedAnimation(object: happyFace, needsReload: false)
+        self.recipeObj?.isLiked = true
+        self.recipeObj?.isDisliked = false
+        setHappyFaceColors()
+        
+        if sadFace.isSelected {
+            sadFace.isSelected = false
+            setSadFaceColors()
+        }
+    }
+    
+    func setHappyFaceColors() {
         happyFace.tintColor = happyFace.isSelected ? self.happyColor : self.defaultColor
         happyText.textColor = happyFace.isSelected ? self.happyColor : self.defaultColor
     }
     
     func sadBtnPressed() {
         print("Sad face")
-        pressedAnimation(object: sadFace)
+        pressedAnimation(object: sadFace, needsReload: false)
+        self.recipeObj?.isDisliked = true
+        self.recipeObj?.isLiked = false
+        setSadFaceColors()
         
+        if happyFace.isSelected {
+            happyFace.isSelected = false
+            setHappyFaceColors()
+        }
+    }
+    
+    func setSadFaceColors() {
         sadFace.tintColor = sadFace.isSelected ? self.sadColor : self.defaultColor
         sadText.textColor = sadFace.isSelected ? self.sadColor : self.defaultColor
     }
     
+    func generateRandomNumber() -> Int {
+        guard let upperLimit = mainViewController?.recipes.count else { return 0 }
+        let randomNumber = Int(arc4random_uniform(UInt32(upperLimit)))
+        print(randomNumber)
+        return randomNumber
+    }
+    
+    var previousRandomNumber: Int?
+    
     func randomize() {
         print("Randomize")
-        pressedAnimation(object: randomizeBtn)
+        var randomNumber: Int?
+        
+        repeat { randomNumber = generateRandomNumber()
+        } while previousRandomNumber == randomNumber
+        previousRandomNumber = randomNumber
+        
+        if let randomRecipe = mainViewController?.recipes[randomNumber!] {
+            mainViewController?.featureRecipe = randomRecipe
+        }
+        
+        pressedAnimation(object: randomizeBtn, needsReload: true)
     }
     
     func reset() {
         print("Reset")
-        pressedAnimation(object: resetBtn)
+        pressedAnimation(object: resetBtn, needsReload: false)
         resetBtn.isUserInteractionEnabled = false
         let promptView = PromptView()
-        promptView.setUpPrompt(objectCalling: resetBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: "Reset to latest feature recipe?", messageLines: 2, messageOnly: false, doesDisappear: false)
+        promptView.mainViewController = self.mainViewController
+        promptView.setUpPrompt(objectCalling: resetBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: "Reset to the feature recipe?", messageLines: 2, messageOnly: false, doesDisappear: false)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -16,13 +16,17 @@ class RecipeObject: NSObject, NSCoding {
     var recipeImageLink: String?
     var recipeIngredients: [String]?
     var favorite: Bool?
+    var isLiked: Bool?
+    var isDisliked: Bool?
     
-    init(link: String, title: String, imageLink: String, ingredients: [String], favorite: Bool) {
+    init(link: String, title: String, imageLink: String, ingredients: [String], favorite: Bool, like: Bool, dislike: Bool) {
         recipeLink = link
         recipeTitle = title
         recipeImageLink = imageLink
         recipeIngredients = ingredients
         self.favorite = favorite
+        isLiked = like
+        isDisliked = dislike
     }
     
     func encode(with aCoder: NSCoder) {
@@ -31,6 +35,8 @@ class RecipeObject: NSObject, NSCoding {
         aCoder.encode(recipeImageLink, forKey: "recipeImageLink")
         aCoder.encode(recipeIngredients, forKey: "recipeIngredients")
         aCoder.encode(favorite, forKey: "favorite")
+        aCoder.encode(isLiked, forKey: "isLiked")
+        aCoder.encode(isDisliked, forKey: "isDisliked")
     }
     
     convenience required init?(coder aDecoder: NSCoder) {
@@ -39,8 +45,10 @@ class RecipeObject: NSObject, NSCoding {
         let recipeImageLink = aDecoder.decodeObject(forKey: "recipeImageLink") as? String
         let recipeIngredients = aDecoder.decodeObject(forKey: "recipeIngredients") as? [String]
         let favorite = aDecoder.decodeObject(forKey: "favorite") as? Bool
+        let isLiked = aDecoder.decodeObject(forKey: "isLiked") as? Bool
+        let isDisliked = aDecoder.decodeObject(forKey: "isDisliked") as? Bool
         
-        self.init(link: recipeLink!, title: recipeTitle!, imageLink: recipeImageLink!, ingredients: recipeIngredients!, favorite: favorite!)
+        self.init(link: recipeLink!, title: recipeTitle!, imageLink: recipeImageLink!, ingredients: recipeIngredients!, favorite: favorite!, like: isLiked!, dislike: isDisliked!)
     }
 
 }
