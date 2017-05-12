@@ -27,8 +27,6 @@ class SaveFavoritesView: UIView {
     var mainViewController: MainVC?
     var recipeObj: RecipeObject? {
         didSet {
-//            favoriteBtn.isSelected = (recipeObj?.favorite)!
-//            favoriteBtn.tintColor = favoriteBtn.isSelected ? heartColor : defaultColor
             checkIfFavorite()
             
             happyFace.isSelected = (recipeObj?.isLiked)!

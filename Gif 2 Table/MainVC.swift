@@ -75,7 +75,12 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     }
     
     func downloadFeatureRecipe() {
-        let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false, like: false, dislike: false)
+        
+        let firebaseMgr = Firebase()
+        firebaseMgr.downloadData()
+        firebaseMgr.updateIngredients()
+        
+        let recipe = RecipeObject(link: "https://firebasestorage.googleapis.com/v0/b/gif-chef.appspot.com/o/PitifulConstantIsopod-mobile.mp4?alt=media&token=435a9da8-0741-4b52-81d3-852ebec64b9d", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false, like: false, dislike: false)
         featureRecipe = recipe
         featureRecipeStored = recipe
     }
@@ -123,6 +128,8 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         return 3
     }
     
+    var historyListSwitch = false
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = {(identifier: String) -> UICollectionViewCell in
@@ -150,7 +157,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
             }
         } else if indexPath.item == 2 {
             if let customCell = cell(historyCellID) as? HistoryFavoritesCell {
-                customCell.isList = false
+                customCell.isList = historyListSwitch
                 customCell.mainViewController = self
                 customCell.recipes = self.recipes
                 

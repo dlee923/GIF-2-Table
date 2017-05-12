@@ -108,6 +108,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     
     func animateRecipeList() {
         switchType(isList: true) {
+            self.mainViewController?.historyListSwitch = true
             self.recipeList.isHidden = false
             let cells = self.recipeList.visibleCells
             let listHeight = self.recipeList.bounds.height
@@ -129,6 +130,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
 
     func animateRecipeSquares() {
         switchType(isList: false) {
+            self.mainViewController?.historyListSwitch = false
             self.recipeList.isHidden = false
             let cells = self.recipeList.visibleCells
             let listHeight = self.recipeList.bounds.height/self.squareRows

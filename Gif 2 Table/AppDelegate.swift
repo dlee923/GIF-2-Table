@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -45,6 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
         
         window?.rootViewController = navController
+        
+        FIRApp.configure()
         return true
     }
     

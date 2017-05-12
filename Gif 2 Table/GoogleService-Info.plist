@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>241761606131-stvaavf0sfofl3n7oinp53i3lhvq0cco.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.241761606131-stvaavf0sfofl3n7oinp53i3lhvq0cco</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC3ICm5pe_boNNy4Ty_R792Whf-EEhNUH0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>241761606131</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.dlee923.GifChef</string>
+	<key>PROJECT_ID</key>
+	<string>gif-chef</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gif-chef.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:241761606131:ios:2a8d97bc060a5bfa</string>
+	<key>DATABASE_URL</key>
+	<string>https://gif-chef.firebaseio.com</string>
+</dict>
+</plist>

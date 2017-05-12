@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		205FB6A8ECD6C759BD6E99DF /* Pods_Gif_2_Table.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 302F39A85D5ACE0E486994D3 /* Pods_Gif_2_Table.framework */; };
 		700178D51EB76438006AEF48 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 700178D41EB76438006AEF48 /* AVKit.framework */; };
 		700178D71EB7A39B006AEF48 /* PlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700178D61EB7A39B006AEF48 /* PlayButton.swift */; };
 		700178D91EB8B310006AEF48 /* SaveFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700178D81EB8B310006AEF48 /* SaveFavoritesView.swift */; };
@@ -25,6 +26,8 @@
 		700BC9341EAAC19D002EB83A /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9331EAAC19D002EB83A /* RecipeView.swift */; };
 		700BC9361EAAC2F2002EB83A /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9351EAAC2F2002EB83A /* IngredientsView.swift */; };
 		700BC93A1EAC15DA002EB83A /* RecipeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9391EAC15DA002EB83A /* RecipeObject.swift */; };
+		70294BCD1EC5EE8E0097B61B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70294BCC1EC5EE8E0097B61B /* GoogleService-Info.plist */; };
+		70294BCF1EC5FC110097B61B /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70294BCE1EC5FC110097B61B /* Firebase.swift */; };
 		70BDB1131EBA9A3500305EA8 /* CustomBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */; };
 		70BDB1151EBC0D7500305EA8 /* PromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1141EBC0D7500305EA8 /* PromptView.swift */; };
 		70BDB1171EBC248900305EA8 /* TableStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1161EBC248900305EA8 /* TableStyle.swift */; };
@@ -40,6 +43,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		302F39A85D5ACE0E486994D3 /* Pods_Gif_2_Table.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Gif_2_Table.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EC0F2C75DED4AB68E294589 /* Pods-Gif 2 Table.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gif 2 Table.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gif 2 Table/Pods-Gif 2 Table.release.xcconfig"; sourceTree = "<group>"; };
+		49027A9376462FE6E5B74462 /* Pods-Gif 2 Table.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gif 2 Table.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Gif 2 Table/Pods-Gif 2 Table.debug.xcconfig"; sourceTree = "<group>"; };
 		700178D41EB76438006AEF48 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		700178D61EB7A39B006AEF48 /* PlayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayButton.swift; sourceTree = "<group>"; };
 		700178D81EB8B310006AEF48 /* SaveFavoritesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveFavoritesView.swift; sourceTree = "<group>"; };
@@ -60,6 +66,8 @@
 		700BC9331EAAC19D002EB83A /* RecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		700BC9351EAAC2F2002EB83A /* IngredientsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
 		700BC9391EAC15DA002EB83A /* RecipeObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeObject.swift; sourceTree = "<group>"; };
+		70294BCC1EC5EE8E0097B61B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		70294BCE1EC5FC110097B61B /* Firebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
 		70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBackground.swift; sourceTree = "<group>"; };
 		70BDB1141EBC0D7500305EA8 /* PromptView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptView.swift; sourceTree = "<group>"; };
 		70BDB1161EBC248900305EA8 /* TableStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableStyle.swift; sourceTree = "<group>"; };
@@ -80,16 +88,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				700178D51EB76438006AEF48 /* AVKit.framework in Frameworks */,
+				205FB6A8ECD6C759BD6E99DF /* Pods_Gif_2_Table.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5BE1CCA6CDB2B201604ECCA3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				49027A9376462FE6E5B74462 /* Pods-Gif 2 Table.debug.xcconfig */,
+				3EC0F2C75DED4AB68E294589 /* Pods-Gif 2 Table.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		700178D31EB76438006AEF48 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				700178D41EB76438006AEF48 /* AVKit.framework */,
+				302F39A85D5ACE0E486994D3 /* Pods_Gif_2_Table.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,6 +131,7 @@
 				700BC9171EAA6843002EB83A /* Gif 2 Table */,
 				700BC9161EAA6843002EB83A /* Products */,
 				700178D31EB76438006AEF48 /* Frameworks */,
+				5BE1CCA6CDB2B201604ECCA3 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,6 +151,7 @@
 				700BC92F1EAABE2C002EB83A /* Extensions.swift */,
 				700BC9391EAC15DA002EB83A /* RecipeObject.swift */,
 				70FC2FA61EB6D5DA0068B159 /* PlayVideo.swift */,
+				70294BCE1EC5FC110097B61B /* Firebase.swift */,
 				70E029E51EC4C641002F5F06 /* Core Data */,
 				700BC9381EAC15B0002EB83A /* Recipe Views */,
 				70EE7E321EB230F200ADD499 /* Section Views */,
@@ -138,6 +159,7 @@
 				700BC9221EAA6843002EB83A /* Assets.xcassets */,
 				700BC9241EAA6843002EB83A /* LaunchScreen.storyboard */,
 				700BC9271EAA6843002EB83A /* Info.plist */,
+				70294BCC1EC5EE8E0097B61B /* GoogleService-Info.plist */,
 				700BC91F1EAA6843002EB83A /* Gif_2_Table.xcdatamodeld */,
 			);
 			path = "Gif 2 Table";
@@ -196,9 +218,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 700BC92A1EAA6843002EB83A /* Build configuration list for PBXNativeTarget "Gif 2 Table" */;
 			buildPhases = (
+				E67E58954C90E8E32E0F4C98 /* [CP] Check Pods Manifest.lock */,
 				700BC9111EAA6843002EB83A /* Sources */,
 				700BC9121EAA6843002EB83A /* Frameworks */,
 				700BC9131EAA6843002EB83A /* Resources */,
+				66CEECF5797CDF05EE8869DE /* [CP] Embed Pods Frameworks */,
+				0BC99C7C39D47EFC64517C4E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -250,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				700178E21EB97F86006AEF48 /* KGLifeisMessy.ttf in Resources */,
+				70294BCD1EC5EE8E0097B61B /* GoogleService-Info.plist in Resources */,
 				700178DB1EB9788C006AEF48 /* Luna.ttf in Resources */,
 				700BC9261EAA6843002EB83A /* LaunchScreen.storyboard in Resources */,
 				700178E01EB97B5B006AEF48 /* HelloIshBig.ttf in Resources */,
@@ -261,12 +287,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0BC99C7C39D47EFC64517C4E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Gif 2 Table/Pods-Gif 2 Table-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66CEECF5797CDF05EE8869DE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Gif 2 Table/Pods-Gif 2 Table-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E67E58954C90E8E32E0F4C98 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		700BC9111EAA6843002EB83A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				700BC9341EAAC19D002EB83A /* RecipeView.swift in Sources */,
+				70294BCF1EC5FC110097B61B /* Firebase.swift in Sources */,
 				70BDB1151EBC0D7500305EA8 /* PromptView.swift in Sources */,
 				700BC9301EAABE2C002EB83A /* Extensions.swift in Sources */,
 				70EE7E311EB230B000ADD499 /* FeatureCell.swift in Sources */,
@@ -400,13 +475,14 @@
 		};
 		700BC92B1EAA6843002EB83A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 49027A9376462FE6E5B74462 /* Pods-Gif 2 Table.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 76EM9P9GMZ;
 				INFOPLIST_FILE = "Gif 2 Table/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dlee923.Gif-2-Table";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dlee923.GifChef;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -414,13 +490,14 @@
 		};
 		700BC92C1EAA6843002EB83A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EC0F2C75DED4AB68E294589 /* Pods-Gif 2 Table.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 76EM9P9GMZ;
 				INFOPLIST_FILE = "Gif 2 Table/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dlee923.Gif-2-Table";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dlee923.GifChef;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
