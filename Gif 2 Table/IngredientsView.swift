@@ -24,12 +24,14 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
         }
     }
     
-    func parseRawIngredients(ingredients: [String]) {
+    func parseRawIngredients(ingredients: [[String: String]]) {
         self.ingredients = [IngredientObject]()
         
         for ingredient in ingredients {
-            let ingredientObj = IngredientObject(name: ingredient, measurement: "?")
-            self.ingredients?.append(ingredientObj)
+            if let type = ingredient["type"], let measure = ingredient["measurement"] {
+                let ingredientObj = IngredientObject(name: type, imageName: "", measurement: measure)
+                self.ingredients?.append(ingredientObj)
+            }
         }
     }
     
@@ -266,7 +268,11 @@ class IngredientCell: BaseCell {
     func whatIsThisPopUp() {
         print("what is this?!")
         whatIsThisInfo = PromptView()
-        whatIsThisInfo?.setUpPrompt(objectCalling: self.whatIsThisButton, heightPct: 0.5, widthPct: 0.9, promptMsg: "This is a description of the ingredient!! - which needs to be passed to this cell", messageLines: 100, messageOnly: true, doesDisappear: false)
+        
+        if let ingredientProperties = ingredientDictionary[(ingredient?.name)!] {
+            whatIsThisInfo?.setUpPrompt(objectCalling: self.whatIsThisButton, heightPct: 0.5, widthPct: 0.9, promptMsg: ingredientProperties["Description"]!, messageLines: 100, messageOnly: true, doesDisappear: false)
+        }
+        
         let disappearTap = UITapGestureRecognizer(target: self, action: #selector(self.popOff))
         whatIsThisInfo?.addGestureRecognizer(disappearTap)
     }

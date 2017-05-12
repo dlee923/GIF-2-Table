@@ -14,12 +14,12 @@ class RecipeObject: NSObject, NSCoding {
     var recipeLink: String?
     var recipeTitle: String?
     var recipeImageLink: String?
-    var recipeIngredients: [String]?
+    var recipeIngredients: [[String: String]]?
     var favorite: Bool?
     var isLiked: Bool?
     var isDisliked: Bool?
     
-    init(link: String, title: String, imageLink: String, ingredients: [String], favorite: Bool, like: Bool, dislike: Bool) {
+    init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool) {
         recipeLink = link
         recipeTitle = title
         recipeImageLink = imageLink
@@ -43,7 +43,7 @@ class RecipeObject: NSObject, NSCoding {
         let recipeLink = aDecoder.decodeObject(forKey: "recipeLink") as? String
         let recipeTitle = aDecoder.decodeObject(forKey: "recipeTitle") as? String
         let recipeImageLink = aDecoder.decodeObject(forKey: "recipeImageLink") as? String
-        let recipeIngredients = aDecoder.decodeObject(forKey: "recipeIngredients") as? [String]
+        let recipeIngredients = aDecoder.decodeObject(forKey: "recipeIngredients") as? [[String: String]]
         let favorite = aDecoder.decodeObject(forKey: "favorite") as? Bool
         let isLiked = aDecoder.decodeObject(forKey: "isLiked") as? Bool
         let isDisliked = aDecoder.decodeObject(forKey: "isDisliked") as? Bool

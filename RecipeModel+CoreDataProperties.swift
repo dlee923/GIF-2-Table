@@ -20,7 +20,7 @@ extension RecipeModel {
     @NSManaged public var recipeLink: String?
     @NSManaged public var recipeTitle: String?
     @NSManaged public var recipeImageLink: String?
-    @NSManaged public var recipeIngredients: [String]?
+    @NSManaged public var recipeIngredients: [[String: String]]?
     @NSManaged public var favorite: Bool
     @NSManaged public var isLiked: Bool
 

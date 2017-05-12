@@ -52,10 +52,8 @@ enum BackgroundImage: String {
 
 struct IngredientObject {
     var name: String
+    var imageName: String
     var measurement: String
 }
 
-var ingredientDictionary: [String : String] = ["Potato" : "Starchy vegetable white in color",
-                                               "Salsa" : "Sauce",
-                                               "Tequila" : "Chips",
-                                               "Corazon" : "Red Stuff"]
+var ingredientDictionary: [String : [String: String]] = ["Potato" : ["Description": "white starch vegetable", "Image": "http://www.potato.com"]]

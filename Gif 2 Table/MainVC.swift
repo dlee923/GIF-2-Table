@@ -68,7 +68,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         
         for x in 0...5 {
             
-            let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak \(x)", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false, like: false, dislike: false)
+            let recipe = RecipeObject(link: "https://thumbs.gfycat.com/PitifulConstantIsopod-mobile.mp4", title: "Bon Appetit Steak \(x)", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: [["type": "Potato", "measurement": "3lbs"], ["type": "Salsa", "measurement": "2lbs"], ["type": "Tequila", "measurement": "1 bottle"], ["type": "Corazon", "measurement": "1 whole"]], favorite: false, like: false, dislike: false)
             
             recipes.append(recipe)
         }
@@ -78,9 +78,11 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         
         let firebaseMgr = Firebase()
         firebaseMgr.downloadData()
-        firebaseMgr.updateIngredients()
+        firebaseMgr.updateIngredients { (updatedIngredientList) in
+            ingredientDictionary = updatedIngredientList
+        }
         
-        let recipe = RecipeObject(link: "https://firebasestorage.googleapis.com/v0/b/gif-chef.appspot.com/o/PitifulConstantIsopod-mobile.mp4?alt=media&token=435a9da8-0741-4b52-81d3-852ebec64b9d", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: ["Potato", "Salsa", "Tequila", "Corazon"], favorite: false, like: false, dislike: false)
+        let recipe = RecipeObject(link: "https://firebasestorage.googleapis.com/v0/b/gif-chef.appspot.com/o/PitifulConstantIsopod-mobile.mp4?alt=media&token=435a9da8-0741-4b52-81d3-852ebec64b9d", title: "Bon Appetit Steak", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: [["type": "Potato", "measurement": "3lbs"], ["type": "Salsa", "measurement": "2lbs"], ["type": "Tequila", "measurement": "1 bottle"], ["type": "Corazon", "measurement": "1 whole"]], favorite: false, like: false, dislike: false)
         featureRecipe = recipe
         featureRecipeStored = recipe
     }
