@@ -39,7 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImg)
         
         let layout = UICollectionViewFlowLayout()
-        let navController = UINavigationController(rootViewController: MainVC(collectionViewLayout: layout))
+        let rootController = MainVC(collectionViewLayout: layout)
+        rootController.backgroundImg = backgroundImg
+        
+        let navController = UINavigationController(rootViewController: rootController)
         navController.navigationBar.shadowImage = UIImage()
         navController.navigationBar.isTranslucent = false
         navController.navigationBar.barTintColor = navBarColor

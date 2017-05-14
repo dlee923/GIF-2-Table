@@ -37,10 +37,10 @@ class SaveFavoritesView: UIView {
     }
     
     func checkIfFavorite() {
-        print("checking favorite for \(recipeObj?.recipeTitle)")
+        print("checking favorite for \(recipeObj?.recipeTitle ?? "no title")")
         print(self.mainViewController?.favoriteRecipes.count)
         for recipe in (self.mainViewController?.favoriteRecipes)! {
-            print(recipe.recipeTitle)
+            print(recipe.recipeTitle ?? 0)
         }
         
         let favoriteIndex = self.mainViewController?.favoriteRecipes.index(where: { (recipe) -> Bool in
@@ -48,7 +48,7 @@ class SaveFavoritesView: UIView {
         })
         
         if favoriteIndex != nil {
-            print("favorite exists \(favoriteIndex)")
+            print("favorite exists \(favoriteIndex ?? 0)")
             favoriteBtn.isSelected = true
             favoriteBtn.tintColor = favoriteBtn.isSelected ? heartColor : defaultColor
         }
@@ -179,7 +179,7 @@ class SaveFavoritesView: UIView {
             recipe.recipeTitle == self.recipeObj?.recipeTitle
         })
         
-        print("this recipe was located on the favorite array at index: \(favIndex)")
+        print("this recipe was located on the favorite array at index: \(favIndex ?? 0)")
         
         if let titleToRemove = self.mainViewController?.favoriteRecipes[favIndex!].recipeTitle {
             coreDataManager.deleteData(recipeTitle: titleToRemove)

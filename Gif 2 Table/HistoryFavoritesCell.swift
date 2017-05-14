@@ -29,8 +29,6 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     lazy var tableStyle2: TableStyle2 = {
         let button = TableStyle2()
         button.translatesAutoresizingMaskIntoConstraints = false
-//        self.tableStyleHeightConstraint2 = button.heightAnchor.constraint(equalToConstant: self.tableStyleHeight2)
-//        self.tableStyleHeightConstraint2?.isActive = true
         self.tableStyleWidthConstraint2 = button.widthAnchor.constraint(equalToConstant: self.tableStyleWidth2)
         self.tableStyleWidthConstraint2?.isActive = true
         button.historyFavCell = self
@@ -66,10 +64,10 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     let squareRecipeCellID = "squareRecipeCellID"
     let emptyCellID = "emptyCellID"
     var mainViewController: MainVC?
-    var tableStyleWidth1: CGFloat = 20
-    var tableStyleHeight1: CGFloat = 20
-    var tableStyleWidth2: CGFloat = 20
-    var tableStyleHeight2: CGFloat = 20
+    var tableStyleWidth1: CGFloat = 25
+    var tableStyleHeight1: CGFloat = 25
+    var tableStyleWidth2: CGFloat = 25
+    var tableStyleHeight2: CGFloat = 25
     let tableRows: CGFloat = 3.5
     let squareRows: CGFloat = 3
     
@@ -218,8 +216,9 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         toggleTableStyles(isHidden: true)
     }
     
-    lazy var recipeView: RecipeView = {
-        let view = RecipeView()
+    lazy var recipeView: RecipeView2 = {
+        let view = RecipeView2()
+        view.historyFavCell = self
         return view
     }()
     
@@ -248,14 +247,14 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         recipeView.alpha = 0
         
         //animate image into place?
-        //"V:|-[v0(40)]-8-[v1]-6-[v2(75)]-86-|" + 4 + 4 FOR FRAMING
+        //"V:|-[v3(30)][v0(40)]-8-[v1]-6-[v2(75)]-86-|" + 4 + 4 FOR FRAMING
         
         let recipeFrameInset: CGFloat = 4
         
         //MOVING IMAGE INTO FOCUS
         UIView.animate(withDuration: 1.0, animations: {
-            let yMovement = (self.frame.height - (self.frame.height - 8 - 40 - 8 - recipeFrameInset)) - image.frame.origin.y
-            let endFrameHeight = self.frame.height - 8 - 40 - 8 - 6 - 75 - 86 - (recipeFrameInset * 2)
+            let yMovement = (self.frame.height - (self.frame.height - 38 - 40 - 8 - recipeFrameInset)) - image.frame.origin.y
+            let endFrameHeight = self.frame.height - 38 - 40 - 8 - 6 - 75 - 86 - (recipeFrameInset * 2)
             
             var endFrameWidth: CGFloat!
             if self.isList {

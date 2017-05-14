@@ -11,7 +11,7 @@ import Firebase
 
 class Firebase {
     
-    func downloadData() {
+    func downloadData(completion: @escaping ([RecipeObject]) -> ()) {
         
         var recipes = [RecipeObject]()
         
@@ -48,8 +48,9 @@ class Firebase {
                 }
             }
             DispatchQueue.main.async {
-                print("count \(recipes.count)")
+                completion(recipes)
             }
+            
         }, withCancel: nil)
     }
     

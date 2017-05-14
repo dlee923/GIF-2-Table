@@ -15,8 +15,6 @@ class RecipeView: UIView {
         self.backgroundColor = .clear
         setUpRecipeView()
         addPlayButton(viewToAddTo: self)
-        
-        print("instantiated")
     }
     
     var recipe: RecipeObject? {
@@ -158,6 +156,59 @@ class RecipeView: UIView {
         guard let link = self.recipe?.recipeLink else { return }
         
         videoPlayer.playVideo(videoURL: link)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
+
+class RecipeView2: RecipeView {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    lazy var returnButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.setTitle("Return To Menu List", for: .normal)
+        button.titleLabel?.font = fontReno?.withSize(12)
+        button.titleLabel?.textColor = .white
+        button.addTarget(self, action: #selector(self.returnToList), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 10
+        return button
+    }()
+    
+    var historyFavCell: HistoryFavoritesCell?
+    
+    override func setUpRecipeView() {
+        self.addSubview(recipeTitle)
+        self.addSubview(recipeImageShadow)
+        recipeImageShadow.addSubview(recipeImage)
+        self.addSubview(saveFavoritesView)
+        saveFavoritesView.randomizeBtn.removeFromSuperview()
+        saveFavoritesView.resetBtn.removeFromSuperview()
+        self.addSubview(returnButton)
+        
+        self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeTitle)
+        self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeImageShadow)
+        self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: saveFavoritesView)
+        
+        self.addConstraintsWithFormat(format: "V:|-[v3(30)][v0(40)]-8-[v1]-6-[v2(75)]-86-|", views: recipeTitle, recipeImageShadow, saveFavoritesView, returnButton)
+        
+        recipeImageShadow.addConstraintsWithFormat(format: "H:|-4-[v0]-4-|", views: recipeImage)
+        recipeImageShadow.addConstraintsWithFormat(format: "V:|-4-[v0]-4-|", views: recipeImage)
+        
+        returnButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
+        returnButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+    }
+    
+    func returnToList() {
+        self.removeFromSuperview()
+        historyFavCell?.recipeList.alpha = 1
+        guard let trigger = historyFavCell?.isList else { return }
+        trigger == true ? historyFavCell?.animateRecipeList() : historyFavCell?.animateRecipeSquares()
     }
     
     required init?(coder aDecoder: NSCoder) {

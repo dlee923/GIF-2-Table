@@ -174,7 +174,7 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
         } else {
             isScrollingUp = false
         }
-        print(isScrollingUp)
+        print(isScrollingUp ?? "no scroll direction")
         moveIngredientsList()
     }
     

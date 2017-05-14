@@ -14,6 +14,9 @@ class TableStyle: UIButton {
         super.init(frame: frame)
         self.layer.cornerRadius = 3
         self.clipsToBounds = true
+        self.imageEdgeInsets = UIEdgeInsetsMake(2, 2, 2, 2)
+        self.tintColor = buttonTintColor
+        self.setImage(eyeButton, for: .normal)
         setUpView()
     }
     
@@ -21,8 +24,12 @@ class TableStyle: UIButton {
     var isPressed = false
     let animationSpeedOut = 0.1
     let animationSpeedSnap = 0.15
-    let buttonColor = UIColor.blue
+    let buttonColor = UIColor.black
+    let buttonTintColor = UIColor.green
     var tableStyle2: TableStyle2?
+    let listButton = UIImage(named: "list")?.withRenderingMode(.alwaysTemplate)
+    let squaresButton = UIImage(named: "squares")?.withRenderingMode(.alwaysTemplate)
+    let eyeButton = UIImage(named: "eye")?.withRenderingMode(.alwaysTemplate)
     
     override func draw(_ rect: CGRect) {
         let fillColor = buttonColor
@@ -40,11 +47,15 @@ class TableStyle: UIButton {
         if !isPressed {
             animateDot(isAdding: true, isCopy: false)
             tableStyle2?.animateDot(isAdding: true, isCopy: true)
+            self.setImage(listButton, for: .normal)
+            tableStyle2?.setImage(squaresButton, for: .normal)
         } else {
             animateDot(isAdding: false, isCopy: false)
             tableStyle2?.animateDot(isAdding: false, isCopy: true)
             //EXECUTE ACTION ON THIS SPLIT
             self.historyFavCell?.animateRecipeList()
+            self.setImage(eyeButton, for: .normal)
+            tableStyle2?.setImage(nil, for: .normal)
         }
         print("tableStyle 1 \(isPressed)")
     }
@@ -68,10 +79,10 @@ class TableStyle: UIButton {
                 UIView.animate(withDuration: self.animationSpeedSnap, delay: 0.0, options: .curveEaseOut, animations: {
                     if isCopy {
                         self.historyFavCell?.tableStyleCenter2?.constant += self.bounds.width/2
-                        self.historyFavCell?.tableStyleHeightConstraint2?.constant = (self.historyFavCell?.tableStyleHeight2)!
+                        self.historyFavCell?.tableStyleHeightConstraint2?.constant = (self.historyFavCell?.tableStyleHeight2)! * 1.25
                     } else {
                         self.historyFavCell?.tableStyleCenter?.constant -= self.bounds.width/2
-                        self.historyFavCell?.tableStyleHeightConstraint?.constant = (self.historyFavCell?.tableStyleHeight1)!
+                        self.historyFavCell?.tableStyleHeightConstraint?.constant = (self.historyFavCell?.tableStyleHeight1)! * 1.25
                     }
                     
                     self.superview?.layoutIfNeeded()
@@ -118,6 +129,7 @@ class TableStyle2: TableStyle {
     
     var tableStyle: TableStyle?
     
+    
     override func buttonPressed() {
         if !isPressed {
             animateDot(isAdding: true, isCopy: true)
@@ -127,6 +139,8 @@ class TableStyle2: TableStyle {
             tableStyle?.animateDot(isAdding: false, isCopy: false)
             //EXECUTE ACTION ON THIS SPLIT
             self.historyFavCell?.animateRecipeSquares()
+            self.setImage(nil, for: .normal)
+            tableStyle?.setImage(eyeButton, for: .normal)
         }
         print("tableStyle 2 \(isPressed)")
     }

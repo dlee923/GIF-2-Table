@@ -28,6 +28,7 @@
 		700BC93A1EAC15DA002EB83A /* RecipeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700BC9391EAC15DA002EB83A /* RecipeObject.swift */; };
 		70294BCD1EC5EE8E0097B61B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70294BCC1EC5EE8E0097B61B /* GoogleService-Info.plist */; };
 		70294BCF1EC5FC110097B61B /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70294BCE1EC5FC110097B61B /* Firebase.swift */; };
+		70294BD11EC7E6090097B61B /* MainVCScrollMods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70294BD01EC7E6090097B61B /* MainVCScrollMods.swift */; };
 		70BDB1131EBA9A3500305EA8 /* CustomBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */; };
 		70BDB1151EBC0D7500305EA8 /* PromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1141EBC0D7500305EA8 /* PromptView.swift */; };
 		70BDB1171EBC248900305EA8 /* TableStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB1161EBC248900305EA8 /* TableStyle.swift */; };
@@ -68,6 +69,7 @@
 		700BC9391EAC15DA002EB83A /* RecipeObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeObject.swift; sourceTree = "<group>"; };
 		70294BCC1EC5EE8E0097B61B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70294BCE1EC5FC110097B61B /* Firebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
+		70294BD01EC7E6090097B61B /* MainVCScrollMods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVCScrollMods.swift; sourceTree = "<group>"; };
 		70BDB1121EBA9A3500305EA8 /* CustomBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBackground.swift; sourceTree = "<group>"; };
 		70BDB1141EBC0D7500305EA8 /* PromptView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptView.swift; sourceTree = "<group>"; };
 		70BDB1161EBC248900305EA8 /* TableStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableStyle.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				700BC91A1EAA6843002EB83A /* MainVC.swift */,
+				70294BD01EC7E6090097B61B /* MainVCScrollMods.swift */,
 				700BC92D1EAA726A002EB83A /* MenuBar.swift */,
 			);
 			name = "General App Views";
@@ -341,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				700BC9341EAAC19D002EB83A /* RecipeView.swift in Sources */,
+				70294BD11EC7E6090097B61B /* MainVCScrollMods.swift in Sources */,
 				70294BCF1EC5FC110097B61B /* Firebase.swift in Sources */,
 				70BDB1151EBC0D7500305EA8 /* PromptView.swift in Sources */,
 				700BC9301EAABE2C002EB83A /* Extensions.swift in Sources */,
