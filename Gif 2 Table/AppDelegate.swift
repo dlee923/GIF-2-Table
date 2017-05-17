@@ -29,14 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return backgrnd
         }()
         
-//        if let appWindow = UIApplication.shared.keyWindow {
-//            appWindow.addSubview(backgroundImg)
-//            appWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImg)
-//            appWindow.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImg)
-//        }
         window?.addSubview(backgroundImg)
-        window?.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImg)
+//        window?.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImg)
         window?.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImg)
+        backgroundImg.widthAnchor.constraint(equalTo: (window?.widthAnchor)!, multiplier: 1.5).isActive = true
+        backgroundImg.centerXAnchor.constraint(equalTo: (window?.centerXAnchor)!).isActive = true
         
         let layout = UICollectionViewFlowLayout()
         let rootController = MainVC(collectionViewLayout: layout)

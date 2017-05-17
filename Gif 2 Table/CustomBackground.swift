@@ -17,6 +17,7 @@ class CustomBackground: UIImageView {
     
     func setUpView(backgroundImg: BackgroundImage) {
         self.image = UIImage(named: backgroundImg.rawValue)
+        self.backgroundColor = .white
         self.contentMode = .scaleAspectFill
         self.addSubview(blurView)
         addConstraintsWithFormat(format: "H:|[v0]|", views: blurView)

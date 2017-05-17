@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DislikedRecipe" representedClassName=".DislikedRecipe" syncable="YES">
+        <attribute name="recipeTitle" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="LikedRecipe" representedClassName=".LikedRecipe" syncable="YES">
+        <attribute name="recipeTitle" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="RecipeModel" representedClassName=".RecipeModel" syncable="YES">
         <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isDisliked" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isLiked" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="recipeChild" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="recipeImageLink" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="recipeIngredients" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="recipeLink" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="recipeTitle" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="RecipeModel" positionX="-63" positionY="-81" width="128" height="28"/>
+        <element name="RecipeModel" positionX="-63" positionY="-81" width="128" height="165"/>
+        <element name="LikedRecipe" positionX="-63" positionY="-90" width="128" height="60"/>
+        <element name="DislikedRecipe" positionX="-54" positionY="-72" width="128" height="60"/>
     </elements>
 </model>

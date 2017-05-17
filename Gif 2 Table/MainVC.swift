@@ -13,7 +13,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView?.backgroundColor = .clear
-        navigationItem.title = "GIF Chef"
+        navigationItem.title = "GIF 2 Table"
         navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontLuna?.withSize(18), NSForegroundColorAttributeName: UIColor.white]
         
         loadData()
@@ -57,6 +57,8 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     let animateOpacityStart: CGFloat = 0.2
     var viewWidth: CGFloat?
     var pageXReference: CGFloat?
+    // for controlling background shift
+    var centerOffset: CGFloat?
     
     lazy var menuBar: MenuBar = {
         let bar = MenuBar()
@@ -73,6 +75,8 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
             print("main vc favorite recipes modified")
         }
     }
+    var likedRecipes = [RecipeObject]()
+    var dislikedRecipes = [RecipeObject]()
     
     //testing****
     func downloadRecipeObjects() {
@@ -86,7 +90,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     func downloadFeatureRecipe() {
         
         // turn this into a dummy recipe
-        let recipe = RecipeObject(link: "https://firebasestorage.googleapis.com/v0/b/gif-chef.appspot.com/o/PitifulConstantIsopod-mobile.mp4?alt=media&token=435a9da8-0741-4b52-81d3-852ebec64b9d", title: "Bon Appetit Steak FAKE", imageLink: "http://assets.bonappetit.com/photos/57acdfb61b33404414975295/master/w_680,h_454,c_limit/dry-rubbed-flank-steak-with-grilled-corn-salsa.jpg", ingredients: [["type": "Potato", "measurement": "3lbs"], ["type": "Salsa", "measurement": "2lbs"], ["type": "Tequila", "measurement": "1 bottle"], ["type": "Corazon", "measurement": "1 whole"]], favorite: false, like: false, dislike: false)
+        let recipe = RecipeObject(link: " ", title: " ", imageLink: " ", ingredients: [[:]], favorite: false, like: false, dislike: false, likes: 0, dislikes: 0, child: "Recipe0")
         featureRecipe = recipe
         featureRecipeStored = recipe
         
@@ -203,7 +207,11 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     func loadData() {
         let coreDataManager = CoreDataManager()
-        self.favoriteRecipes = coreDataManager.loadData()
+        self.favoriteRecipes = coreDataManager.loadData(entityName: "RecipeModel")
+        self.likedRecipes = coreDataManager.loadData(entityName: "LikedRecipe")
+        self.dislikedRecipes = coreDataManager.loadData(entityName: "DislikedRecipe")
+        print("liked count: \(likedRecipes.count)")
+        print("disliked count: \(dislikedRecipes.count)")
     }
 }
 

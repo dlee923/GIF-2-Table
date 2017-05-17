@@ -57,7 +57,6 @@ class TableStyle: UIButton {
             self.setImage(eyeButton, for: .normal)
             tableStyle2?.setImage(nil, for: .normal)
         }
-        print("tableStyle 1 \(isPressed)")
     }
     
     fileprivate func animateDot(isAdding: Bool, isCopy: Bool) {
@@ -142,6 +141,5 @@ class TableStyle2: TableStyle {
             self.setImage(nil, for: .normal)
             tableStyle?.setImage(eyeButton, for: .normal)
         }
-        print("tableStyle 2 \(isPressed)")
     }
 }

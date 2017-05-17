@@ -11,7 +11,17 @@ import UIKit
 extension MainVC {
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
+        calculateCellOpacity(scrollView: scrollView)
+    }
+    
+    func establishScrollProperties() {
+        viewWidth = collectionView?.frame.width
+        pageXReference = viewWidth!/2
+        let numberOfItems = CGFloat(collectionView?.numberOfItems(inSection: 0) ?? 0)
+        centerOffset = (numberOfItems * viewWidth!) / 2 - (viewWidth!/2)
+    }
+    
+    func calculateCellOpacity(scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.x
         
         let page = Int(round(offset / viewWidth!))
@@ -25,10 +35,12 @@ extension MainVC {
             cell.alpha = 0
         }
         currentCell?.alpha = fadeCellAlpha
-    }
-    
-    func establishScrollProperties() {
-        viewWidth = collectionView?.frame.width
-        pageXReference = viewWidth!/2
+        
+        //background image shifting
+        var shiftValue = (centerOffset! - offset) * 0.25
+        shiftValue = shiftValue > pageXReference!/2 ? pageXReference!/2 :  shiftValue
+        shiftValue = shiftValue < -pageXReference!/2 ? -pageXReference!/2 :  shiftValue
+
+        self.backgroundImg?.transform = CGAffineTransform(translationX: shiftValue, y: 0)
     }
 }

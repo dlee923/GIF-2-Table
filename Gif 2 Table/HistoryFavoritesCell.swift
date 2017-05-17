@@ -70,6 +70,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     var tableStyleHeight2: CGFloat = 25
     let tableRows: CGFloat = 3.5
     let squareRows: CGFloat = 3
+    let addRecipeDuration = 0.5
     
     func setUpCollectionView() {
         self.addSubview(recipeList)
@@ -252,7 +253,8 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         let recipeFrameInset: CGFloat = 4
         
         //MOVING IMAGE INTO FOCUS
-        UIView.animate(withDuration: 1.0, animations: {
+        
+        UIView.animate(withDuration: addRecipeDuration, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: { 
             let yMovement = (self.frame.height - (self.frame.height - 38 - 40 - 8 - recipeFrameInset)) - image.frame.origin.y
             let endFrameHeight = self.frame.height - 38 - 40 - 8 - 6 - 75 - 86 - (recipeFrameInset * 2)
             
@@ -273,13 +275,13 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
             self.recipeView.frame = self.bounds
             self.recipeList.alpha = 0
             self.recipeView.layoutSubviews()
-        }, completion: { (_) in
-            UIView.animate(withDuration: 1.0, animations: {
+        }) { (_) in
+            UIView.animate(withDuration: self.addRecipeDuration/2, animations: {
                 self.recipeView.alpha = 1.0
             }, completion: { (_) in
                 image.removeFromSuperview()
             })
-        })
+        }
         
         image.animateCornerRadius(to: 10, duration: 2.0)
     }

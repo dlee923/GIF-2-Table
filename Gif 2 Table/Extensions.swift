@@ -56,4 +56,6 @@ struct IngredientObject {
     var measurement: String
 }
 
+
+
 var ingredientDictionary: [String : [String: String]] = ["Potato" : ["Description": "white starch vegetable", "Image": "http://www.potato.com"]]

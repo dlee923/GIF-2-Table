@@ -24,25 +24,29 @@ class SaveFavoritesView: UIView {
     let diceColor = UIColor.black
     let resetColor = UIColor.black
     
+    let coreDataManager = CoreDataManager()
+    let firebaseManager = Firebase()
+    
     var mainViewController: MainVC?
     var recipeObj: RecipeObject? {
         didSet {
+            print("recipe set")
             checkIfFavorite()
             
             happyFace.isSelected = (recipeObj?.isLiked)!
+            happyText.text = "\((recipeObj?.likes)!)"
+            
             sadFace.isSelected = (recipeObj?.isDisliked)!
+            sadText.text = "\((recipeObj?.dislikes)!)"
+            
+            checkIfLiked()
+            
             setHappyFaceColors()
             setSadFaceColors()
         }
     }
     
     func checkIfFavorite() {
-        print("checking favorite for \(recipeObj?.recipeTitle ?? "no title")")
-        print(self.mainViewController?.favoriteRecipes.count)
-        for recipe in (self.mainViewController?.favoriteRecipes)! {
-            print(recipe.recipeTitle ?? 0)
-        }
-        
         let favoriteIndex = self.mainViewController?.favoriteRecipes.index(where: { (recipe) -> Bool in
             recipe.recipeTitle == self.recipeObj?.recipeTitle
         })
@@ -54,7 +58,27 @@ class SaveFavoritesView: UIView {
         }
     }
     
-    let coreDataManager = CoreDataManager()
+    func checkIfLiked() {
+        let likedIndex = self.mainViewController?.likedRecipes.index(where: { (recipe) -> Bool in
+            recipe.recipeTitle == self.recipeObj?.recipeTitle
+        })
+        
+        if likedIndex != nil {
+            print("liked exists \(likedIndex ?? 0)")
+            happyFace.isSelected = true
+            sadFace.isSelected = false
+        }
+        
+        let dislikedIndex = self.mainViewController?.dislikedRecipes.index(where: { (recipe) -> Bool in
+            recipe.recipeTitle == self.recipeObj?.recipeTitle
+        })
+        
+        if dislikedIndex != nil {
+            print("dislike exists \(dislikedIndex ?? 0)")
+            happyFace.isSelected = false
+            sadFace.isSelected = true
+        }
+    }
     
     func setUpView() {
         self.backgroundColor = .clear
@@ -66,10 +90,10 @@ class SaveFavoritesView: UIView {
         self.addSubview(randomizeBtn)
         self.addSubview(resetBtn)
         
-        addConstraintsWithFormat(format: "H:[v1(50)]-[v0(50)]|", views: sadFace, happyFace)
-        addConstraintsWithFormat(format: "H:|[v0(90)]", views: favoriteBtn)
-        addConstraintsWithFormat(format: "H:|-70-[v0(90)]", views: randomizeBtn)
-        addConstraintsWithFormat(format: "H:|-140-[v0(90)]", views: resetBtn)
+        addConstraintsWithFormat(format: "H:[v1]-[v0]|", views: sadFace, happyFace)
+        addConstraintsWithFormat(format: "H:|[v0]", views: favoriteBtn)
+        randomizeBtn.leadingAnchor.constraint(equalTo: favoriteBtn.trailingAnchor, constant: -(15/375)*UIScreen.main.bounds.width).isActive = true
+        resetBtn.leadingAnchor.constraint(equalTo: randomizeBtn.trailingAnchor, constant: -(15/375)*UIScreen.main.bounds.width).isActive = true
         
         addConstraintsWithFormat(format: "V:|[v0]-4-[v1(10)]-5-|", views: sadFace, sadText)
         happyFace.heightAnchor.constraint(equalTo: sadFace.heightAnchor, multiplier: 1).isActive = true
@@ -78,6 +102,13 @@ class SaveFavoritesView: UIView {
         addConstraintsWithFormat(format: "V:|-[v0]|", views: favoriteBtn)
         addConstraintsWithFormat(format: "V:|-[v0]|", views: randomizeBtn)
         addConstraintsWithFormat(format: "V:|-[v0]|", views: resetBtn)
+        
+        //width anchors
+        sadFace.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 50/375).isActive = true
+        happyFace.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 50/375).isActive = true
+        favoriteBtn.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 90/375).isActive = true
+        randomizeBtn.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 90/375).isActive = true
+        resetBtn.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 90/375).isActive = true
         
         sadText.centerXAnchor.constraint(equalTo: sadFace.centerXAnchor, constant: 0).isActive = true
         sadText.widthAnchor.constraint(equalTo: sadFace.widthAnchor, constant: 0).isActive = true
@@ -182,7 +213,7 @@ class SaveFavoritesView: UIView {
         print("this recipe was located on the favorite array at index: \(favIndex ?? 0)")
         
         if let titleToRemove = self.mainViewController?.favoriteRecipes[favIndex!].recipeTitle {
-            coreDataManager.deleteData(recipeTitle: titleToRemove)
+            coreDataManager.deleteData(recipeTitle: titleToRemove, entityName: "RecipeModel")
         }
         
         self.mainViewController?.favoriteRecipes.remove(at: favIndex!)
@@ -197,7 +228,7 @@ class SaveFavoritesView: UIView {
             self.recipeObj?.favorite = true
             if let object = self.recipeObj {
                 self.mainViewController?.favoriteRecipes.append(object)
-                coreDataManager.saveData(recipe: object)
+                coreDataManager.saveData(recipe: object, recipeModel: true, recipeLike: false, recipeDislike: false)
             }            
         } else {
             print("removing from favorites")
@@ -213,14 +244,55 @@ class SaveFavoritesView: UIView {
     
     func happyBtnPressed() {
         print("Happy face")
+        var count = Int(happyText.text!)
         pressedAnimation(object: happyFace, needsReload: false)
         self.recipeObj?.isLiked = true
         self.recipeObj?.isDisliked = false
         setHappyFaceColors()
+        if let object = self.recipeObj {
+            if happyFace.isSelected {
+                // increase count + push to server
+                count! += 1
+                happyText.text = "\(count!)"
+                recipeObj?.likes = count!
+                firebaseManager.pushLikeDislikeValue(recipe: self.recipeObj!)
+                
+                self.mainViewController?.likedRecipes.append(object)
+                coreDataManager.saveData(recipe: object, recipeModel: false, recipeLike: true, recipeDislike: false)
+            } else if happyFace.isSelected == false {
+                //decrease count + push to server
+                count! -= 1
+                happyText.text = "\(count!)"
+                recipeObj?.likes = count!
+                firebaseManager.pushLikeDislikeValue(recipe: self.recipeObj!)
+                
+                let likedIndex = self.mainViewController?.likedRecipes.index(where: { (recipe) -> Bool in
+                    recipe.recipeTitle == self.recipeObj?.recipeTitle
+                })
+                if likedIndex != nil {
+                    self.mainViewController?.likedRecipes.remove(at: likedIndex!)
+                    coreDataManager.deleteData(recipeTitle: (self.recipeObj?.recipeTitle)!, entityName: "LikedRecipe")
+                }
+            }
+        }
         
         if sadFace.isSelected {
             sadFace.isSelected = false
             setSadFaceColors()
+            let dislikedIndex = self.mainViewController?.dislikedRecipes.index(where: { (recipe) -> Bool in
+                recipe.recipeTitle == self.recipeObj?.recipeTitle
+            })
+            print("dislikeIndex: \(dislikedIndex)")
+            if dislikedIndex != nil {
+                self.mainViewController?.dislikedRecipes.remove(at: dislikedIndex!)
+                coreDataManager.deleteData(recipeTitle: (self.recipeObj?.recipeTitle)!, entityName: "DislikedRecipe")
+                //decrease count + push to server
+                var count2 = Int(sadText.text!)
+                count2! -= 1
+                sadText.text = "\(count2!)"
+                recipeObj?.dislikes = count!
+                firebaseManager.pushLikeDislikeValue(recipe: self.recipeObj!)
+            }
         }
     }
     
@@ -231,14 +303,56 @@ class SaveFavoritesView: UIView {
     
     func sadBtnPressed() {
         print("Sad face")
+        var count = Int(sadText.text!)
         pressedAnimation(object: sadFace, needsReload: false)
         self.recipeObj?.isDisliked = true
         self.recipeObj?.isLiked = false
         setSadFaceColors()
         
+        if let object = self.recipeObj {
+            if sadFace.isSelected {
+                //increase count + push to server
+                count! += 1
+                sadText.text = "\(count!)"
+                recipeObj?.dislikes = count!
+                firebaseManager.pushLikeDislikeValue(recipe: self.recipeObj!)
+                
+                self.mainViewController?.dislikedRecipes.append(object)
+                coreDataManager.saveData(recipe: object, recipeModel: false, recipeLike: false, recipeDislike: true)
+            } else if sadFace.isSelected == false {
+                //decrease count + push to server
+                count! -= 1
+                sadText.text = "\(count!)"
+                recipeObj?.dislikes = count!
+                firebaseManager.pushLikeDislikeValue(recipe: self.recipeObj!)
+                
+                let dislikedIndex = self.mainViewController?.dislikedRecipes.index(where: { (recipe) -> Bool in
+                    recipe.recipeTitle == self.recipeObj?.recipeTitle
+                })
+                if dislikedIndex != nil {
+                    self.mainViewController?.dislikedRecipes.remove(at: dislikedIndex!)
+                    coreDataManager.deleteData(recipeTitle: (self.recipeObj?.recipeTitle)!, entityName: "DislikedRecipe")
+                }
+            }
+        }
+        
         if happyFace.isSelected {
             happyFace.isSelected = false
             setHappyFaceColors()
+            let likedIndex = self.mainViewController?.likedRecipes.index(where: { (recipe) -> Bool in
+                recipe.recipeTitle == self.recipeObj?.recipeTitle
+            })
+            print("likedIndex: \(likedIndex)")
+            if likedIndex != nil {
+                self.mainViewController?.likedRecipes.remove(at: likedIndex!)
+                coreDataManager.deleteData(recipeTitle: (self.recipeObj?.recipeTitle)!, entityName: "LikedRecipe")
+                //decrease count + push to server
+                var count2 = Int(happyText.text!)
+                count2! -= 1
+                happyText.text = "\(count2!)"
+                recipeObj?.likes = count!
+                firebaseManager.pushLikeDislikeValue(recipe: self.recipeObj!)
+            }
         }
     }
     

@@ -51,6 +51,7 @@ class RecipeView: UIView {
     
     let recipeImage: UIImageView = {
         let image = UIImageView()
+        image.image = UIImage(named: "genericImage")
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.backgroundColor = .white

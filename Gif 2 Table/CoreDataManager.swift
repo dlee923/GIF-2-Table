@@ -23,15 +23,29 @@ class CoreDataManager: NSObject {
     
     var context: NSManagedObjectContext?
     
-    func saveData(recipe: RecipeObject) {
-        let recipeToSave = RecipeModel(context: context!)
-        recipeToSave.favorite = recipe.favorite!
-        recipeToSave.isDisliked = recipe.isDisliked!
-        recipeToSave.isLiked = recipe.isLiked!
-        recipeToSave.recipeLink = recipe.recipeLink!
-        recipeToSave.recipeTitle = recipe.recipeTitle!
-        recipeToSave.recipeImageLink = recipe.recipeImageLink!
-        recipeToSave.recipeIngredients = recipe.recipeIngredients!
+    func saveData(recipe: RecipeObject, recipeModel: Bool, recipeLike: Bool, recipeDislike: Bool) {
+        
+        if recipeModel == true {
+            let recipeToSave = RecipeModel(context: context!)
+            recipeToSave.favorite = recipe.favorite!
+            recipeToSave.isDisliked = recipe.isDisliked!
+            recipeToSave.isLiked = recipe.isLiked!
+            recipeToSave.recipeLink = recipe.recipeLink!
+            recipeToSave.recipeTitle = recipe.recipeTitle!
+            recipeToSave.recipeImageLink = recipe.recipeImageLink!
+            recipeToSave.recipeIngredients = recipe.recipeIngredients!
+            recipeToSave.recipeChild = recipe.recipeChild!
+        }
+        
+        if recipeLike == true {
+            let recipeToSave = LikedRecipe(context: context!)
+            recipeToSave.recipeTitle = recipe.recipeTitle!
+        }
+        
+        if recipeDislike == true {
+            let recipeToSave = DislikedRecipe(context: context!)
+            recipeToSave.recipeTitle = recipe.recipeTitle!
+        }
         
         do {
             try context?.save()
@@ -41,37 +55,108 @@ class CoreDataManager: NSObject {
         }
     }
     
-    func deleteData(recipeTitle: String) {
-        let request = NSFetchRequest<RecipeModel>(entityName: "RecipeModel")
-        request.predicate = NSPredicate(format: "recipeTitle = %@", recipeTitle)
-        request.fetchLimit = 1
+
+    
+    func deleteData(recipeTitle: String, entityName: String) {
         
-        do {
-            if let recipeToDelete = try context?.fetch(request) {
-                context?.delete(recipeToDelete.first!)
-                print("deletion successful")
-                try context?.save()
-            }
+        if entityName == "RecipeModel" {
+            let request = NSFetchRequest<RecipeModel>(entityName: entityName)
+            request.predicate = NSPredicate(format: "recipeTitle = %@", recipeTitle)
+            request.fetchLimit = 1
             
-        } catch let err {
-            print(err)
+            do {
+                if let recipeToDelete = try context?.fetch(request) {
+                    context?.delete(recipeToDelete.first!)
+                    print("deletion successful")
+                    try context?.save()
+                }
+                
+            } catch let err {
+                print(err)
+            }
+        } else if entityName == "LikedRecipe" {
+            let request = NSFetchRequest<LikedRecipe>(entityName: entityName)
+            request.predicate = NSPredicate(format: "recipeTitle = %@", recipeTitle)
+            request.fetchLimit = 1
+            
+            do {
+                if let recipeToDelete = try context?.fetch(request) {
+                    context?.delete(recipeToDelete.first!)
+                    print("deletion successful")
+                    try context?.save()
+                }
+                
+            } catch let err {
+                print(err)
+            }
+        } else if entityName == "DislikedRecipe" {
+            let request = NSFetchRequest<DislikedRecipe>(entityName: entityName)
+            request.predicate = NSPredicate(format: "recipeTitle = %@", recipeTitle)
+            request.fetchLimit = 1
+            
+            do {
+                if let recipeToDelete = try context?.fetch(request) {
+                    context?.delete(recipeToDelete.first!)
+                    print("deletion successful")
+                    try context?.save()
+                }
+                
+            } catch let err {
+                print(err)
+            }
         }
+        
+        
     }
     
-    func loadData() -> [RecipeObject] {
-        let request = NSFetchRequest<RecipeModel>(entityName: "RecipeModel")
-        request.fetchLimit = 10
-        
+    func loadData(entityName: String) -> [RecipeObject] {
         var recipeArr = [RecipeObject]()
         
-        do {
-            if let recipes = try context?.fetch(request) {
-                for recipe in recipes {
-                    let loadRecipe = RecipeObject(link: recipe.recipeLink!, title: recipe.recipeTitle!, imageLink: recipe.recipeImageLink!, ingredients: recipe.recipeIngredients!, favorite: recipe.favorite, like: recipe.isLiked, dislike: recipe.isDisliked)
-                    recipeArr.append(loadRecipe)
+        switch entityName {
+            case "RecipeModel": print("Loading favorites")
+            
+            let request = NSFetchRequest<RecipeModel>(entityName: entityName)
+            request.fetchLimit = 10
+            do {
+                if let recipes = try context?.fetch(request) {
+                    for recipe in recipes {
+                        let loadRecipe = RecipeObject(link: recipe.recipeLink!, title: recipe.recipeTitle!, imageLink: recipe.recipeImageLink!, ingredients: recipe.recipeIngredients!, favorite: recipe.favorite, like: recipe.isLiked, dislike: recipe.isDisliked, likes: 0, dislikes: 0, child: recipe.recipeChild!)
+                        recipeArr.append(loadRecipe)
+                    }
                 }
-            }
-        } catch let err { print(err) }
+            } catch let err { print(err) }
+            
+            
+            case "LikedRecipe": print("Loading likes")
+            
+            let request = NSFetchRequest<LikedRecipe>(entityName: entityName)
+            request.fetchLimit = 10
+            do {
+                if let recipes = try context?.fetch(request) {
+                    for recipe in recipes {
+                        let loadRecipe = RecipeObject(link: " ", title: recipe.recipeTitle!, imageLink: " ", ingredients: [["":""]], favorite: false, like: true, dislike: true, likes: 0, dislikes: 0, child: " ")
+                        recipeArr.append(loadRecipe)
+                    }
+                }
+            } catch let err { print(err) }
+            
+            
+            case "DislikedRecipe": print("Loading dislikes")
+            
+            let request = NSFetchRequest<DislikedRecipe>(entityName: entityName)
+            request.fetchLimit = 10
+            do {
+                if let recipes = try context?.fetch(request) {
+                    for recipe in recipes {
+                        let loadRecipe = RecipeObject(link: " ", title: recipe.recipeTitle!, imageLink: " ", ingredients: [["":""]], favorite: false, like: true, dislike: true, likes: 0, dislikes: 0, child: " ")
+                        recipeArr.append(loadRecipe)
+                    }
+                }
+            } catch let err { print(err) }
+            
+        default: break
+        }
+        
         
         return recipeArr
     }

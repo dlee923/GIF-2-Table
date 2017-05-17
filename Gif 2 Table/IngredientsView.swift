@@ -36,7 +36,11 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     }
     
     var recipeView: RecipeView?
-    var ingredients: [IngredientObject]?
+    var ingredients: [IngredientObject]? {
+        didSet {
+            ingredientsList.reloadData()
+        }
+    }
     let arrowColor = UIColor.white
     let ingredientsTitleFont = fontHello?.withSize(25)
     let ingredientCardInset: CGFloat = 5

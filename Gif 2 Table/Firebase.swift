@@ -21,28 +21,20 @@ class Firebase {
                 
                 if let title = recipeValues["title"] as? String,
                     let link = recipeValues["gifLink"] as? String,
-                    let ingredients = recipeValues["ingredients"] as? [String: [String: String]],
+                    let ingredients = recipeValues["ingredients"] as? [[String: String]],
                     let image = recipeValues["image"] as? String,
-                    let like = recipeValues["like"] as? Bool,
-                    let dislike = recipeValues["dislike"] as? Bool,
-                    let fav = recipeValues["fav"] as? Bool
+                    let likes = recipeValues["likes"] as? Int,
+                    let dislikes = recipeValues["dislikes"] as? Int
                 {
                     
                     var ingredientArr = [[String: String]]()
                     
-                    for (_, ingredient) in ingredients {
+                    for ingredient in ingredients {
                         ingredientArr.append(ingredient)
                     }
                     
-                    let recipe = RecipeObject(link: link, title: title, imageLink: image, ingredients: ingredientArr, favorite: fav, like: like, dislike: dislike)
+                    let recipe = RecipeObject(link: link, title: title, imageLink: image, ingredients: ingredientArr, favorite: false, like: false, dislike: false, likes: likes, dislikes: dislikes, child: snapshot.key)
                     print("successful instantiation of recipeObj")
-//                    print(recipe.recipeTitle)
-//                    print(recipe.recipeLink)
-//                    print(recipe.recipeImageLink)
-//                    print(recipe.recipeIngredients)
-//                    print(recipe.favorite)
-//                    print(recipe.isLiked)
-//                    print(recipe.isDisliked)
                     
                     recipes.append(recipe)
                 }
@@ -52,6 +44,19 @@ class Firebase {
             }
             
         }, withCancel: nil)
+    }
+    
+    func pushLikeDislikeValue(recipe: RecipeObject) {
+        if let recipeInDatabase = recipe.recipeChild, let link = recipe.recipeLink, let imageLink = recipe.recipeImageLink, let recipeTitle = recipe.recipeTitle, let ingredients = recipe.recipeIngredients, let likes = recipe.likes, let dislikes = recipe.dislikes {
+            let recipeDatabase = FIRDatabase.database().reference().child("Recipes").child(recipeInDatabase)
+            
+            let values = ["dislikes": dislikes, "gifLink": link, "image": imageLink, "likes": likes, "title": recipeTitle, "ingredients": ingredients] as [String : Any]
+            
+            print(values)
+            recipeDatabase.updateChildValues(values) { (err, ref) in
+                print("finished pushing to server")
+            }
+        }
     }
     
     func updateIngredients(completion: @escaping ([String:[String:String]]) -> ()) {

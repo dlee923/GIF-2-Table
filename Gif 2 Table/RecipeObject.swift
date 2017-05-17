@@ -9,8 +9,11 @@
 import Foundation
 import UIKit
 
-class RecipeObject: NSObject, NSCoding {
+class RecipeObject: NSObject {
     
+    let imageCache = NSCache<AnyObject, AnyObject>()
+    
+    //removed NSCoding which calls for func encode and convenience init coder aDecoder
     var recipeLink: String?
     var recipeTitle: String?
     var recipeImageLink: String?
@@ -18,8 +21,11 @@ class RecipeObject: NSObject, NSCoding {
     var favorite: Bool?
     var isLiked: Bool?
     var isDisliked: Bool?
+    var likes: Int?
+    var dislikes: Int?
+    var recipeChild: String?
     
-    init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool) {
+    init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool, likes: Int, dislikes: Int, child: String) {
         recipeLink = link
         recipeTitle = title
         recipeImageLink = imageLink
@@ -27,29 +33,34 @@ class RecipeObject: NSObject, NSCoding {
         self.favorite = favorite
         isLiked = like
         isDisliked = dislike
+        self.likes = likes
+        self.dislikes = dislikes
+        recipeChild = child
     }
     
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(recipeLink, forKey: "recipeLink")
-        aCoder.encode(recipeTitle, forKey: "recipeTitle")
-        aCoder.encode(recipeImageLink, forKey: "recipeImageLink")
-        aCoder.encode(recipeIngredients, forKey: "recipeIngredients")
-        aCoder.encode(favorite, forKey: "favorite")
-        aCoder.encode(isLiked, forKey: "isLiked")
-        aCoder.encode(isDisliked, forKey: "isDisliked")
-    }
+//    func encode(with aCoder: NSCoder) {
+//        aCoder.encode(recipeLink, forKey: "recipeLink")
+//        aCoder.encode(recipeTitle, forKey: "recipeTitle")
+//        aCoder.encode(recipeImageLink, forKey: "recipeImageLink")
+//        aCoder.encode(recipeIngredients, forKey: "recipeIngredients")
+//        aCoder.encode(favorite, forKey: "favorite")
+//        aCoder.encode(isLiked, forKey: "isLiked")
+//        aCoder.encode(isDisliked, forKey: "isDisliked")
+//    }
+//    
+//    convenience required init?(coder aDecoder: NSCoder) {
+//        let recipeLink = aDecoder.decodeObject(forKey: "recipeLink") as? String
+//        let recipeTitle = aDecoder.decodeObject(forKey: "recipeTitle") as? String
+//        let recipeImageLink = aDecoder.decodeObject(forKey: "recipeImageLink") as? String
+//        let recipeIngredients = aDecoder.decodeObject(forKey: "recipeIngredients") as? [[String: String]]
+//        let favorite = aDecoder.decodeObject(forKey: "favorite") as? Bool
+//        let isLiked = aDecoder.decodeObject(forKey: "isLiked") as? Bool
+//        let isDisliked = aDecoder.decodeObject(forKey: "isDisliked") as? Bool
+//        
+//        self.init(link: recipeLink!, title: recipeTitle!, imageLink: recipeImageLink!, ingredients: recipeIngredients!, favorite: favorite!, like: isLiked!, dislike: isDisliked!)
+//    }
     
-    convenience required init?(coder aDecoder: NSCoder) {
-        let recipeLink = aDecoder.decodeObject(forKey: "recipeLink") as? String
-        let recipeTitle = aDecoder.decodeObject(forKey: "recipeTitle") as? String
-        let recipeImageLink = aDecoder.decodeObject(forKey: "recipeImageLink") as? String
-        let recipeIngredients = aDecoder.decodeObject(forKey: "recipeIngredients") as? [[String: String]]
-        let favorite = aDecoder.decodeObject(forKey: "favorite") as? Bool
-        let isLiked = aDecoder.decodeObject(forKey: "isLiked") as? Bool
-        let isDisliked = aDecoder.decodeObject(forKey: "isDisliked") as? Bool
-        
-        self.init(link: recipeLink!, title: recipeTitle!, imageLink: recipeImageLink!, ingredients: recipeIngredients!, favorite: favorite!, like: isLiked!, dislike: isDisliked!)
-    }
+    var passedImageURL: String?
 
 }
 
@@ -57,18 +68,30 @@ extension RecipeObject {
     
     func downloadCoverImage(completion: @escaping (UIImage) -> () ) {
         let imageLink = self.recipeImageLink
-        let imageURL = URL(string: imageLink!)
+        guard let imageURL = URL(string: imageLink!) else { return }
+        passedImageURL = imageLink
         
-        URLSession.shared.dataTask(with: imageURL!) { (data, response, error) in
+        if let cachedImage = imageCache.object(forKey: imageLink as AnyObject) as? UIImage {
+            DispatchQueue.main.async {
+                completion(cachedImage)
+                return
+            }
+        }
+        
+        URLSession.shared.dataTask(with: imageURL) { (data, response, error) in
             if error != nil {
                 print(error!)
                 return
             }
             
-            guard let coverImage = UIImage(data: data!) else { return }
-            
             DispatchQueue.main.async {
-                completion(coverImage)
+                guard let coverImage = UIImage(data: data!) else { return }
+                
+                if self.passedImageURL == imageLink {
+                    completion(coverImage)
+                }
+                
+                self.imageCache.setObject(coverImage, forKey: imageLink as AnyObject)
             }
         }.resume()
     }
@@ -84,6 +107,10 @@ extension RecipeObject {
                 }
             }
         }
+    }
+    
+    func checkImageCache() {
+        // check image cache if image is here - if yes, then simply use image from cache, otherwise download...
     }
 
 }
