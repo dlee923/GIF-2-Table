@@ -12,6 +12,8 @@ import UIKit
 class ListedRecipeCell: BaseCell {
 
     override func setUpCell() {
+        self.layer.cornerRadius = 5
+        self.clipsToBounds = true
         self.addSubview(recipeLabel)
         self.addSubview(recipeImage)
         
@@ -55,6 +57,8 @@ class ListedRecipeCell: BaseCell {
 
 class SquareRecipeCell: ListedRecipeCell {
     override func setUpCell() {
+        recipeImage.layer.cornerRadius = 5
+        recipeImage.clipsToBounds = true
         self.addSubview(recipeImage)
         addConstraintsWithFormat(format: "H:|-4-[v0]-4-|", views: recipeImage)
         addConstraintsWithFormat(format: "V:|[v0]|", views: recipeImage)

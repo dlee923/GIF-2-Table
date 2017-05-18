@@ -25,7 +25,7 @@ class TableStyle: UIButton {
     let animationSpeedOut = 0.1
     let animationSpeedSnap = 0.15
     let buttonColor = UIColor.black
-    let buttonTintColor = UIColor.green
+    let buttonTintColor = UIColor.white
     var tableStyle2: TableStyle2?
     let listButton = UIImage(named: "list")?.withRenderingMode(.alwaysTemplate)
     let squaresButton = UIImage(named: "squares")?.withRenderingMode(.alwaysTemplate)

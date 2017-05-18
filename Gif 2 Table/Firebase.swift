@@ -40,7 +40,7 @@ class Firebase {
                 }
             }
             DispatchQueue.main.async {
-                completion(recipes)
+                completion(recipes.reversed())
             }
             
         }, withCancel: nil)

@@ -50,18 +50,31 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         cv.backgroundColor = .clear
         cv.delegate = self
         cv.dataSource = self
+        cv.layer.cornerRadius = 5
+        cv.clipsToBounds = true
         
         return cv
     }()
     
     var recipes: [RecipeObject]? {
         didSet {
+            guard let count = recipes?.count else { return }
+            loadMoreButtonActive = count > maxVisibleRecipes ? true : false
             self.recipeList.reloadData()
         }
     }
     
+    var loadMoreButtonActive: Bool?
+    var maxVisibleRecipes = 4 {
+        didSet {
+            self.recipeList.reloadData()
+        }
+    }
+    let incrementalRecipeCount = 6
+    
     let listedRecipeCellID = "listedRecipeCellID"
     let squareRecipeCellID = "squareRecipeCellID"
+    let loadMoreID = "loadMoreID"
     let emptyCellID = "emptyCellID"
     var mainViewController: MainVC?
     var tableStyleWidth1: CGFloat = 25
@@ -92,6 +105,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         recipeList.register(ListedRecipeCell.self, forCellWithReuseIdentifier: listedRecipeCellID)
         recipeList.register(SquareRecipeCell.self, forCellWithReuseIdentifier: squareRecipeCellID)
         recipeList.register(EmptyCell.self, forCellWithReuseIdentifier: emptyCellID)
+        recipeList.register(EmptyCell.self, forCellWithReuseIdentifier: loadMoreID)
     }
     
     var isList = true
@@ -163,8 +177,12 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if recipes?.count == 0 {
             return 1
-        } else {
+        } else if loadMoreButtonActive == false {
             return recipes?.count ?? 1
+        } else {
+//            let count = (recipes?.count)! + 1
+//            return count
+            return maxVisibleRecipes + 1
         }
     }
     
@@ -173,7 +191,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
             toggleTableStyles(isHidden: true)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: emptyCellID, for: indexPath)
             return cell
-        } else {
+        } else if loadMoreButtonActive == false {
             toggleTableStyles(isHidden: false)
             if isList {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: listedRecipeCellID, for: indexPath) as? ListedRecipeCell
@@ -186,6 +204,29 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
                 cell?.recipe = recipes?[indexPath.item]
                 return cell ?? UICollectionViewCell()
             }
+        } else {
+            toggleTableStyles(isHidden: false)
+            
+            if indexPath.item == maxVisibleRecipes {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: loadMoreID, for: indexPath) as? EmptyCell
+                cell?.backgroundColor = .black
+                cell?.emptyLabel2.text = "Load More Recipes"
+                return cell ?? UICollectionViewCell()
+                
+            } else {
+                if isList {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: listedRecipeCellID, for: indexPath) as? ListedRecipeCell
+                    cell?.historyFavCell = self
+                    cell?.recipe = recipes?[indexPath.item]
+                    return cell ?? UICollectionViewCell()
+                } else {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: squareRecipeCellID, for: indexPath) as? SquareRecipeCell
+                    cell?.historyFavCell = self
+                    cell?.recipe = recipes?[indexPath.item]
+                    return cell ?? UICollectionViewCell()
+                }
+            }
+            
         }
     }
     
@@ -193,11 +234,24 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if isList {
-            cellWidth = CGSize(width: recipeList.frame.width - 16, height: recipeList.frame.height / tableRows)
+        if loadMoreButtonActive == false {
+            if isList {
+                cellWidth = CGSize(width: recipeList.frame.width - 16, height: recipeList.frame.height / tableRows)
+            } else {
+                cellWidth = CGSize(width: recipeList.frame.width/2, height: recipeList.frame.height / squareRows)
+            }
         } else {
-            cellWidth = CGSize(width: recipeList.frame.width/2, height: recipeList.frame.height / squareRows)
+            if indexPath.item == maxVisibleRecipes {
+                cellWidth = CGSize(width: recipeList.frame.width, height: 70)
+            } else {
+                if isList {
+                    cellWidth = CGSize(width: recipeList.frame.width - 16, height: recipeList.frame.height / tableRows)
+                } else {
+                    cellWidth = CGSize(width: recipeList.frame.width/2, height: recipeList.frame.height / squareRows)
+                }
+            }            
         }
+        
             
         return cellWidth ?? CGSize.zero
     }
@@ -212,9 +266,15 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // do nothing as image in cell contains gesture which is connected to call displayRecipeView function
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ListedRecipeCell else { return }
-        displayRecipeView(recipeCell: cell, index: indexPath.item, image: cell.recipeImage.image!)
-        toggleTableStyles(isHidden: true)
+        if indexPath.item == maxVisibleRecipes {
+            print("load more recipes")
+            guard let count = recipes?.count else { return }
+            maxVisibleRecipes = incrementalRecipeCount + maxVisibleRecipes > count ? count : incrementalRecipeCount + maxVisibleRecipes
+        } else {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? ListedRecipeCell else { return }
+            displayRecipeView(recipeCell: cell, index: indexPath.item, image: cell.recipeImage.image!)
+            toggleTableStyles(isHidden: true)
+        }
     }
     
     lazy var recipeView: RecipeView2 = {

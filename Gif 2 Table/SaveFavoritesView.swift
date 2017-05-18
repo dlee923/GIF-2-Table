@@ -239,7 +239,7 @@ class SaveFavoritesView: UIView {
         favoriteBtn.tintColor = favoriteBtn.isSelected ? heartColor : defaultColor
         let favMessage = favoriteBtn.isSelected ? "I love this!  Adding to my favorites!" : "Blegh!! I got tired of this!"
         let promptView = PromptView()
-        promptView.setUpPrompt(objectCalling: favoriteBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: favMessage, messageLines: 1, messageOnly: true, doesDisappear: true)
+        promptView.setUpPrompt(objectCalling: favoriteBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: favMessage, messageLines: 2, messageOnly: true, doesDisappear: true)
     }
     
     func happyBtnPressed() {
