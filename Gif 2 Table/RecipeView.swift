@@ -195,23 +195,37 @@ class RecipeView2: RecipeView {
     
     var historyFavCell: HistoryFavoritesCell?
     
+    func disableFeature(object: UIButton) {
+        object.isUserInteractionEnabled = false
+        object.setImage(UIImage(), for: .normal)
+    }
+    
     override func setUpRecipeView() {
+        self.addSubview(bottomBackgroundView)
         self.addSubview(recipeTitle)
         self.addSubview(recipeImageShadow)
         recipeImageShadow.addSubview(recipeImage)
         self.addSubview(saveFavoritesView)
-        saveFavoritesView.randomizeBtn.removeFromSuperview()
-        saveFavoritesView.resetBtn.removeFromSuperview()
+        
+        disableFeature(object: saveFavoritesView.randomizeBtn)
+        disableFeature(object: saveFavoritesView.resetBtn)
+        saveFavoritesView.randomizeText.removeFromSuperview()
+        saveFavoritesView.resetText.removeFromSuperview()
+        
         self.addSubview(returnButton)
         
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeTitle)
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeImageShadow)
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: saveFavoritesView)
+        self.addConstraintsWithFormat(format: "H:|[v0]|", views: bottomBackgroundView)
         
-        self.addConstraintsWithFormat(format: "V:|-[v3(30)][v0(40)]-8-[v1]-6-[v2(75)]-86-|", views: recipeTitle, recipeImageShadow, saveFavoritesView, returnButton)
+        self.addConstraintsWithFormat(format: "V:|-[v0(40)]-8-[v1]-14-[v2(75)]-78-|", views: recipeTitle, recipeImageShadow, saveFavoritesView)
         
         recipeImageShadow.addConstraintsWithFormat(format: "H:|-4-[v0]-4-|", views: recipeImage)
         recipeImageShadow.addConstraintsWithFormat(format: "V:|-4-[v0]-4-|", views: recipeImage)
+        
+        bottomBackgroundView.topAnchor.constraint(equalTo: saveFavoritesView.topAnchor, constant: 0).isActive = true
+        bottomBackgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 20).isActive = true
         
         returnButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
         returnButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true

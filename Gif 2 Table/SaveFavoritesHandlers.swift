@@ -27,6 +27,7 @@ extension SaveFavoritesView {
     func favoriteBtnPressed(){
         print("btn pressed")
         pressedAnimation(object: favoriteBtn, needsReload: true)
+        pressedAnimationText(object: favoriteText)
         
         if favoriteBtn.isSelected {
             print("adding to favorites")
@@ -51,11 +52,14 @@ extension SaveFavoritesView {
         print("Happy face")
         var count = Int(happyText.text!)
         pressedAnimation(object: happyFace, needsReload: false)
-        self.recipeObj?.isLiked = true
-        self.recipeObj?.isDisliked = false
+        pressedAnimationText(object: likeText)
+        pressedAnimationText(object: happyText)
+        
         setHappyFaceColors()
+        
         if let object = self.recipeObj {
             if happyFace.isSelected {
+                self.recipeObj?.isLiked = true
                 // increase count + push to server
                 count! += 1
                 happyText.text = "\(count!)"
@@ -65,6 +69,7 @@ extension SaveFavoritesView {
                 self.mainViewController?.likedRecipes.append(object)
                 coreDataManager.saveData(recipe: object, recipeModel: false, recipeLike: true, recipeDislike: false)
             } else if happyFace.isSelected == false {
+                self.recipeObj?.isLiked = false
                 //decrease count + push to server
                 count! -= 1
                 happyText.text = "\(count!)"
@@ -83,6 +88,7 @@ extension SaveFavoritesView {
         
         if sadFace.isSelected {
             sadFace.isSelected = false
+            self.recipeObj?.isDisliked = false
             setSadFaceColors()
             let dislikedIndex = self.mainViewController?.dislikedRecipes.index(where: { (recipe) -> Bool in
                 recipe.recipeTitle == self.recipeObj?.recipeTitle
@@ -105,12 +111,14 @@ extension SaveFavoritesView {
         print("Sad face")
         var count = Int(sadText.text!)
         pressedAnimation(object: sadFace, needsReload: false)
-        self.recipeObj?.isDisliked = true
-        self.recipeObj?.isLiked = false
+        pressedAnimationText(object: sadText)
+        pressedAnimationText(object: dislikeText)
+        
         setSadFaceColors()
         
         if let object = self.recipeObj {
             if sadFace.isSelected {
+                self.recipeObj?.isDisliked = true
                 //increase count + push to server
                 count! += 1
                 sadText.text = "\(count!)"
@@ -120,6 +128,7 @@ extension SaveFavoritesView {
                 self.mainViewController?.dislikedRecipes.append(object)
                 coreDataManager.saveData(recipe: object, recipeModel: false, recipeLike: false, recipeDislike: true)
             } else if sadFace.isSelected == false {
+                self.recipeObj?.isDisliked = false
                 //decrease count + push to server
                 count! -= 1
                 sadText.text = "\(count!)"
@@ -138,6 +147,7 @@ extension SaveFavoritesView {
         
         if happyFace.isSelected {
             happyFace.isSelected = false
+            self.recipeObj?.isLiked = false
             setHappyFaceColors()
             let likedIndex = self.mainViewController?.likedRecipes.index(where: { (recipe) -> Bool in
                 recipe.recipeTitle == self.recipeObj?.recipeTitle
@@ -176,11 +186,13 @@ extension SaveFavoritesView {
         }
         
         pressedAnimation(object: randomizeBtn, needsReload: true)
+        pressedAnimationText(object: randomizeText)
     }
     
     func reset() {
         print("Reset")
         pressedAnimation(object: resetBtn, needsReload: false)
+        pressedAnimationText(object: resetText)
         resetBtn.isUserInteractionEnabled = false
         let promptView = PromptView()
         promptView.mainViewController = self.mainViewController
