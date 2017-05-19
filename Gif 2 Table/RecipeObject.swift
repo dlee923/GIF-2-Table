@@ -67,6 +67,7 @@ class RecipeObject: NSObject {
 extension RecipeObject {
     
     func downloadCoverImage(completion: @escaping (UIImage) -> () ) {
+        
         let imageLink = self.recipeImageLink
         guard let imageURL = URL(string: imageLink!) else { return }
         passedImageURL = imageLink

@@ -24,7 +24,7 @@ class SaveFavButton: UIButton {
         parallelogram.addLine(to: CGPoint(x: rect.width * (1 - buttonAngle), y: rect.height))
         parallelogram.close()
         
-        let fillColor = UIColor.green
+        let fillColor = tintedBlack
         fillColor.setFill()
         parallelogram.fill()
     }

@@ -96,8 +96,8 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         
         let firebaseMgr = Firebase()
         firebaseMgr.downloadData { (recipes) in
-            self.featureRecipe = recipes.last
-            self.featureRecipeStored = recipes.last
+            self.featureRecipe = recipes.first
+            self.featureRecipeStored = recipes.first
             self.collectionView?.reloadData()
         }
     }

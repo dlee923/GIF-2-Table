@@ -31,11 +31,21 @@ extension UIView {
     }
 }
 
+extension UILabel {
+    func setButtonTitles() {
+        self.font = fontReno?.withSize(10)
+        self.textAlignment = .center
+        self.textColor = UIColor(red: 197/255, green: 199/255, blue: 143/255, alpha: 1)
+    }
+}
+
 let fontLuna = UIFont(name: "Luna", size: 5)
 let fontMandela = UIFont(name: "Mandela Script Personal Use", size: 5)
 let fontHello = UIFont(name: "HelloIshBig", size: 5)
 let fontMessy = UIFont(name: "KG Life is Messy", size: 5)
 let fontReno = UIFont(name: "Renogare", size: 5)
+
+let tintedBlack = UIColor(white: 0.1, alpha: 1)
 
 enum BackgroundImage: String {
     case b1 = "background1"

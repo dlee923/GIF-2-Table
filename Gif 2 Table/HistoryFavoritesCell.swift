@@ -50,8 +50,6 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         cv.backgroundColor = .clear
         cv.delegate = self
         cv.dataSource = self
-        cv.layer.cornerRadius = 5
-        cv.clipsToBounds = true
         
         return cv
     }()
@@ -65,7 +63,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     }
     
     var loadMoreButtonActive: Bool?
-    var maxVisibleRecipes = 4 {
+    var maxVisibleRecipes = 6 {
         didSet {
             self.recipeList.reloadData()
         }
@@ -189,8 +187,10 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if recipes!.count == 0 {
             toggleTableStyles(isHidden: true)
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: emptyCellID, for: indexPath)
-            return cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: emptyCellID, for: indexPath) as? EmptyCell
+            cell?.emptyLabel2.textColor = tintedBlack
+            cell?.emptyLabel2.font = UIFont(name: "futura", size: 15)
+            return cell ?? UICollectionViewCell()
         } else if loadMoreButtonActive == false {
             toggleTableStyles(isHidden: false)
             if isList {
@@ -209,7 +209,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
             
             if indexPath.item == maxVisibleRecipes {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: loadMoreID, for: indexPath) as? EmptyCell
-                cell?.backgroundColor = .black
+                cell?.backgroundColor = tintedBlack
                 cell?.emptyLabel2.text = "Load More Recipes"
                 return cell ?? UICollectionViewCell()
                 

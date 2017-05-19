@@ -92,10 +92,18 @@ class RecipeView: UIView {
     }()    
     
     var ingredientsViewSizeMultHeight: CGFloat = 0.85
-    var ingredientsViewSizeMultWidth: CGFloat = 0.9
+    var ingredientsViewSizeMultWidth: CGFloat = 0.93
+    
+    let bottomBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0.2, alpha: 0.9)
+        view.layer.cornerRadius = 15
+        return view
+    }()
     
     func setUpRecipeView() {
         
+        self.addSubview(bottomBackgroundView)
         self.addSubview(recipeTitle)
         self.addSubview(recipeImageShadow)
         recipeImageShadow.addSubview(recipeImage)
@@ -104,11 +112,15 @@ class RecipeView: UIView {
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeTitle)
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: recipeImageShadow)
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: saveFavoritesView)
+        self.addConstraintsWithFormat(format: "H:|[v0]|", views: bottomBackgroundView)
         
-        self.addConstraintsWithFormat(format: "V:|-[v0(40)]-8-[v1]-6-[v2(75)]-86-|", views: recipeTitle, recipeImageShadow, saveFavoritesView)
+        self.addConstraintsWithFormat(format: "V:|-[v0(40)]-8-[v1]-14-[v2(75)]-78-|", views: recipeTitle, recipeImageShadow, saveFavoritesView)
         
         recipeImageShadow.addConstraintsWithFormat(format: "H:|-4-[v0]-4-|", views: recipeImage)
         recipeImageShadow.addConstraintsWithFormat(format: "V:|-4-[v0]-4-|", views: recipeImage)
+        
+        bottomBackgroundView.topAnchor.constraint(equalTo: saveFavoritesView.topAnchor, constant: 0).isActive = true
+        bottomBackgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 20).isActive = true
     }
     
     var ingredientsViewCenterY: NSLayoutConstraint?
@@ -206,6 +218,10 @@ class RecipeView2: RecipeView {
     }
     
     func returnToList() {
+        if ingredientsView.isScrollingUp == true {
+            ingredientsView.ingredientsPopButton()
+        }
+        
         self.removeFromSuperview()
         historyFavCell?.recipeList.alpha = 1
         guard let trigger = historyFavCell?.isList else { return }

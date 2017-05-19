@@ -25,6 +25,7 @@ class ListedRecipeCell: BaseCell {
     var recipe: RecipeObject? {
         didSet {
             //when set, call load ingredients list
+            recipeImage.image = UIImage(named: "genericImage")
             loadRecipeImage()
             recipeLabel.text = recipe?.recipeTitle
         }

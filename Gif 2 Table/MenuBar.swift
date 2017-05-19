@@ -103,7 +103,7 @@ class MenuCell: UICollectionViewCell {
     }
     
     let highlightColor: UIColor = .green
-    let normalColor: UIColor = .black
+    let normalColor: UIColor = tintedBlack
     let textHighlight: UIColor = .white
     
     let menuLabel: UILabel = {

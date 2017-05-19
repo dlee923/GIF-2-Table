@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let navBarColor: UIColor = .black
+        let navBarColor: UIColor = tintedBlack
         
         let backgroundImg: CustomBackground = {
             let backgrnd = CustomBackground(frame: .zero)

@@ -52,7 +52,7 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
         label.font = self.ingredientsTitleFont
         label.textColor = .white
         label.textAlignment = .center
-        label.backgroundColor = .black
+        label.backgroundColor = tintedBlack
         return label
     }()
     
@@ -111,6 +111,12 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ingredientCell, for: indexPath) as? IngredientCell {
             cell.ingredient = ingredients?[indexPath.item]
+            if cell.recipeName != recipe?.recipeTitle {
+                cell.checkOffButton.setImage(UIImage(named: "noCheck"), for: .normal)
+                cell.isPressed = false
+                cell.recipeName = recipe?.recipeTitle
+            }
+            
             return cell
         
         } else {
@@ -225,10 +231,10 @@ class IngredientCell: BaseCell {
         
         self.addSubview(whiteSpacer)
         self.addSubview(ingredientLabel)
-        self.addSubview(whatIsThisButton)
+        self.addSubview(checkOffButton)
         self.addSubview(measurement)
         
-        addConstraintsWithFormat(format: "H:|-[v0(75)][v3(15)][v1][v2(40)]-|", views: measurement, ingredientLabel, whatIsThisButton, whiteSpacer)
+        addConstraintsWithFormat(format: "H:|-[v0(75)][v3(15)][v1][v2(40)]-|", views: measurement, ingredientLabel, checkOffButton, whiteSpacer)
         
         for eachView in self.subviews {
             addConstraintsWithFormat(format: "V:|-[v0]|", views: eachView)
@@ -242,7 +248,7 @@ class IngredientCell: BaseCell {
         }
     }
     
-    let labelFont = fontHello?.withSize(15)
+    let labelFont = fontReno?.withSize(10)
     
     lazy var ingredientLabel: UILabel = {
         let label = UILabel()
@@ -251,12 +257,13 @@ class IngredientCell: BaseCell {
         return label
     }()
     
-    lazy var whatIsThisButton: UIButton = {
+    lazy var checkOffButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
-        button.setImage(UIImage(named: "huh"), for: .normal)
+        button.setImage(UIImage(named: "noCheck"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFill
-        button.addTarget(self, action: #selector(self.whatIsThisPopUp), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.checkOff), for: .touchUpInside)
+        button.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
         return button
     }()
     
@@ -268,20 +275,17 @@ class IngredientCell: BaseCell {
         return label
     }()
     
-    var whatIsThisInfo: PromptView?
-    func whatIsThisPopUp() {
-        print("what is this?!")
-        whatIsThisInfo = PromptView()
-        
-        if let ingredientProperties = ingredientDictionary[(ingredient?.name)!] {
-            whatIsThisInfo?.setUpPrompt(objectCalling: self.whatIsThisButton, heightPct: 0.5, widthPct: 0.9, promptMsg: ingredientProperties["Description"]!, messageLines: 100, messageOnly: true, doesDisappear: false)
-        }
-        
-        let disappearTap = UITapGestureRecognizer(target: self, action: #selector(self.popOff))
-        whatIsThisInfo?.addGestureRecognizer(disappearTap)
-    }
+    var isPressed = false
     
-    func popOff() {
-        whatIsThisInfo?.removeFromSuperview()
+    var recipeName: String?
+    
+    func checkOff() {
+        if isPressed {
+            checkOffButton.setImage(UIImage(named: "noCheck"), for: .normal)
+            isPressed = false
+        } else {
+            checkOffButton.setImage(UIImage(named: "check"), for: .normal)
+            isPressed = true
+        }
     }
 }
