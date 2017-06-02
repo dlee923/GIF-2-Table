@@ -198,5 +198,56 @@ extension SaveFavoritesView {
         promptView.mainViewController = self.mainViewController
         promptView.setUpPrompt(objectCalling: resetBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: "Reset to the feature recipe?", messageLines: 2, messageOnly: false, doesDisappear: false)
     }
-
+    
+    func pressedAnimation(object: UIButton, needsReload: Bool) {
+        let animationDistance: CGFloat = 30
+        
+        UIView.animate(withDuration: 0.25, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
+            object.transform = CGAffineTransform(translationX: -(((animationDistance / object.frame.height) * object.frame.width) * 0.25), y: -animationDistance)
+        }) { (_) in
+            UIView.animate(withDuration: 0.25, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
+                object.layer.transform = CATransform3DIdentity
+            }, completion: { (_) in
+                if needsReload {
+                    self.mainViewController?.collectionView?.reloadData()
+                } else {
+                    // do nothing
+                }
+            })
+        }
+        
+        if object.isSelected == false {
+            object.isSelected = true
+        } else {
+            object.isSelected = false
+        }
+    }
+    
+    func pressedAnimationText(object: UIView) {
+        let animationDistance: CGFloat = 30
+        UIView.animate(withDuration: 0.2, animations: {
+            object.transform = CGAffineTransform(translationX: -(((object.frame.height / animationDistance) * object.frame.width) * 0.25), y: -animationDistance)
+            
+        }) { (_) in
+            UIView.animate(withDuration: 0.2, animations: {
+                object.layer.transform = CATransform3DIdentity
+            }, completion: { (_) in
+                
+            })
+        }
+        
+        print((((animationDistance / object.frame.height) * object.frame.width) * 0.25))
+        print(object.frame.height)
+        print(object.frame.width)
+    }
+    
+    func setHappyFaceColors() {
+        happyFace.tintColor = happyFace.isSelected ? self.happyColor : self.defaultColor
+        happyText.textColor = happyFace.isSelected ? self.happyColor : self.defaultColor
+    }
+    
+    func setSadFaceColors() {
+        sadFace.tintColor = sadFace.isSelected ? self.sadColor : self.defaultColor
+        sadText.textColor = sadFace.isSelected ? self.sadColor : self.defaultColor
+    }
 }

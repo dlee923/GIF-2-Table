@@ -178,8 +178,6 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         } else if loadMoreButtonActive == false {
             return recipes?.count ?? 1
         } else {
-//            let count = (recipes?.count)! + 1
-//            return count
             return maxVisibleRecipes + 1
         }
     }
@@ -309,6 +307,7 @@ class HistoryFavoritesCell: BaseCell, UICollectionViewDelegateFlowLayout, UIColl
         
         //animate image into place?
         //"V:|-[v3(30)][v0(40)]-8-[v1]-6-[v2(75)]-86-|" + 4 + 4 FOR FRAMING
+        //"V:|-[v0(40)]-8-[v1]-14-[v2(75)]-78-|"
         
         let recipeFrameInset: CGFloat = 4
         

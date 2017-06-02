@@ -60,11 +60,7 @@ enum BackgroundImage: String {
 //    case potato = "Potato"
 //}
 
-struct IngredientObject {
-    var name: String
-    var imageName: String
-    var measurement: String
-}
+
 
 
 

@@ -28,9 +28,10 @@ class RecipeView: UIView {
     }
     
     func loadRecipeImage() {
+        self.recipeImage.image = UIImage(named: "genericImage")
         recipe?.downloadCoverImage(completion: { (coverImage) in
             self.recipeImage.image = coverImage
-        })        
+        })
     }
     
     var mainViewController: MainVC? {
@@ -219,7 +220,7 @@ class RecipeView2: RecipeView {
         self.addConstraintsWithFormat(format: "H:|-[v0]-|", views: saveFavoritesView)
         self.addConstraintsWithFormat(format: "H:|[v0]|", views: bottomBackgroundView)
         
-        self.addConstraintsWithFormat(format: "V:|-[v0(40)]-8-[v1]-14-[v2(75)]-78-|", views: recipeTitle, recipeImageShadow, saveFavoritesView)
+        self.addConstraintsWithFormat(format: "V:|-[v3(30)][v0(40)]-8-[v1]-14-[v2(75)]-78-|", views: recipeTitle, recipeImageShadow, saveFavoritesView, returnButton)
         
         recipeImageShadow.addConstraintsWithFormat(format: "H:|-4-[v0]-4-|", views: recipeImage)
         recipeImageShadow.addConstraintsWithFormat(format: "V:|-4-[v0]-4-|", views: recipeImage)

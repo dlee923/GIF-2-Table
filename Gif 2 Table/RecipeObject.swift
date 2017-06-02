@@ -38,6 +38,9 @@ class RecipeObject: NSObject {
         recipeChild = child
     }
     
+    
+//    ENABLE IF USING UserDefaults
+    
 //    func encode(with aCoder: NSCoder) {
 //        aCoder.encode(recipeLink, forKey: "recipeLink")
 //        aCoder.encode(recipeTitle, forKey: "recipeTitle")
@@ -75,6 +78,7 @@ extension RecipeObject {
         if let cachedImage = imageCache.object(forKey: imageLink as AnyObject) as? UIImage {
             DispatchQueue.main.async {
                 completion(cachedImage)
+                print("using cached image")
                 return
             }
         }
@@ -90,13 +94,14 @@ extension RecipeObject {
                 
                 if self.passedImageURL == imageLink {
                     completion(coverImage)
-                }
-                
-                self.imageCache.setObject(coverImage, forKey: imageLink as AnyObject)
+                    self.imageCache.setObject(coverImage, forKey: imageLink as AnyObject)
+                }                
             }
         }.resume()
     }
     
+    // NOT IN USE.  
+    // Alternative Cover Image Pull Using Image Data From URL.
     func downloadCoverImg(completion: @escaping (UIImage) -> ()) {
         if let imageLink = self.recipeImageLink {
             let imageURL = URL(string: imageLink)
@@ -110,8 +115,10 @@ extension RecipeObject {
         }
     }
     
-    func checkImageCache() {
-        // check image cache if image is here - if yes, then simply use image from cache, otherwise download...
-    }
+}
 
+struct IngredientObject {
+    var name: String
+    var imageName: String
+    var measurement: String
 }

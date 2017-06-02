@@ -27,6 +27,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         downloadFeatureRecipe()
         
         setUpCollectionView()
+        
         setUpMenuBar()
     }
     
@@ -35,15 +36,6 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
             self.scrollToPage(itemNumber: 1)
             isAppOpening = false
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        let window = view.window
-//        for gesture in (window?.gestureRecognizers)! {
-//            gesture.delaysTouchesBegan = false
-//            print(gesture)
-//        }
     }
     
     var isAppOpening = true
@@ -78,6 +70,8 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     var likedRecipes = [RecipeObject]()
     var dislikedRecipes = [RecipeObject]()
     
+    var historyListSwitch = false
+    
     //testing****
     func downloadRecipeObjects() {
         let firebaseMgr = Firebase()
@@ -87,7 +81,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func downloadFeatureRecipe() {
+    fileprivate func downloadFeatureRecipe() {
         
         // turn this into a dummy recipe
         let recipe = RecipeObject(link: " ", title: " ", imageLink: " ", ingredients: [[:]], favorite: false, like: false, dislike: false, likes: 0, dislikes: 0, child: "Recipe0")
@@ -102,7 +96,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func updateIngredientList() {
+    fileprivate func updateIngredientList() {
         let firebaseMgr = Firebase()
         firebaseMgr.updateIngredients { (updatedIngredientList) in
             ingredientDictionary = updatedIngredientList
@@ -152,8 +146,6 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         return 3
     }
     
-    var historyListSwitch = false
-    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = {(identifier: String) -> UICollectionViewCell in
@@ -164,7 +156,6 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         var customCell: UICollectionViewCell?
         
         let backColors: [UIColor] = [.yellow, .black, .gray]
-        
         
         if indexPath.item == 1 {
             if let customCell = cell(featureCellID) as? FeatureCell {
@@ -205,7 +196,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         menuBar.selectItem(at: IndexPath(item: Int(pageNumber), section: 0), animated: true, scrollPosition: UICollectionViewScrollPosition.centeredHorizontally)
     }
     
-    func loadData() {
+    fileprivate func loadData() {
         let coreDataManager = CoreDataManager()
         self.favoriteRecipes = coreDataManager.loadData(entityName: "RecipeModel")
         self.likedRecipes = coreDataManager.loadData(entityName: "LikedRecipe")

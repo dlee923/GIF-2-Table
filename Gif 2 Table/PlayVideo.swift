@@ -24,13 +24,6 @@ class PlayVideo: NSObject, AVPlayerViewControllerDelegate {
         let videoPlayer = AVPlayer(url: url!)
         
         videoController.player = videoPlayer
-//        mainVC.addChildViewController(videoController)
-//
-//        if let window = UIApplication.shared.keyWindow {
-//            window.addSubview(videoController.view)
-//        }
-//        mainVC.view.addSubview(videoController.view)
-//        videoController.view.frame = mainVC.view.frame
         
         mainVC.present(videoController, animated: true) { 
             mainVC.view.layoutIfNeeded()

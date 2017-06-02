@@ -55,6 +55,9 @@ class SaveFavoritesView: UIView {
             print("favorite exists \(favoriteIndex ?? 0)")
             favoriteBtn.isSelected = true
             favoriteBtn.tintColor = favoriteBtn.isSelected ? heartColor : defaultColor
+        } else {
+            favoriteBtn.isSelected = false
+            favoriteBtn.tintColor = favoriteBtn.isSelected ? heartColor : defaultColor
         }
     }
     
@@ -93,8 +96,7 @@ class SaveFavoritesView: UIView {
         self.addSubview(randomizeText)
         self.addSubview(resetText)
         self.addSubview(likeText)
-        self.addSubview(dislikeText)
-        
+        self.addSubview(dislikeText)        
         
         addConstraintsWithFormat(format: "H:|[v0]", views: favoriteBtn)
         randomizeBtn.leadingAnchor.constraint(equalTo: favoriteBtn.trailingAnchor, constant: -(18.75/375)*UIScreen.main.bounds.width).isActive = true
@@ -145,10 +147,6 @@ class SaveFavoritesView: UIView {
         
         dislikeText.leadingAnchor.constraint(equalTo: sadFace.leadingAnchor, constant: titleOffset).isActive = true
         dislikeText.widthAnchor.constraint(equalTo: sadFace.widthAnchor, multiplier: titleWidth).isActive = true
-        
-        
-
-//        sadFace.tintColor = sadFace.isSelected ? self.sadColor : self.defaultColor
     }
 
     var face2 = {(happySad: String, color: UIColor) -> SaveFavButton in
@@ -240,58 +238,6 @@ class SaveFavoritesView: UIView {
         reset.addTarget(self, action: #selector(self.reset), for: .touchUpInside)
         return reset
     }()
-    
-    func pressedAnimation(object: UIButton, needsReload: Bool) {
-        let animationDistance: CGFloat = 30
-        
-        UIView.animate(withDuration: 0.25, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
-            object.transform = CGAffineTransform(translationX: -(((animationDistance / object.frame.height) * object.frame.width) * 0.25), y: -animationDistance)
-        }) { (_) in
-            UIView.animate(withDuration: 0.25, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: .curveEaseOut, animations: {
-                object.layer.transform = CATransform3DIdentity
-            }, completion: { (_) in
-                if needsReload {
-                    self.mainViewController?.collectionView?.reloadData()
-                } else {
-                    // do nothing
-                }
-            })
-        }
-        
-        if object.isSelected == false {
-            object.isSelected = true
-        } else {
-            object.isSelected = false
-        }
-    }
-    
-    func pressedAnimationText(object: UIView) {
-        let animationDistance: CGFloat = 30
-        UIView.animate(withDuration: 0.2, animations: {
-            object.transform = CGAffineTransform(translationX: -(((object.frame.height / animationDistance) * object.frame.width) * 0.25), y: -animationDistance)
-            
-        }) { (_) in
-            UIView.animate(withDuration: 0.2, animations: {
-                object.layer.transform = CATransform3DIdentity
-            }, completion: { (_) in
-                
-            })
-        }
-        
-        print((((animationDistance / object.frame.height) * object.frame.width) * 0.25))
-        print(object.frame.height)
-        print(object.frame.width)
-    }
-    
-    func setHappyFaceColors() {
-        happyFace.tintColor = happyFace.isSelected ? self.happyColor : self.defaultColor
-        happyText.textColor = happyFace.isSelected ? self.happyColor : self.defaultColor
-    }
-    
-    func setSadFaceColors() {
-        sadFace.tintColor = sadFace.isSelected ? self.sadColor : self.defaultColor
-        sadText.textColor = sadFace.isSelected ? self.sadColor : self.defaultColor
-    }
 
     var previousRandomNumber: Int?
     
