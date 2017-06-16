@@ -11,6 +11,8 @@ import Firebase
 
 class Firebase {
     
+    var mainVC: MainVC?
+    
     func downloadData(completion: @escaping ([RecipeObject]) -> ()) {
         
         var recipes = [RecipeObject]()
@@ -33,7 +35,7 @@ class Firebase {
                         ingredientArr.append(ingredient)
                     }
                     
-                    let recipe = RecipeObject(link: link, title: title, imageLink: image, ingredients: ingredientArr, favorite: false, like: false, dislike: false, likes: likes, dislikes: dislikes, child: snapshot.key)
+                    let recipe = RecipeObject(link: link, title: title, imageLink: image, ingredients: ingredientArr, favorite: false, like: false, dislike: false, likes: likes, dislikes: dislikes, child: snapshot.key, mainVC: self.mainVC!)
                     print("successful instantiation of recipeObj")
                     
                     recipes.append(recipe)

@@ -52,6 +52,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     // for controlling background shift
     var centerOffset: CGFloat?
     
+    let imageCache = NSCache<AnyObject, AnyObject>()    
     lazy var menuBar: MenuBar = {
         let bar = MenuBar()
         bar.mainViewController = self
@@ -75,6 +76,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     //testing****
     func downloadRecipeObjects() {
         let firebaseMgr = Firebase()
+        firebaseMgr.mainVC = self
         firebaseMgr.downloadData { (recipes) in
             self.recipes = recipes
             print("download completed")
@@ -84,11 +86,12 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     fileprivate func downloadFeatureRecipe() {
         
         // turn this into a dummy recipe
-        let recipe = RecipeObject(link: " ", title: " ", imageLink: " ", ingredients: [[:]], favorite: false, like: false, dislike: false, likes: 0, dislikes: 0, child: "Recipe0")
+        let recipe = RecipeObject(link: " ", title: " ", imageLink: " ", ingredients: [[:]], favorite: false, like: false, dislike: false, likes: 0, dislikes: 0, child: "Recipe0", mainVC: self)
         featureRecipe = recipe
         featureRecipeStored = recipe
         
         let firebaseMgr = Firebase()
+        firebaseMgr.mainVC = self
         firebaseMgr.downloadData { (recipes) in
             self.featureRecipe = recipes.first
             self.featureRecipeStored = recipes.first
@@ -198,6 +201,7 @@ class MainVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     fileprivate func loadData() {
         let coreDataManager = CoreDataManager()
+        coreDataManager.mainVC = self
         self.favoriteRecipes = coreDataManager.loadData(entityName: "RecipeModel")
         self.likedRecipes = coreDataManager.loadData(entityName: "LikedRecipe")
         self.dislikedRecipes = coreDataManager.loadData(entityName: "DislikedRecipe")

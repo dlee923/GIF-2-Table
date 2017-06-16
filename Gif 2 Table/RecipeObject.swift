@@ -11,8 +11,6 @@ import UIKit
 
 class RecipeObject: NSObject {
     
-    let imageCache = NSCache<AnyObject, AnyObject>()
-    
     //removed NSCoding which calls for func encode and convenience init coder aDecoder
     var recipeLink: String?
     var recipeTitle: String?
@@ -24,8 +22,9 @@ class RecipeObject: NSObject {
     var likes: Int?
     var dislikes: Int?
     var recipeChild: String?
+    var mainVC: MainVC?
     
-    init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool, likes: Int, dislikes: Int, child: String) {
+    init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool, likes: Int, dislikes: Int, child: String, mainVC: MainVC?) {
         recipeLink = link
         recipeTitle = title
         recipeImageLink = imageLink
@@ -36,6 +35,7 @@ class RecipeObject: NSObject {
         self.likes = likes
         self.dislikes = dislikes
         recipeChild = child
+        self.mainVC = mainVC
     }
     
     
@@ -75,29 +75,30 @@ extension RecipeObject {
         guard let imageURL = URL(string: imageLink!) else { return }
         passedImageURL = imageLink
         
-        if let cachedImage = imageCache.object(forKey: imageLink as AnyObject) as? UIImage {
+        if let cachedImage = mainVC?.imageCache.object(forKey: imageLink as AnyObject) as? UIImage {
             DispatchQueue.main.async {
                 completion(cachedImage)
                 print("using cached image")
                 return
             }
-        }
-        
-        URLSession.shared.dataTask(with: imageURL) { (data, response, error) in
-            if error != nil {
-                print(error!)
-                return
-            }
-            
-            DispatchQueue.main.async {
-                guard let coverImage = UIImage(data: data!) else { return }
+        } else {
+            URLSession.shared.dataTask(with: imageURL) { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
                 
-                if self.passedImageURL == imageLink {
-                    completion(coverImage)
-                    self.imageCache.setObject(coverImage, forKey: imageLink as AnyObject)
-                }                
-            }
-        }.resume()
+                DispatchQueue.main.async {
+                    guard let coverImage = UIImage(data: data!) else { return }
+                    
+                    if self.passedImageURL == imageLink {
+                        completion(coverImage)
+                        self.mainVC?.imageCache.setObject(coverImage, forKey: imageLink as AnyObject)
+                        print("downloaded new image")
+                    }
+                }
+            }.resume()
+        }
     }
     
     // NOT IN USE.  
