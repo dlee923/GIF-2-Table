@@ -23,6 +23,7 @@ class RecipeObject: NSObject {
     var dislikes: Int?
     var recipeChild: String?
     var mainVC: MainVC?
+    var difficulty: Difficulty?
     
     init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool, likes: Int, dislikes: Int, child: String, mainVC: MainVC?) {
         recipeLink = link
@@ -36,6 +37,14 @@ class RecipeObject: NSObject {
         self.dislikes = dislikes
         recipeChild = child
         self.mainVC = mainVC
+        
+        if ingredients.count <= 6 {
+            self.difficulty = .easy
+        } else if ingredients.count <= 12 {
+            self.difficulty = .medium
+        } else {
+            self.difficulty = .hard
+        }
     }
     
     
@@ -122,4 +131,10 @@ struct IngredientObject {
     var name: String
     var imageName: String
     var measurement: String
+}
+
+enum Difficulty: String {
+    case easy = "Easy"
+    case medium = "Medium"
+    case hard = "Hard"
 }

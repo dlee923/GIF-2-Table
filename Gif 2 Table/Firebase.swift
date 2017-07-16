@@ -61,22 +61,22 @@ class Firebase {
         }
     }
     
-    func updateIngredients(completion: @escaping ([String:[String:String]]) -> ()) {
-        var ingredients = [String:[String:String]]()
-        FIRDatabase.database().reference().child("Ingredients").observeSingleEvent(of: .value, with: { (snapshot) in
-            if let ingredientTypes = snapshot.value as? [String: Any] {
-                for eachIngredient in ingredientTypes {
-                    guard let values = eachIngredient.value as? [String: Any], let name = eachIngredient.key as? String else { return }
-                    guard let description = values["Description"] as? String, let image = values["Image"] as? String else { return }
-                    ingredients[name] = ["Description" : description, "Image" : image]
-                }
-            }
-            DispatchQueue.main.async {
-                print(ingredients.count)
-                completion(ingredients)
-            }
-            
-        }, withCancel: nil)
-    }
+//    func updateIngredients(completion: @escaping ([String:[String:String]]) -> ()) {
+//        var ingredients = [String:[String:String]]()
+//        FIRDatabase.database().reference().child("Ingredients").observeSingleEvent(of: .value, with: { (snapshot) in
+//            if let ingredientTypes = snapshot.value as? [String: Any] {
+//                for eachIngredient in ingredientTypes {
+//                    guard let values = eachIngredient.value as? [String: Any], let name = eachIngredient.key as? String else { return }
+//                    guard let description = values["Description"] as? String, let image = values["Image"] as? String else { return }
+//                    ingredients[name] = ["Description" : description, "Image" : image]
+//                }
+//            }
+//            DispatchQueue.main.async {
+//                print(ingredients.count)
+//                completion(ingredients)
+//            }
+//            
+//        }, withCancel: nil)
+//    }
     
 }

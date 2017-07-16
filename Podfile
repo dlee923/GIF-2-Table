@@ -10,5 +10,6 @@ target 'Gif 2 Table' do
 pod 'Firebase/Database'
 pod 'Firebase/Auth'
 pod 'Firebase/Storage'
+pod 'MaterialComponents'
 
 end

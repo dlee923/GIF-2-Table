@@ -44,8 +44,6 @@ extension SaveFavoritesView {
         
         favoriteBtn.tintColor = favoriteBtn.isSelected ? heartColor : defaultColor
         let favMessage = favoriteBtn.isSelected ? "I love this!  Adding to my favorites!" : "Blegh!! I got tired of this!"
-        let promptView = PromptView()
-        promptView.setUpPrompt(objectCalling: favoriteBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: favMessage, messageLines: 2, messageOnly: true, doesDisappear: true)
     }
     
     func happyBtnPressed() {
@@ -194,9 +192,6 @@ extension SaveFavoritesView {
         pressedAnimation(object: resetBtn, needsReload: false)
         pressedAnimationText(object: resetText)
         resetBtn.isUserInteractionEnabled = false
-        let promptView = PromptView()
-        promptView.mainViewController = self.mainViewController
-        promptView.setUpPrompt(objectCalling: resetBtn, heightPct: 0.2, widthPct: 0.9, promptMsg: "Reset to the feature recipe?", messageLines: 2, messageOnly: false, doesDisappear: false)
     }
     
     func pressedAnimation(object: UIButton, needsReload: Bool) {
@@ -209,7 +204,7 @@ extension SaveFavoritesView {
                 object.layer.transform = CATransform3DIdentity
             }, completion: { (_) in
                 if needsReload {
-                    self.mainViewController?.collectionView?.reloadData()
+//                    self.mainViewController?.recipesCollectionView.recipeList.reloadData()
                 } else {
                     // do nothing
                 }

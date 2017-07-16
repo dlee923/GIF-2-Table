@@ -18,36 +18,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        FIRApp.configure()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
+                
+        let rootController = UINavigationController(rootViewController: MainVC())
+        rootController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        rootController.navigationBar.barTintColor = globalBackgroundColor
+        rootController.navigationBar.isTranslucent = false
+        rootController.navigationBar.shadowImage = UIImage()
         
-        let navBarColor: UIColor = tintedBlack
+        window?.rootViewController = rootController
         
-        let backgroundImg: CustomBackground = {
-            let backgrnd = CustomBackground(frame: .zero)
-            backgrnd.setUpView(backgroundImg: .b5)
-            return backgrnd
-        }()
-        
-        window?.addSubview(backgroundImg)
-//        window?.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImg)
-        window?.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImg)
-        backgroundImg.widthAnchor.constraint(equalTo: (window?.widthAnchor)!, multiplier: 1.5).isActive = true
-        backgroundImg.centerXAnchor.constraint(equalTo: (window?.centerXAnchor)!).isActive = true
-        
-        let layout = UICollectionViewFlowLayout()
-        let rootController = MainVC(collectionViewLayout: layout)
-        rootController.backgroundImg = backgroundImg
-        
-        let navController = UINavigationController(rootViewController: rootController)
-        navController.navigationBar.shadowImage = UIImage()
-        navController.navigationBar.isTranslucent = false
-        navController.navigationBar.barTintColor = navBarColor
-        navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        
-        window?.rootViewController = navController
-        
-        FIRApp.configure()
         return true
     }
     

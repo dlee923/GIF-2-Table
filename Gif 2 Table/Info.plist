@@ -28,6 +28,9 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Mandela Script Personal Use.otf</string>
+		<string>LemonMilk.otf</string>
+		<string>Porter Bold.ttf</string>
+		<string>Geometos.ttf</string>
 		<string>Luna.ttf</string>
 		<string>HelloIshBig.ttf</string>
 		<string>KGLifeisMessy.ttf</string>
@@ -40,7 +43,7 @@
 		<string>armv7</string>
 	</array>
 	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
+	<string>UIStatusBarStyleDefault</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

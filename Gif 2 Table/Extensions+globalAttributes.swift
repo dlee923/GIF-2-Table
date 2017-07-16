@@ -44,8 +44,11 @@ let fontMandela = UIFont(name: "Mandela Script Personal Use", size: 5)
 let fontHello = UIFont(name: "HelloIshBig", size: 5)
 let fontMessy = UIFont(name: "KG Life is Messy", size: 5)
 let fontReno = UIFont(name: "Renogare", size: 5)
+let fontGeo = UIFont(name: "Geometos", size: 5)
 
 let tintedBlack = UIColor(white: 0.1, alpha: 1)
+
+let globalBackgroundColor = UIColor(white: 0.94, alpha: 1)
 
 enum BackgroundImage: String {
     case b1 = "background1"
@@ -55,13 +58,3 @@ enum BackgroundImage: String {
     case b5 = "background5"
     case b6 = "background6"
 }
-
-//enum IngredientType: String {
-//    case potato = "Potato"
-//}
-
-
-
-
-
-var ingredientDictionary: [String : [String: String]] = ["Potato" : ["Description": "white starch vegetable", "Image": "http://www.potato.com"]]

@@ -147,7 +147,6 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
             print("set first touch point: \(firstTouch)")
             firstTouchPoint = firstTouch
         }
-        recipeView?.mainViewController?.collectionView?.isScrollEnabled = false
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -171,7 +170,6 @@ class IngredientsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionV
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        recipeView?.mainViewController?.collectionView?.isScrollEnabled = true
         // final position
         moveIngredientsList()
     }

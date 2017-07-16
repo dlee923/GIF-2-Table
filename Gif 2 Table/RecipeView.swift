@@ -194,7 +194,7 @@ class RecipeView2: RecipeView {
         return button
     }()
     
-    var historyFavCell: HistoryFavoritesCell?
+    var historyFavCell: RecipeCollectionView?
     
     func disableFeature(object: UIButton) {
         object.isUserInteractionEnabled = false

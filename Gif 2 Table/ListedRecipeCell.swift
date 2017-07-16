@@ -37,7 +37,7 @@ class ListedRecipeCell: BaseCell {
         })
     }
     
-    var historyFavCell: HistoryFavoritesCell?
+    var historyFavCell: RecipeCollectionView?
     
     let recipeLabel: UILabel = {
         let label = UILabel()

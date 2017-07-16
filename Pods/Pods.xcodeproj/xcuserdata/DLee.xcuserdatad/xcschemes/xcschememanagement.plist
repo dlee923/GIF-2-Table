@@ -14,6 +14,51 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MDFTextAccessibility.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_arrow_back.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_check.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_check_circle.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_chevron_right.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_info.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_radio_button_unchecked.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_reorder.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Gif 2 Table.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,12 +72,57 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>1C37F67118898531B9D963B6C4BA6AA2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>253042EF7B19A14BE11092366C610614</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>26C9676D129625F2F9EF35D02D1F2AD8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>35A1C12670FAEF59AE4D388F61F65950</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ADC4E9893C73773BF412706FBE8D6C7B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C052BEBFBD0AB5218CC64BA3450F6547</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C38578032D177E0831306D74A5737C98</key>
+		<key>CA2DB7E9486BB8A3BE550F0258E5A9FD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DFE7A5B1C28060C8D8AAE67ED32A82BD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E28E35C4A08DF8D44D84BE74645AF304</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E8B4914CC2985B9E78CB073750DC0EBF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FF77580A8E4FA4610676E2B5D2D29235</key>
 		<dict>
 			<key>primary</key>
 			<true/>
