@@ -45,6 +45,8 @@ let fontHello = UIFont(name: "HelloIshBig", size: 5)
 let fontMessy = UIFont(name: "KG Life is Messy", size: 5)
 let fontReno = UIFont(name: "Renogare", size: 5)
 let fontGeo = UIFont(name: "Geometos", size: 5)
+let fontLemon = UIFont(name: "Lemon/Milk", size: 5)
+let fontPorter = UIFont(name: "Porter", size: 5)
 
 let tintedBlack = UIColor(white: 0.1, alpha: 1)
 

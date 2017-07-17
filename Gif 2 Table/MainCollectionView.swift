@@ -101,7 +101,7 @@ class MainCollectionView: MDCCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {        
         if indexPath.section == 0 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: mainFeatureCell, for: indexPath) as? MainFeatureCell {
-                
+                cell.recipes = self.recipes                
                 return cell
             }
         } else if indexPath.section == 1 {
@@ -112,6 +112,17 @@ class MainCollectionView: MDCCollectionViewController {
         }
 
         return UICollectionViewCell()
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            
+            if let window = UIApplication.shared.keyWindow {
+                let recipeView = RecipeView(frame: window.bounds)
+                recipeView.recipe = recipes?[indexPath.item]
+                window.addSubview(recipeView)
+            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

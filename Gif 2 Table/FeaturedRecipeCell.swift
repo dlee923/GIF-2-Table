@@ -13,6 +13,7 @@ class FeaturedRecipeCell: StockMDCCell {
     
     override func setUpCell() {
         self.layer.cornerRadius = 4
+        self.clipsToBounds = true
         setUpView()
     }
     
@@ -26,7 +27,7 @@ class FeaturedRecipeCell: StockMDCCell {
     
     let recipeImage: UIImageView = {
         let _recipeImage = UIImageView()
-        _recipeImage.contentMode = .scaleAspectFit
+        _recipeImage.contentMode = .scaleAspectFill
         _recipeImage.translatesAutoresizingMaskIntoConstraints = false
         return _recipeImage
     }()

@@ -25,6 +25,8 @@ class FeaturedRecipesCV: MDCCollectionViewController {
             layout.scrollDirection = .horizontal
         }
         
+        self.collectionView?.alwaysBounceVertical = false
+        
         self.collectionView?.register(FeaturedRecipeCell.self, forCellWithReuseIdentifier: featureCellID)
     }
     
@@ -58,6 +60,15 @@ class FeaturedRecipesCV: MDCCollectionViewController {
         }
         
         return FeaturedRecipeCell()
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let recipeView = RecipeView()
+        if let window = UIApplication.shared.keyWindow {
+            recipeView.frame = window.bounds
+            recipeView.recipe = recipes?[indexPath.item]
+            window.addSubview(recipeView)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -36,6 +36,8 @@ class MainFeatureCell: StockMDCCell {
     fileprivate func setUpCollectionView() {
         guard let featureCV = featureCollection.collectionView else { return }
         
+        self.addSubview(featureCV)
+        
         featureCV.translatesAutoresizingMaskIntoConstraints = false
         featureCV.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         featureCV.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
@@ -60,7 +62,9 @@ class MainRecipeCell: StockMDCCell {
             // assign cell attributes once set
             recipeImage.image = UIImage(named: "genericImage")
             recipe?.downloadCoverImage(completion: { (coverImage) in
-                self.recipeImage.image = coverImage
+                UIView.animate(withDuration: 0.25, animations: { 
+                    self.recipeImage.image = coverImage
+                })                
             })
             titleLabel.text = recipe?.recipeTitle
             categoryLabel.text = "\(recipe?.favorite)"

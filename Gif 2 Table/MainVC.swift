@@ -18,7 +18,7 @@ class MainVC: UIViewController {
         
         loadData()
 
-//        downloadRecipeObjects()
+        downloadRecipeObjects()
         
         setUpCollectionView()
     }
@@ -66,7 +66,8 @@ class MainVC: UIViewController {
         let firebaseMgr = Firebase()
         firebaseMgr.mainVC = self
         firebaseMgr.downloadData { (recipes) in
-            self.recipes = recipes
+//            self.recipes = recipes
+            self.recipes = Array(recipes.prefix(2))
             self.featureRecipe = recipes.first
             self.featureRecipeStored = recipes.first
             
