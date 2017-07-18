@@ -16,16 +16,36 @@ class TitleView: UIView {
     }
     
     var mainVC: MainVC?
-    let titleLabel = UILabel()
+    
+    lazy var titleLabel: UILabel = {
+        let _titleLabel = UILabel()
+        _titleLabel.text = "GIF 2 Table"
+        _titleLabel.textColor = .black
+        _titleLabel.textAlignment = .center
+        _titleLabel.font = fontGeo?.withSize(self.titleFontSize)
+        return _titleLabel
+    }()
+    
     let titleFontSize: CGFloat = 15
     
-    func setUpView() {
-        titleLabel.text = "GIF 2 Table"
-        titleLabel.textColor = .black
-        titleLabel.textAlignment = .center
-        titleLabel.font = fontGeo?.withSize(titleFontSize)
-        
+    let titleLogo: UIImageView = {
+        let _titleLogo = UIImageView()
+        _titleLogo.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
+        _titleLogo.contentMode = .scaleAspectFit
+        _titleLogo.tintColor = tintedBlack
+        _titleLogo.alpha = 0
+        return _titleLogo
+    }()
+    
+    func setUpView() {        
+        self.addSubview(titleLogo)
         self.addSubview(titleLabel)
+        
+        titleLogo.translatesAutoresizingMaskIntoConstraints = false
+        titleLogo.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        titleLogo.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        titleLogo.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        titleLogo.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true

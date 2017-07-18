@@ -49,7 +49,7 @@ class MainFeatureCell: StockMDCCell {
 class MainRecipeCell: StockMDCCell {
     
     override func setUpCell() {
-        self.backgroundColor = .red
+        self.backgroundColor = .white
         self.layer.cornerRadius = 4
         self.clipsToBounds = true
         
@@ -59,25 +59,45 @@ class MainRecipeCell: StockMDCCell {
     
     var recipe: RecipeObject? {
         didSet {
-            // assign cell attributes once set
-            recipeImage.image = UIImage(named: "genericImage")
+    
             recipe?.downloadCoverImage(completion: { (coverImage) in
+    
                 UIView.animate(withDuration: 0.25, animations: { 
+                    self.recipeImage.alpha = 0
+                }, completion: { (_) in
+                    self.recipeImage.contentMode = .scaleAspectFill
                     self.recipeImage.image = coverImage
-                })                
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.recipeImage.alpha = 1
+                    })
+                })
             })
             titleLabel.text = recipe?.recipeTitle
             categoryLabel.text = "\(recipe?.favorite)"
-            ingredientsLabel.text = "\(recipe?.recipeIngredients?.count) Ingredients"
+            if let count = recipe?.recipeIngredients?.count {
+                ingredientsLabel.text = "\(count) Ingredients"
+            }
             difficultyLabel.text = recipe?.difficulty?.rawValue
+            
+            likeCountLabel.text = "\(recipe?.likes ?? 0)"
+            dislikeCountLabel.text = "\(recipe?.dislikes ?? 0)"
         }
     }
     
     let recipeImgHeight: CGFloat = 0.65
+    let labelLeadSpace: CGFloat = 6
+    var recipeCardFrame: CGRect? {
+        didSet {
+            setUpLoveButton()
+        }
+    }
+    var mainVC: MainVC?
     
     let recipeImage: UIImageView = {
         let _recipeImage = UIImageView()
-        _recipeImage.contentMode = .scaleAspectFill
+        _recipeImage.contentMode = .scaleAspectFit
+        _recipeImage.tintColor = tintedBlack
+        _recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
         _recipeImage.clipsToBounds = true
         _recipeImage.translatesAutoresizingMaskIntoConstraints = false
         return _recipeImage
@@ -91,14 +111,62 @@ class MainRecipeCell: StockMDCCell {
     }()
     
     let categoryLabel = UILabel().recipeCardDetailLabel
-    let ingredientsLabel = UILabel().recipeCardDetailLabel
-    let difficultyLabel = UILabel().recipeCardDetailLabel
+    
     let titleLabel: UILabel = {
         let _titleLabel = UILabel()
-        _titleLabel.font = fontGeo?.withSize(13)
+        _titleLabel.font = fontReno?.withSize(12)
         _titleLabel.textColor = UIColor(white: 0, alpha: 0.9)
         return _titleLabel
     }()
+    
+    let ingredientsLabel = UILabel().recipeCardDetailLabel
+    let difficultyLabel = UILabel().recipeCardDetailLabel
+    
+    let likeCountLabel: UILabel = {
+        let _likeCountLabel = UILabel().recipeCardDetailLabel
+        _likeCountLabel.textAlignment = .right
+        return _likeCountLabel
+    }()
+    
+    let dislikeCountLabel: UILabel = {
+        let _likeCountLabel = UILabel().recipeCardDetailLabel
+        _likeCountLabel.textAlignment = .right
+        return _likeCountLabel
+    }()
+    
+    lazy var thumbsUp: RecipeButton = {
+        let _thumbsUp = RecipeButton()
+        let image = UIImage(named: "ic_thumb_up")?.withRenderingMode(.alwaysTemplate)
+        _thumbsUp.setImage(image, for: .normal)
+        _thumbsUp.recipeObj = self.recipe
+        _thumbsUp.listedView = self
+        _thumbsUp.mainViewController = self.mainVC
+        _thumbsUp.checkIfLiked()
+        return _thumbsUp
+    }()
+    
+    lazy var thumbsDown: RecipeButton = {
+        let _thumbsDown = RecipeButton()
+        let image = UIImage(named: "ic_thumb_down")?.withRenderingMode(.alwaysTemplate)
+        _thumbsDown.setImage(image, for: .normal)
+        _thumbsDown.recipeObj = self.recipe
+        _thumbsDown.listedView = self
+        _thumbsDown.mainViewController = self.mainVC
+        _thumbsDown.checkIfLiked()
+        return _thumbsDown
+    }()
+    
+    lazy var loveButton: RecipeButton = {
+        let _loveButton = RecipeButton()
+        _loveButton.backgroundColor = .white
+        let image = UIImage(named: "ic_favorite")?.withRenderingMode(.alwaysTemplate)
+        _loveButton.setImage(image, for: .normal)
+        _loveButton.recipeObj = self.recipe
+        _loveButton.mainViewController = self.mainVC
+        _loveButton.checkIfFavorite()
+        return _loveButton
+    }()
+
     
     fileprivate func setUpCardView() {
         self.addSubview(recipeImage)
@@ -120,31 +188,66 @@ class MainRecipeCell: StockMDCCell {
         detailView.addSubview(ingredientsLabel)
         detailView.addSubview(difficultyLabel)
         detailView.addSubview(titleLabel)
+        detailView.addSubview(thumbsUp)
+        detailView.addSubview(thumbsDown)
+        detailView.addSubview(likeCountLabel)
+        detailView.addSubview(dislikeCountLabel)
         
         for view in detailView.subviews {
             view.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        categoryLabel.topAnchor.constraint(equalTo: detailView.topAnchor).isActive = true
-        categoryLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor).isActive = true
+        categoryLabel.topAnchor.constraint(equalTo: detailView.topAnchor, constant: labelLeadSpace).isActive = true
+        categoryLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: labelLeadSpace).isActive = true
         categoryLabel.trailingAnchor.constraint(equalTo: detailView.trailingAnchor).isActive = true
-        categoryLabel.heightAnchor.constraint(equalTo: detailView.heightAnchor, multiplier: 0.3).isActive = true
+        categoryLabel.heightAnchor.constraint(equalTo: detailView.heightAnchor, multiplier: 0.28).isActive = true
         
         titleLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: labelLeadSpace).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: detailView.trailingAnchor).isActive = true
-        titleLabel.heightAnchor.constraint(equalTo: detailView.heightAnchor, multiplier: 0.35).isActive = true
+        titleLabel.heightAnchor.constraint(equalTo: detailView.heightAnchor, multiplier: 0.27).isActive = true
         
         difficultyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
-        difficultyLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor).isActive = true
-        difficultyLabel.widthAnchor.constraint(equalTo: detailView.widthAnchor, multiplier: 0.5).isActive = true
+        difficultyLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: labelLeadSpace).isActive = true
+        difficultyLabel.widthAnchor.constraint(equalTo: detailView.widthAnchor, multiplier: 0.2).isActive = true
         difficultyLabel.bottomAnchor.constraint(equalTo: detailView.bottomAnchor).isActive = true
         
         ingredientsLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
         ingredientsLabel.leadingAnchor.constraint(equalTo: difficultyLabel.trailingAnchor).isActive = true
-        ingredientsLabel.trailingAnchor.constraint(equalTo: detailView.trailingAnchor).isActive = true
+        ingredientsLabel.widthAnchor.constraint(equalTo: detailView.widthAnchor, multiplier: 0.4).isActive = true
         ingredientsLabel.bottomAnchor.constraint(equalTo: detailView.bottomAnchor).isActive = true
         
+        likeCountLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
+        likeCountLabel.leadingAnchor.constraint(equalTo: ingredientsLabel.trailingAnchor).isActive = true
+        likeCountLabel.widthAnchor.constraint(equalTo: detailView.widthAnchor, multiplier: 0.07).isActive = true
+        likeCountLabel.bottomAnchor.constraint(equalTo: detailView.bottomAnchor).isActive = true
+        
+        thumbsUp.topAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
+        thumbsUp.leadingAnchor.constraint(equalTo: likeCountLabel.trailingAnchor).isActive = true
+        thumbsUp.widthAnchor.constraint(equalTo: detailView.widthAnchor, multiplier: 0.125).isActive = true
+        thumbsUp.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -labelLeadSpace).isActive = true
+        
+        dislikeCountLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
+        dislikeCountLabel.leadingAnchor.constraint(equalTo: thumbsUp.trailingAnchor).isActive = true
+        dislikeCountLabel.widthAnchor.constraint(equalTo: detailView.widthAnchor, multiplier: 0.07).isActive = true
+        dislikeCountLabel.bottomAnchor.constraint(equalTo: detailView.bottomAnchor).isActive = true
+        
+        thumbsDown.topAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
+        thumbsDown.leadingAnchor.constraint(equalTo: dislikeCountLabel.trailingAnchor).isActive = true
+        thumbsDown.trailingAnchor.constraint(equalTo: detailView.trailingAnchor).isActive = true
+        thumbsDown.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -labelLeadSpace).isActive = true
+    }
+    
+    func setUpLoveButton() {
+        self.addSubview(loveButton)
+
+        if let recipeFrame = recipeCardFrame {
+            loveButton.heightAnchor.constraint(equalToConstant: recipeFrame.height * 0.2).isActive = true
+            loveButton.widthAnchor.constraint(equalToConstant: recipeFrame.height * 0.2).isActive = true
+            loveButton.layer.cornerRadius = (recipeFrame.height * 0.2) / 2
+        }
+        loveButton.centerYAnchor.constraint(equalTo: recipeImage.bottomAnchor).isActive = true
+        loveButton.trailingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: -8).isActive = true
     }
 
 }
@@ -170,7 +273,7 @@ class MainHeaderCell: StockMDCCell {
     
     let headerLabel: UILabel = {
         let _headerLabel = UILabel()
-        _headerLabel.font = fontGeo?.withSize(13)
+        _headerLabel.font = fontPorter?.withSize(13)
         _headerLabel.textColor = UIColor(white: 0, alpha: 0.9)
         _headerLabel.translatesAutoresizingMaskIntoConstraints = false
         return _headerLabel

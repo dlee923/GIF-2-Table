@@ -16,6 +16,8 @@ class MainVC: UIViewController {
         self.view.backgroundColor = globalBackgroundColor
         self.navigationItem.titleView = titleView
         
+        setUpNavBarButtons()
+        
         loadData()
 
         downloadRecipeObjects()
@@ -40,6 +42,8 @@ class MainVC: UIViewController {
         return _mainCollectionView
     }()
     
+    var mainCVLeadingConstraint: NSLayoutConstraint?
+    
     var recipes: [RecipeObject] = [RecipeObject]() {
         didSet {
             mainCollectionView.recipes = self.recipes
@@ -51,15 +55,29 @@ class MainVC: UIViewController {
     var likedRecipes = [RecipeObject]()
     var dislikedRecipes = [RecipeObject]()
     
+    let buttonClass = Buttons()
+    
+    fileprivate func setUpNavBarButtons() {
+        
+        buttonClass.mainVC = self
+        
+        let menuButton = buttonClass.customButton(buttonType: .menu)
+        self.navigationItem.rightBarButtonItem = menuButton
+        
+        let emptyButton = buttonClass.emptyButton()
+        self.navigationItem.leftBarButtonItems = [emptyButton]
+    }
+    
     fileprivate func setUpCollectionView() {
         guard let _mainCollectionView = mainCollectionView.collectionView else { return }
         self.view.addSubview(_mainCollectionView)
         
         _mainCollectionView.translatesAutoresizingMaskIntoConstraints = false
         _mainCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        _mainCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        mainCVLeadingConstraint = _mainCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0)
+        mainCVLeadingConstraint?.isActive = true
         _mainCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        _mainCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        _mainCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true        
     }
 
     fileprivate func downloadRecipeObjects() {
@@ -67,7 +85,7 @@ class MainVC: UIViewController {
         firebaseMgr.mainVC = self
         firebaseMgr.downloadData { (recipes) in
 //            self.recipes = recipes
-            self.recipes = Array(recipes.prefix(2))
+            self.recipes = Array(recipes.prefix(1))
             self.featureRecipe = recipes.first
             self.featureRecipeStored = recipes.first
             

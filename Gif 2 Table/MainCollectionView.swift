@@ -20,27 +20,37 @@ class MainCollectionView: MDCCollectionViewController {
     
     var recipes: [RecipeObject]?
     var mainVC: MainVC?
-    let recipesPerView: CGFloat = 2.5
+    let recipesPerView: CGFloat = 3.5
     let featureCellHeight: CGFloat = 0.2
     let collectionViewSideBorders: CGFloat = 10
+    var isFavorites = false
     
     let mainRecipeCell = "mainRecipeCell"
     let mainHeaderCell = "mainHeaderCell"
     let mainFeatureCell = "mainFeatureCell"
+    let emptyCell = "emptyCell"
     
     fileprivate func setUpCollectionView() {
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
         self.collectionView?.register(MainRecipeCell.self, forCellWithReuseIdentifier: mainRecipeCell)
         self.collectionView?.register(MainFeatureCell.self, forCellWithReuseIdentifier: mainFeatureCell)
+        self.collectionView?.register(EmptyCell.self, forCellWithReuseIdentifier: emptyCell)
         self.collectionView?.register(MainHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: mainHeaderCell)
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        if isFavorites {
+            return 1
+        } else {
+            return 2
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if recipes == nil || recipes?.count == 0 || isFavorites {
+            return 1
+        }
         
         if let recipeCount = recipes?.count {
             print("recipe count is \(recipeCount)")
@@ -64,20 +74,24 @@ class MainCollectionView: MDCCollectionViewController {
         if let main = mainVC {
             let featuredCellSize = CGSize(width: main.view.frame.width, height: main.view.frame.height * featureCellHeight)
             let normalCellSize = CGSize(width: main.view.frame.width - (collectionViewSideBorders * 2), height: main.view.frame.height / recipesPerView)
+            let emptyCellSize = CGSize(width: main.view.frame.width - (collectionViewSideBorders * 2), height: main.view.frame.height * featureCellHeight)
             
-            switch indexPath.section {
-            case 0: return featuredCellSize
-            case 1: return normalCellSize
-            default: break
+            if recipes == nil || recipes?.count == 0 {
+                return emptyCellSize
+            } else if isFavorites {
+                return normalCellSize
+            } else {
+                switch indexPath.section {
+                case 0: return featuredCellSize
+                case 1: return normalCellSize
+                default: break
+                }
             }
         }
         return CGSize.zero
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellStyleForSection section: Int) -> MDCCollectionViewCellStyle {
-        if section == 1 {
-            return .card
-        }
         return .card
     }
     
@@ -86,36 +100,63 @@ class MainCollectionView: MDCCollectionViewController {
             
             header.collectionViewSideSpacing = self.collectionViewSideBorders
             
-            switch indexPath.section {
-            case 0: header.headerLabel.text = "FEATURE RECIPES"
-            case 1: header.headerLabel.text = "LATEST"
-            default: break
+            if isFavorites {
+                header.headerLabel.text = "FAVORITE RECIPES"
+            } else {
+                switch indexPath.section {
+                case 0: header.headerLabel.text = "FEATURE RECIPES"
+                case 1: header.headerLabel.text = "LATEST"
+                default: break
+                }
             }
-            
             return header
         }
         
         return MainHeaderCell()
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {        
-        if indexPath.section == 0 {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: emptyCell, for: indexPath) as? EmptyCell else {
+            return UICollectionViewCell()
+        }
+        
+        guard let mainCell = collectionView.dequeueReusableCell(withReuseIdentifier: mainRecipeCell, for: indexPath) as? MainRecipeCell else {
+            return UICollectionViewCell()
+        }
+        
+        if isFavorites {
+            if recipes == nil || self.recipes?.count == 0{
+                emptyCell.setUpEmptyPrompt(type: .noFavorites)
+                return emptyCell
+            } else {
+                mainCell.recipe = self.recipes?[indexPath.item]
+                return mainCell
+            }
+        }
+        
+        if recipes == nil || recipes?.count == 0{
+            emptyCell.setUpEmptyPrompt(type: .noRecipes)
+            return emptyCell
+        } else if indexPath.section == 0 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: mainFeatureCell, for: indexPath) as? MainFeatureCell {
                 cell.recipes = self.recipes                
                 return cell
             }
         } else if indexPath.section == 1 {
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: mainRecipeCell, for: indexPath) as? MainRecipeCell {
-                cell.recipe = self.recipes?[indexPath.item]
-                return cell
-            }
+            mainCell.recipe = self.recipes?[indexPath.item]
+            mainCell.recipeCardFrame = mainCell.frame
+            mainCell.mainVC = self.mainVC
+            return mainCell
         }
 
         return UICollectionViewCell()
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
+        if recipes == nil {
+            return
+        }
+        if indexPath.section == 1 || isFavorites {
             
             if let window = UIApplication.shared.keyWindow {
                 let recipeView = RecipeView(frame: window.bounds)

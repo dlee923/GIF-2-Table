@@ -50,7 +50,7 @@ let fontPorter = UIFont(name: "Porter", size: 5)
 
 let tintedBlack = UIColor(white: 0.1, alpha: 1)
 
-let globalBackgroundColor = UIColor(white: 0.94, alpha: 1)
+let globalBackgroundColor = UIColor(white: 0.90, alpha: 1)
 
 enum BackgroundImage: String {
     case b1 = "background1"

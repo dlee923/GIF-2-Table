@@ -29,12 +29,21 @@ class RecipeView: UIView {
     let imageHeight: CGFloat = 0.45
     let ingredientViewSideSpacer: CGFloat = 15
     let statusBarSideSpacer: CGFloat = 10
+    var ingredientViewStart: CGFloat?
     
     let recipeImage: UIImageView = {
         let _recipeImage = UIImageView()
         _recipeImage.clipsToBounds = true
         _recipeImage.contentMode = .scaleAspectFill
         return _recipeImage
+    }()
+    
+    lazy var blurView: UIVisualEffectView = {
+        let blur = UIVisualEffectView()
+        blur.translatesAutoresizingMaskIntoConstraints = false
+        blur.effect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        blur.alpha = 0
+        return blur
     }()
     
     let ingredientView: UIView = {
@@ -49,11 +58,7 @@ class RecipeView: UIView {
         return _ingredientList
     }()
     
-    let statusBar: UIView = {
-        let _statusBar = UIView()
-        _statusBar.backgroundColor = tintedBlack
-        return _statusBar
-    }()
+    let statusBar = StatusBar()
     
     var ingredientViewTopAnchor: NSLayoutConstraint?
     
@@ -61,6 +66,7 @@ class RecipeView: UIView {
         guard let _ingredientList = ingredientList else { return }
         
         self.addSubview(recipeImage)
+        recipeImage.addSubview(blurView)
         self.addSubview(ingredientView)
         self.addSubview(statusBar)
         self.addSubview(_ingredientList)
@@ -74,14 +80,17 @@ class RecipeView: UIView {
         recipeImage.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         recipeImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: imageHeight).isActive = true
         
-        let ingredientViewStart = (self.frame.height * imageHeight) - 30
+        blurView.heightAnchor.constraint(equalTo: recipeImage.heightAnchor).isActive = true
+        blurView.widthAnchor.constraint(equalTo: recipeImage.widthAnchor).isActive = true
+        
+        ingredientViewStart = (self.frame.height * imageHeight) - 30
         print("inset = \(ingredientViewStart)")
         // if this doesn't work - then resort to using the mainVC frame?
         
         ingredientView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: ingredientViewSideSpacer).isActive = true
         ingredientView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -ingredientViewSideSpacer).isActive = true
         ingredientView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        ingredientViewTopAnchor = ingredientView.topAnchor.constraint(equalTo: self.topAnchor, constant: ingredientViewStart)
+        ingredientViewTopAnchor = ingredientView.topAnchor.constraint(equalTo: self.topAnchor, constant: ingredientViewStart ?? 0)
         ingredientViewTopAnchor?.isActive = true
         
         statusBar.leadingAnchor.constraint(equalTo: ingredientView.leadingAnchor, constant: statusBarSideSpacer).isActive = true
@@ -93,7 +102,7 @@ class RecipeView: UIView {
         _ingredientList.leadingAnchor.constraint(equalTo: ingredientView.leadingAnchor, constant: statusBarSideSpacer).isActive = true
         _ingredientList.trailingAnchor.constraint(equalTo: ingredientView.trailingAnchor, constant: -statusBarSideSpacer).isActive = true
         _ingredientList.bottomAnchor.constraint(equalTo: statusBar.topAnchor).isActive = true
-        _ingredientList.contentInset = UIEdgeInsetsMake(ingredientViewStart, 0, 0, 0)
+        _ingredientList.contentInset = UIEdgeInsetsMake(ingredientViewStart ?? 0, 0, 0, 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

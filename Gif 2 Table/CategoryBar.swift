@@ -21,29 +21,19 @@ class CategoryBar: UICollectionView, UICollectionViewDataSource, UICollectionVie
 
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
-        
-        declareMenuOptions()
         setUpCategoryBar()
+        declareMenuOptions()
         self.backgroundView?.backgroundColor = .clear
     }
-    
-    var mainVC: MainVC?
+
     var cellID = "defaultCell"
     var menuCellID = "menuCell"
     var menuObjects: [MenuOption]?
     let isPagingEnable = true
     
     func setUpCategoryBarView() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.isPagingEnabled = isPagingEnable
         
-        guard let main = mainVC else { return }
-        main.view.addSubview(self)
-        
-        self.leadingAnchor.constraint(equalTo: main.view.leadingAnchor).isActive = true
-        self.trailingAnchor.constraint(equalTo: main.view.trailingAnchor).isActive = true
-        self.topAnchor.constraint(equalTo: main.view.topAnchor).isActive = true
-//        self.heightAnchor.constraint(equalTo: main.view.heightAnchor, multiplier: main.categoryBarHeight).isActive = true
+        //animate alpha of cells one by one - rapid fire?
     }
     
     fileprivate func setUpCategoryBar() {
@@ -79,6 +69,10 @@ class CategoryBar: UICollectionView, UICollectionViewDataSource, UICollectionVie
         return 0
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.frame.width / CGFloat(menuObjects?.count ?? 1), height: self.frame.height)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: menuCellID, for: indexPath) as? CategoryBarCell {
             cell.menuOption = menuObjects?[indexPath.item]
@@ -87,10 +81,6 @@ class CategoryBar: UICollectionView, UICollectionViewDataSource, UICollectionVie
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
             return cell
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.frame.width, height: self.frame.height)
     }
     
     required init?(coder aDecoder: NSCoder) {

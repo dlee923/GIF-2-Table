@@ -19,15 +19,27 @@ class FeaturedRecipeCell: StockMDCCell {
     
     var recipe: RecipeObject? {
         didSet {
-            recipe?.downloadCoverImage(completion: { (image) in
-                self.recipeImage.image = image
+            recipe?.downloadCoverImage(completion: { (coverImage) in
+                // figure out a way to animate in transition
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.recipeImage.alpha = 0
+                }, completion: { (_) in
+                    self.recipeImage.contentMode = .scaleAspectFill
+                    self.recipeImage.image = coverImage
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.recipeImage.alpha = 1
+                    })
+                })
             })
         }
     }
     
     let recipeImage: UIImageView = {
         let _recipeImage = UIImageView()
-        _recipeImage.contentMode = .scaleAspectFill
+        _recipeImage.contentMode = .scaleAspectFit
+        _recipeImage.tintColor = tintedBlack
+        _recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
+        _recipeImage.clipsToBounds = true
         _recipeImage.translatesAutoresizingMaskIntoConstraints = false
         return _recipeImage
     }()

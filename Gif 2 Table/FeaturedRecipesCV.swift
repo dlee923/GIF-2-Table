@@ -18,6 +18,7 @@ class FeaturedRecipesCV: MDCCollectionViewController {
     }
     
     fileprivate func setUpCollectionView() {
+        self.collectionView?.backgroundColor = globalBackgroundColor
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
         
@@ -26,7 +27,7 @@ class FeaturedRecipesCV: MDCCollectionViewController {
         }
         
         self.collectionView?.alwaysBounceVertical = false
-        
+        self.collectionView?.showsHorizontalScrollIndicator = false
         self.collectionView?.register(FeaturedRecipeCell.self, forCellWithReuseIdentifier: featureCellID)
     }
     
@@ -63,9 +64,9 @@ class FeaturedRecipesCV: MDCCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let recipeView = RecipeView()
+        
         if let window = UIApplication.shared.keyWindow {
-            recipeView.frame = window.bounds
+            let recipeView = RecipeView(frame: window.bounds)
             recipeView.recipe = recipes?[indexPath.item]
             window.addSubview(recipeView)
         }

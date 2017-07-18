@@ -16,7 +16,7 @@ struct MenuOption {
 class CategoryBarCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        self.alpha = 0.2
         setUpCell()
     }
     
