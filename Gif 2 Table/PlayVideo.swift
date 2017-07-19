@@ -14,13 +14,14 @@ import AVFoundation
 class PlayVideo: NSObject, AVPlayerViewControllerDelegate {
     
     var mainViewController: MainVC?
+    var videoController: AVPlayerViewController?
     
     func playVideo(videoURL: String) {
         guard let mainVC = mainViewController else { return }
         
         let url = URL(string: videoURL)
-        
-        let videoController = AVPlayerViewController()
+        var videoController = AVPlayerViewController()
+        videoController.delegate = self
         let videoPlayer = AVPlayer(url: url!)
         
         videoController.player = videoPlayer
@@ -32,4 +33,11 @@ class PlayVideo: NSObject, AVPlayerViewControllerDelegate {
         }
     }
 
+    func playerViewControllerWillStartPictureInPicture(_ playerViewController: AVPlayerViewController) {
+        print("about to play video")
+    }
+    
+    func playerViewControllerWillStopPictureInPicture(_ playerViewController: AVPlayerViewController) {
+        print("about to end video")
+    }
 }

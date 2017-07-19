@@ -20,7 +20,7 @@ class MainVC: UIViewController {
         
         loadData()
 
-        downloadRecipeObjects()
+//        downloadRecipeObjects()
         
         setUpCollectionView()
     }
@@ -34,10 +34,11 @@ class MainVC: UIViewController {
         return _titleView
     }()
     
+    var titleViewFadeTrigger: Bool = false
+    
     lazy var mainCollectionView: MainCollectionView = {
         let layout = UICollectionViewFlowLayout()
         let _mainCollectionView = MainCollectionView(collectionViewLayout: layout)
-        
         _mainCollectionView.mainVC = self
         return _mainCollectionView
     }()

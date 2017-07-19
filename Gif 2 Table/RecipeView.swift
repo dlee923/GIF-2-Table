@@ -22,10 +22,15 @@ class RecipeView: UIView {
                 self.recipeImage.image = image
             }
             ingredientList?.recipe = self.recipe
+            statusBar.recipe = self.recipe
         }
     }
     
-    var mainVC: MainVC?
+    var mainVC: MainVC? {
+        didSet {
+            statusBar.mainVC = self.mainVC            
+        }
+    }
     let imageHeight: CGFloat = 0.45
     let ingredientViewSideSpacer: CGFloat = 15
     let statusBarSideSpacer: CGFloat = 10

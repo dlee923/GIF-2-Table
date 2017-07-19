@@ -25,6 +25,10 @@ class RecipeObject: NSObject {
     var mainVC: MainVC?
     var difficulty: Difficulty?
     
+    //var downloadedimage uiimage
+    //var shouldfade bool
+    //var category string
+    
     init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool, likes: Int, dislikes: Int, child: String, mainVC: MainVC?) {
         recipeLink = link
         recipeTitle = title
@@ -38,9 +42,9 @@ class RecipeObject: NSObject {
         recipeChild = child
         self.mainVC = mainVC
         
-        if ingredients.count <= 6 {
+        if ingredients.count <= 8 {
             self.difficulty = .easy
-        } else if ingredients.count <= 12 {
+        } else if ingredients.count <= 15 {
             self.difficulty = .medium
         } else {
             self.difficulty = .hard

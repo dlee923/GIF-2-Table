@@ -34,6 +34,7 @@ class FeaturedRecipesCV: MDCCollectionViewController {
     var recipes: [RecipeObject]?
     let featureCellID = "featureCellID"
     let featureCellWidth: CGFloat = 0.65
+    var mainVC: MainVC?
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -68,6 +69,7 @@ class FeaturedRecipesCV: MDCCollectionViewController {
         if let window = UIApplication.shared.keyWindow {
             let recipeView = RecipeView(frame: window.bounds)
             recipeView.recipe = recipes?[indexPath.item]
+            recipeView.mainVC = self.mainVC
             window.addSubview(recipeView)
         }
     }

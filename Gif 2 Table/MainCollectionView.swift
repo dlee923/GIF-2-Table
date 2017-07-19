@@ -30,6 +30,13 @@ class MainCollectionView: MDCCollectionViewController {
     let mainFeatureCell = "mainFeatureCell"
     let emptyCell = "emptyCell"
     
+    var maxVisibleRecipes = 5 {
+        didSet {
+            self.collectionView?.reloadData()
+        }
+    }
+    let additionalRecipeIncremental = 3
+    
     fileprivate func setUpCollectionView() {
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
@@ -55,8 +62,14 @@ class MainCollectionView: MDCCollectionViewController {
         if let recipeCount = recipes?.count {
             print("recipe count is \(recipeCount)")
             switch section {
-            case 0: return 1
-            case 1: return recipeCount
+            case 0:
+                return 1
+            case 1:
+                if recipeCount > maxVisibleRecipes {
+                    return maxVisibleRecipes
+                } else {
+                    return recipeCount
+                }
             default: break
             }
         }
@@ -139,7 +152,8 @@ class MainCollectionView: MDCCollectionViewController {
             return emptyCell
         } else if indexPath.section == 0 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: mainFeatureCell, for: indexPath) as? MainFeatureCell {
-                cell.recipes = self.recipes                
+                cell.recipes = self.recipes
+                cell.mainVC = self.mainVC
                 return cell
             }
         } else if indexPath.section == 1 {
@@ -152,6 +166,8 @@ class MainCollectionView: MDCCollectionViewController {
         return UICollectionViewCell()
     }
     
+    var recipeView: RecipeView?
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if recipes == nil {
             return
@@ -159,9 +175,12 @@ class MainCollectionView: MDCCollectionViewController {
         if indexPath.section == 1 || isFavorites {
             
             if let window = UIApplication.shared.keyWindow {
-                let recipeView = RecipeView(frame: window.bounds)
-                recipeView.recipe = recipes?[indexPath.item]
-                window.addSubview(recipeView)
+                recipeView = RecipeView(frame: window.bounds)
+                if let _recipeView = recipeView {
+                    _recipeView.recipe = recipes?[indexPath.item]
+                    _recipeView.mainVC = self.mainVC
+                    window.addSubview(_recipeView)
+                }
             }
         }
     }

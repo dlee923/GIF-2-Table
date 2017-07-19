@@ -31,10 +31,13 @@ class MainFeatureCell: StockMDCCell {
         }
     }
     
+    var mainVC: MainVC?
+    
     let featureCollection = FeaturedRecipesCV(collectionViewLayout: UICollectionViewFlowLayout())
     
     fileprivate func setUpCollectionView() {
         guard let featureCV = featureCollection.collectionView else { return }
+        featureCollection.mainVC = self.mainVC
         
         self.addSubview(featureCV)
         
@@ -49,7 +52,7 @@ class MainFeatureCell: StockMDCCell {
 class MainRecipeCell: StockMDCCell {
     
     override func setUpCell() {
-        self.backgroundColor = .white
+//        self.backgroundColor = .white
         self.layer.cornerRadius = 4
         self.clipsToBounds = true
         
@@ -81,6 +84,10 @@ class MainRecipeCell: StockMDCCell {
             
             likeCountLabel.text = "\(recipe?.likes ?? 0)"
             dislikeCountLabel.text = "\(recipe?.dislikes ?? 0)"
+            
+            thumbsUp.recipeObj = self.recipe
+            thumbsDown.recipeObj = self.recipe
+            loveButton.recipeObj = self.recipe
         }
     }
     
@@ -91,7 +98,20 @@ class MainRecipeCell: StockMDCCell {
             setUpLoveButton()
         }
     }
-    var mainVC: MainVC?
+    var mainVC: MainVC? {
+        didSet {
+            thumbsUp.mainViewController = self.mainVC
+            thumbsDown.mainViewController = self.mainVC
+            loveButton.mainViewController = self.mainVC
+            
+            thumbsUp.opposingButton = self.thumbsDown
+            thumbsDown.opposingButton = self.thumbsUp
+            
+            thumbsUp.checkIfLiked()
+            thumbsDown.checkIfDisliked()
+            loveButton.checkIfFavorite()
+        }
+    }
     
     let recipeImage: UIImageView = {
         let _recipeImage = UIImageView()
@@ -137,11 +157,9 @@ class MainRecipeCell: StockMDCCell {
     lazy var thumbsUp: RecipeButton = {
         let _thumbsUp = RecipeButton()
         let image = UIImage(named: "ic_thumb_up")?.withRenderingMode(.alwaysTemplate)
-        _thumbsUp.setImage(image, for: .normal)
-        _thumbsUp.recipeObj = self.recipe
+        _thumbsUp.setImage(image, for: .normal)        
         _thumbsUp.listedView = self
-        _thumbsUp.mainViewController = self.mainVC
-        _thumbsUp.checkIfLiked()
+        _thumbsUp.addLikeFunction(isThumbsUp: true)
         return _thumbsUp
     }()
     
@@ -149,10 +167,8 @@ class MainRecipeCell: StockMDCCell {
         let _thumbsDown = RecipeButton()
         let image = UIImage(named: "ic_thumb_down")?.withRenderingMode(.alwaysTemplate)
         _thumbsDown.setImage(image, for: .normal)
-        _thumbsDown.recipeObj = self.recipe
         _thumbsDown.listedView = self
-        _thumbsDown.mainViewController = self.mainVC
-        _thumbsDown.checkIfLiked()
+        _thumbsDown.addLikeFunction(isThumbsUp: false)
         return _thumbsDown
     }()
     
@@ -161,9 +177,7 @@ class MainRecipeCell: StockMDCCell {
         _loveButton.backgroundColor = .white
         let image = UIImage(named: "ic_favorite")?.withRenderingMode(.alwaysTemplate)
         _loveButton.setImage(image, for: .normal)
-        _loveButton.recipeObj = self.recipe
-        _loveButton.mainViewController = self.mainVC
-        _loveButton.checkIfFavorite()
+        _loveButton.addFavoriteFunction()
         return _loveButton
     }()
 
