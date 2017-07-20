@@ -43,9 +43,7 @@ class StatusBar: MDCRaisedButton {
     }
     
     
-    func playVideo() {
-        print("playing video")
-        
+    func playVideo() {                
         slideOffRecipe()
         
         playFunctions.mainViewController = self.mainVC
@@ -58,14 +56,13 @@ class StatusBar: MDCRaisedButton {
         // slide off in preparation for playing video
         guard let newOriginPoint = mainVC?.view.frame.height else { return }
         UIView.animate(withDuration: 0.3, animations: { 
-            self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform(translationX: 0, y: newOriginPoint)
+            self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform(translationX: newOriginPoint, y: 0)
         }) { (_) in
             // do something
         }
     }
     
     func slideOnRecipe() {
-        print("slide back on")
         UIView.animate(withDuration: 0.3, animations: {
             self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform.identity
         }) { (_) in

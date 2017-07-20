@@ -16,7 +16,6 @@ extension IngredientsView {
             recipeView?.ingredientViewTopAnchor?.constant = moveRecipeView
             
             let blurPercentage = (startPosition - moveRecipeView) / startPosition
-            print(blurPercentage)
             recipeView?.blurView.alpha = blurPercentage
         }
     }

@@ -28,9 +28,7 @@ class MainVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("view is appearing...")
         if self.mainCollectionView.recipeView != nil {
-            print("recipe view must slide back")
             self.mainCollectionView.recipeView?.statusBar.slideOnRecipe()
         }
     }
@@ -96,7 +94,7 @@ class MainVC: UIViewController {
         firebaseMgr.mainVC = self
         firebaseMgr.downloadData { (recipes) in
 //            self.recipes = recipes
-            self.recipes = Array(recipes.prefix(6))
+            self.recipes = Array(recipes.prefix(1))
             self.featureRecipe = recipes.first
             self.featureRecipeStored = recipes.first
             

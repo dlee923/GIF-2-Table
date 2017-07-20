@@ -16,7 +16,7 @@ enum EmptyMessage: String {
 class EmptyCell: BaseCell {
 
     override func setUpCell() {
-        self.backgroundColor = .white
+        self.backgroundColor = globalAccessoryColor
         self.layer.cornerRadius = 4
         self.clipsToBounds = true
     }

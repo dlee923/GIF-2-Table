@@ -12,7 +12,7 @@ import MaterialComponents.MaterialCollectionCells
 extension UILabel {
     var recipeCardDetailLabel: UILabel {
         self.font = fontReno?.withSize(10)
-        self.textColor = UIColor(white: 0, alpha: 0.5)
+        self.textColor = globalDetailCardLblColor
         return self
     }
 }
@@ -120,7 +120,7 @@ class MainRecipeCell: StockMDCCell {
     
     let detailView: UIView = {
         let _detailView = UIView()
-        _detailView.backgroundColor = .white
+        _detailView.backgroundColor = globalDetailCardColor
         _detailView.translatesAutoresizingMaskIntoConstraints = false
         return _detailView
     }()
@@ -169,7 +169,7 @@ class MainRecipeCell: StockMDCCell {
     
     lazy var loveButton: RecipeButton = {
         let _loveButton = RecipeButton()
-        _loveButton.backgroundColor = .white
+        _loveButton.backgroundColor = globalDetailCardColor
         let image = UIImage(named: "ic_favorite")?.withRenderingMode(.alwaysTemplate)
         _loveButton.setImage(image, for: .normal)
         _loveButton.addFavoriteFunction()

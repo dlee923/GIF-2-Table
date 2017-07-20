@@ -32,7 +32,7 @@ class IngredientHeader: BaseCell {
         let separator = UIView()
         self.addSubview(separator)
         separator.translatesAutoresizingMaskIntoConstraints = false
-        separator.backgroundColor = globalBackgroundColor
+        separator.backgroundColor = globalButtonTintColor
         separator.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         separator.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         separator.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true

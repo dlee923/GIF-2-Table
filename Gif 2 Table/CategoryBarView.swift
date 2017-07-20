@@ -13,16 +13,36 @@ class CategoryBarView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.alpha = 0
-        self.backgroundColor = .orange
+        self.backgroundColor = UIColor.black.withAlphaComponent(0.2)
     }
     
     let categoryBar = CategoryBar()
+    var categoryBarHeight: CGFloat = 0.15
     
     func setUpView() {
-        UIView.animate(withDuration: 0.3, animations: { 
+        UIView.animate(withDuration: 0.15, animations: {
             self.alpha = 1
         }) { (finished) in
+            
             self.setUpCategoryBarView()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.0, execute: {
+                self.fadeIn()
+            })
+        }
+    }
+    
+    func fadeIn() {
+        let categoryBarCells = categoryBar.visibleCells
+        
+        var animationDelay: Double = 0.0
+        let animationDelayIncrement: Double = 0.1
+        
+        for cell in categoryBarCells {
+            UIView.animate(withDuration: 0.2, delay: animationDelay, options: .curveLinear, animations: {
+                cell.alpha = 1
+            }, completion: nil)
+            
+            animationDelay += animationDelayIncrement
         }
     }
     
@@ -33,23 +53,6 @@ class CategoryBarView: UIView {
         categoryBar.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         categoryBar.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         categoryBar.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
-        let categoryBarCells = categoryBar.visibleCells
-        
-        for cell in categoryBarCells {
-            cell.alpha = 0
-        }
-        
-//        var animationDelay: Double = 0.5
-//        let animationDelayIncrement: Double = 1
-//        
-//        for cell in categoryBarCells {
-//            UIView.animate(withDuration: 0.5, delay: animationDelay, options: .curveLinear, animations: {
-//                cell.alpha = 1
-//            }, completion: nil)
-//            
-//            animationDelay += animationDelayIncrement
-//        }
     }
 
     required init?(coder aDecoder: NSCoder) {

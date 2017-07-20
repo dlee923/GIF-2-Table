@@ -24,6 +24,9 @@ class MainCollectionView: MDCCollectionViewController {
     let featureCellHeight: CGFloat = 0.2
     let collectionViewSideBorders: CGFloat = 10
     var isFavorites = false
+    var isFilteredByFood = false
+    
+    var filterCategoryTitle: String?
     
     let mainRecipeCell = "mainRecipeCell"
     let mainHeaderCell = "mainHeaderCell"
@@ -47,7 +50,7 @@ class MainCollectionView: MDCCollectionViewController {
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if isFavorites {
+        if isFavorites || isFilteredByFood {
             return 1
         } else {
             return 2
@@ -61,8 +64,8 @@ class MainCollectionView: MDCCollectionViewController {
         
         if let recipeCount = recipes?.count {
 
-            if isFavorites {
-                return recipeCount > maxVisibleRecipes ? maxVisibleRecipes : recipeCount
+            if isFavorites || isFilteredByFood {
+                return recipeCount > self.maxVisibleRecipes ? maxVisibleRecipes : recipeCount
             }
 
             print("recipe count is \(recipeCount)")
@@ -92,7 +95,7 @@ class MainCollectionView: MDCCollectionViewController {
             
             if recipes == nil || recipes?.count == 0 {
                 return emptyCellSize
-            } else if isFavorites {
+            } else if isFavorites || isFilteredByFood {
                 return normalCellSize
             } else {
                 switch indexPath.section {
@@ -116,6 +119,8 @@ class MainCollectionView: MDCCollectionViewController {
             
             if isFavorites {
                 header.headerLabel.text = "FAVORITE RECIPES"
+            } else if isFilteredByFood {
+                header.headerLabel.text = filterCategoryTitle
             } else {
                 switch indexPath.section {
                 case 0: header.headerLabel.text = "FEATURE RECIPES"
@@ -138,7 +143,7 @@ class MainCollectionView: MDCCollectionViewController {
             return UICollectionViewCell()
         }
         
-        if isFavorites {
+        if isFavorites || isFilteredByFood {
             if recipes == nil || self.recipes?.count == 0{
                 emptyCell.setUpEmptyPrompt(type: .noFavorites)
                 return emptyCell
@@ -196,10 +201,10 @@ class MainCollectionView: MDCCollectionViewController {
     var recipeView: RecipeView?
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if recipes == nil {
+        if recipes == nil || recipes?.count == 0 {
             return
         }
-        if indexPath.section == 1 || isFavorites {            
+        if indexPath.section == 1 || isFavorites || isFilteredByFood {
             if let window = UIApplication.shared.keyWindow {
                 recipeView = RecipeView(frame: window.bounds)
                 if let _recipeView = recipeView {

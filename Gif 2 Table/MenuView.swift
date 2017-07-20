@@ -13,7 +13,7 @@ class MenuView: MDCButtonBar {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .red
+        self.backgroundColor = tintedBlack
     }
     
     var barButtonItems: [UIBarButtonItem]?

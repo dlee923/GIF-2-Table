@@ -52,6 +52,16 @@ let tintedBlack = UIColor(white: 0.1, alpha: 1)
 let tintedBlackLight = UIColor(white: 0.1, alpha: 0.5)
 
 let globalBackgroundColor = UIColor(white: 0.90, alpha: 1)
+let globalAccessoryColor = UIColor.white
+let globalButtonTintColor = UIColor(white: 0.90, alpha: 1)
+let globalDetailCardColor = UIColor.white
+let globalDetailCardLblColor = UIColor(white: 0.0, alpha: 0.5)
+
+//let globalBackgroundColor = UIColor(red: 255/255, green: 252/255, blue: 182/255, alpha: 1.0)
+//let globalAccessoryColor = UIColor.white
+//let globalButtonTintColor = UIColor(white: 0.90, alpha: 1)
+//let globalDetailCardColor = UIColor(white: 0.90, alpha: 1)
+//let globalDetailCardLblColor = UIColor(white: 0, alpha: 0.5)
 
 enum BackgroundImage: String {
     case b1 = "background1"

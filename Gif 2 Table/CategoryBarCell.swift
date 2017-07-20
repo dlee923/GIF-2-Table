@@ -16,20 +16,23 @@ struct MenuOption {
 class CategoryBarCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.alpha = 0.2
         setUpCell()
     }
     
     let menuLabel: UILabel = {
         let label = UILabel()
-        label.font = fontMessy?.withSize(12)
+        label.font = fontReno?.withSize(11)
+        label.textColor = .white
         label.textAlignment = .center
         return label
     }()
     
     let menuImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderWidth = 2
         return imageView
     }()
     
@@ -42,15 +45,32 @@ class CategoryBarCell: UICollectionViewCell {
         }
     }
     
+    var imageSize: CGFloat?
+    let imageSizeScale: CGFloat = 0.9
+    
     fileprivate func setUpCell() {        
         self.addSubview(menuImage)
         self.addSubview(menuLabel)
         
-        self.addConstraintsWithFormat(format: "H:|[v0]|", views: menuLabel)
-        self.addConstraintsWithFormat(format: "V:[v0(15)]-|", views: menuLabel)
-        self.addConstraintsWithFormat(format: "H:|[v0]|", views: menuImage)
-        self.addConstraintsWithFormat(format: "V:|[v0]|", views: menuImage)
+        for view in self.subviews {
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
         
+        imageSize = self.frame.width < self.frame.height ? self.frame.width : self.frame.height
+        
+        if let _imageSize = imageSize {
+            let scaledImageSize = _imageSize * imageSizeScale
+            menuImage.widthAnchor.constraint(equalToConstant: scaledImageSize).isActive = true
+            menuImage.heightAnchor.constraint(equalToConstant: scaledImageSize).isActive = true
+            menuImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+            menuImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 7).isActive = true
+            menuImage.layer.cornerRadius = scaledImageSize / 2
+        }
+        
+        menuLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        menuLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
+        menuLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        menuLabel.topAnchor.constraint(equalTo: menuImage.bottomAnchor, constant: 5).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

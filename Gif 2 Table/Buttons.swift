@@ -57,10 +57,11 @@ class Buttons: UIBarButtonItem {
         let button = UIButton(type: .system)
         button.frame = CGRect(x: 0, y: 0, width: buttonSize, height: buttonSize)
         button.setImage(UIImage(named: buttonType.rawValue)?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = tintedBlack
+        button.tintColor = globalBackgroundColor
         
         switch buttonType {
         case .menu: button.addTarget(self, action: #selector(self.activateMenu), for: .touchUpInside)
+                    button.tintColor = tintedBlack
         case .filter: button.addTarget(self, action: #selector(self.selectFilter), for: .touchUpInside)
         case .favorite: button.addTarget(self, action: #selector(self.selectFavorites), for: .touchUpInside)
         case .home: button.addTarget(self, action: #selector(self.selectHome), for: .touchUpInside)

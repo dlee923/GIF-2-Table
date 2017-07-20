@@ -23,6 +23,7 @@ class CategoryBar: UICollectionView, UICollectionViewDataSource, UICollectionVie
         super.init(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
         setUpCategoryBar()
         declareMenuOptions()
+        self.backgroundColor = .clear
         self.backgroundView?.backgroundColor = .clear
     }
 
@@ -30,11 +31,8 @@ class CategoryBar: UICollectionView, UICollectionViewDataSource, UICollectionVie
     var menuCellID = "menuCell"
     var menuObjects: [MenuOption]?
     let isPagingEnable = true
-    
-    func setUpCategoryBarView() {
-        
-        //animate alpha of cells one by one - rapid fire?
-    }
+    var mainVC: MainVC?
+    var menuButton: Buttons?
     
     fileprivate func setUpCategoryBar() {
         self.dataSource = self
@@ -73,14 +71,46 @@ class CategoryBar: UICollectionView, UICollectionViewDataSource, UICollectionVie
         return CGSize(width: self.frame.width / CGFloat(menuObjects?.count ?? 1), height: self.frame.height)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: menuCellID, for: indexPath) as? CategoryBarCell {
+            cell.menuImage.alpha = 0.5
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: menuCellID, for: indexPath) as? CategoryBarCell {
+            cell.menuImage.alpha = 1.0
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: menuCellID, for: indexPath) as? CategoryBarCell {
             cell.menuOption = menuObjects?[indexPath.item]
+            cell.alpha = 0
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
             return cell
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let filteredCategory = menuObjects?[indexPath.item].name.rawValue
+        print("filtering selection")
+        
+        guard let main = mainVC else { return }
+        main.mainCollectionView.isFavorites = false
+        main.mainCollectionView.isFilteredByFood = true
+        main.mainCollectionView.filterCategoryTitle = filteredCategory
+            
+        main.mainCollectionView.recipes = main.recipes.filter({ (recipe) -> Bool in
+            recipe.category == filteredCategory
+        })
+        
+        main.mainCollectionView.collectionView?.reloadData()
+        menuButton?.activateMenu()
+        menuButton?.isFavoriteActive = false
     }
     
     required init?(coder aDecoder: NSCoder) {

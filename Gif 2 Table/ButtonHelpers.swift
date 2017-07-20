@@ -48,7 +48,9 @@ extension Buttons {
         UIView.animate(withDuration: 0.3, animations: {
             
             if self.categoryBarView != nil {
-                self.bottomConstraint?.constant = ((self.bottomConstant ?? 0) * 2) + 5
+                if let _categoryBarHeight = self.categoryBarView?.categoryBarHeight {
+                    self.bottomConstraint?.constant = ((self.bottomConstant ?? 0) + (window.frame.height * _categoryBarHeight)) + 5
+                }
             } else {
                 self.bottomConstraint?.constant = self.bottomConstant ?? 0
             }
@@ -59,8 +61,8 @@ extension Buttons {
             self.menuShadowBackground.removeFromSuperview()
             self.buttonMenu.removeFromSuperview()
             if let _categoryBarView = self.categoryBarView {
-                _categoryBarView.removeFromSuperview()
                 self.isFilterActive = false
+                _categoryBarView.removeFromSuperview()                
             }
             self.isMenuActive = false
         })
@@ -74,14 +76,19 @@ extension Buttons {
         
         if !isFilterActive {
             categoryBarView = CategoryBarView()
+            categoryBarView?.categoryBar.mainVC = main
+            categoryBarView?.categoryBar.menuButton = self
             categoryBarView?.translatesAutoresizingMaskIntoConstraints = false
+            
             if categoryBarView != nil {
-                window.addSubview(categoryBarView!)
-                categoryBarView?.heightAnchor.constraint(equalTo: window.heightAnchor, multiplier: buttonMenu.menuHeight).isActive = true
-                categoryBarView?.leadingAnchor.constraint(equalTo: window.leadingAnchor, constant: main.mainCollectionView.collectionViewSideBorders - 3).isActive = true
-                categoryBarView?.trailingAnchor.constraint(equalTo: window.trailingAnchor, constant: -main.mainCollectionView.collectionViewSideBorders + 3).isActive = true
-                categoryBarView?.bottomAnchor.constraint(equalTo: buttonMenu.topAnchor, constant: -5).isActive = true
-                categoryBarView?.setUpView()
+                if let _categoryBarHeight = categoryBarView?.categoryBarHeight {
+                    window.addSubview(categoryBarView!)
+                    categoryBarView?.heightAnchor.constraint(equalTo: window.heightAnchor, multiplier: _categoryBarHeight).isActive = true
+                    categoryBarView?.leadingAnchor.constraint(equalTo: window.leadingAnchor, constant: main.mainCollectionView.collectionViewSideBorders - 3).isActive = true
+                    categoryBarView?.trailingAnchor.constraint(equalTo: window.trailingAnchor, constant: -main.mainCollectionView.collectionViewSideBorders + 3).isActive = true
+                    categoryBarView?.bottomAnchor.constraint(equalTo: buttonMenu.topAnchor, constant: -5).isActive = true
+                    categoryBarView?.setUpView()
+                }
             }
             isFilterActive = true
         } else {
@@ -95,14 +102,16 @@ extension Buttons {
     }
     
     func selectFavorites() {
-        if isFavoriteActive {
+        if isFavoriteActive && !isFilterActive {
+            dismissMenu()
             return
         }
         print("favorites")
         self.isFavoriteActive = true
         
         guard let main = mainVC else { return }
-        main.mainCollectionView.isFavorites = self.isFavoriteActive
+        main.mainCollectionView.isFilteredByFood = false
+        main.mainCollectionView.isFavorites = self.isFavoriteActive        
         
 //        UIView.animate(withDuration: 0.3, animations: { 
 //            main.mainCVLeadingConstraint?.constant = main.view.frame.width
@@ -115,9 +124,6 @@ extension Buttons {
                 })
             })
         
-            print(main.favoriteRecipes.count)
-            print(main.mainCollectionView.recipes)
-        
             main.mainCollectionView.collectionView?.reloadData()
  
 //            UIView.animate(withDuration: 0.3, animations: {
@@ -128,17 +134,23 @@ extension Buttons {
 //                
 //            })
 //        }
+        
         activateMenu()
     }
     
     func selectHome() {
-        if !isFavoriteActive {
+        
+        guard let main = mainVC else { return }
+        
+        if !isFavoriteActive && !isFilterActive && !main.mainCollectionView.isFilteredByFood {
+            dismissMenu()
             return
         }
         print("home")
         self.isFavoriteActive = false
-        guard let main = mainVC else { return }
+        
         main.mainCollectionView.isFavorites = self.isFavoriteActive
+        main.mainCollectionView.isFilteredByFood = self.isFavoriteActive
         main.mainCollectionView.recipes = main.recipes
         main.mainCollectionView.collectionView?.reloadData()
         
