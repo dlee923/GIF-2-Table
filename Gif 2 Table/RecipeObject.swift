@@ -24,12 +24,10 @@ class RecipeObject: NSObject {
     var recipeChild: String?
     var mainVC: MainVC?
     var difficulty: Difficulty?
+    var shouldfade: Bool = true
+    var category: String?
     
-    //var downloadedimage uiimage
-    //var shouldfade bool
-    //var category string
-    
-    init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool, likes: Int, dislikes: Int, child: String, mainVC: MainVC?) {
+    init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool, likes: Int, dislikes: Int, child: String, mainVC: MainVC?, category: String) {
         recipeLink = link
         recipeTitle = title
         recipeImageLink = imageLink
@@ -41,6 +39,7 @@ class RecipeObject: NSObject {
         self.dislikes = dislikes
         recipeChild = child
         self.mainVC = mainVC
+        self.category = category
         
         if ingredients.count <= 8 {
             self.difficulty = .easy

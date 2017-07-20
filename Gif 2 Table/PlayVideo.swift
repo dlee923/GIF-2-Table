@@ -32,12 +32,4 @@ class PlayVideo: NSObject, AVPlayerViewControllerDelegate {
             videoPlayer.play()
         }
     }
-
-    func playerViewControllerWillStartPictureInPicture(_ playerViewController: AVPlayerViewController) {
-        print("about to play video")
-    }
-    
-    func playerViewControllerWillStopPictureInPicture(_ playerViewController: AVPlayerViewController) {
-        print("about to end video")
-    }
 }

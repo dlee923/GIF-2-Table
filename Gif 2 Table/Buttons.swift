@@ -20,6 +20,7 @@ enum ButtonType: String {
 class Buttons: UIBarButtonItem {
     
     let buttonSize: CGFloat = 30
+    var bottomConstant: CGFloat?
     var mainVC: MainVC?
     var isMenuActive = false
     var isFilterActive = false
@@ -35,6 +36,16 @@ class Buttons: UIBarButtonItem {
         _buttonMenu.buttons = self
         _buttonMenu.setUpButtonBar()
         return _buttonMenu
+    }()
+    
+    lazy var menuShadowBackground: UIView = {
+        let _menuShadowBackground = UIView()
+        _menuShadowBackground.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        _menuShadowBackground.translatesAutoresizingMaskIntoConstraints = false
+        _menuShadowBackground.alpha = 0
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.dismissMenu))
+        _menuShadowBackground.addGestureRecognizer(dismissTap)
+        return _menuShadowBackground
     }()
     
     var categoryBarView: CategoryBarView?

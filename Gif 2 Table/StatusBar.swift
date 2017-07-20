@@ -56,10 +56,18 @@ class StatusBar: MDCRaisedButton {
     
     func slideOffRecipe() {
         // slide off in preparation for playing video
-        let originPointX = mainVC?.mainCollectionView.recipeView?.frame.origin.x
-        guard let newOriginPoint = mainVC?.view.frame.width else { return }
+        guard let newOriginPoint = mainVC?.view.frame.height else { return }
         UIView.animate(withDuration: 0.3, animations: { 
-            self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform(translationX: newOriginPoint, y: 0)
+            self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform(translationX: 0, y: newOriginPoint)
+        }) { (_) in
+            // do something
+        }
+    }
+    
+    func slideOnRecipe() {
+        print("slide back on")
+        UIView.animate(withDuration: 0.3, animations: {
+            self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform.identity
         }) { (_) in
             // do something
         }

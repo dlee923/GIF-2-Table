@@ -11,9 +11,9 @@ import MaterialComponents
 
 enum MenuOptions: String {
     case chicken = "Chicken"
-    case steak = "Steak"
+    case meat = "Meat"
     case seafood = "Seafood"
-    case salad = "Salad"
+    case greens = "Greens"
     case pasta = "Pasta"
 }
 
@@ -51,11 +51,11 @@ class CategoryBar: UICollectionView, UICollectionViewDataSource, UICollectionVie
     
     fileprivate func declareMenuOptions() {
         let chicken = MenuOption(name: .chicken, imageName: "chicken")
-        let steak = MenuOption(name: .steak, imageName: "steak")
+        let meat = MenuOption(name: .meat, imageName: "steak")
         let seafood = MenuOption(name: .seafood, imageName: "seafood")
         let pasta = MenuOption(name: .pasta, imageName: "pasta")
-        let salad = MenuOption(name: .salad, imageName: "salad")
-        menuObjects = [chicken, steak, seafood, pasta, salad]
+        let greens = MenuOption(name: .greens, imageName: "salad")
+        menuObjects = [chicken, meat, seafood, pasta, greens]
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

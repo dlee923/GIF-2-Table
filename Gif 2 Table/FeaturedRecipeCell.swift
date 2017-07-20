@@ -20,16 +20,7 @@ class FeaturedRecipeCell: StockMDCCell {
     var recipe: RecipeObject? {
         didSet {
             recipe?.downloadCoverImage(completion: { (coverImage) in
-                // figure out a way to animate in transition
-                UIView.animate(withDuration: 0.25, animations: {
-                    self.recipeImage.alpha = 0
-                }, completion: { (_) in
-                    self.recipeImage.contentMode = .scaleAspectFill
-                    self.recipeImage.image = coverImage
-                    UIView.animate(withDuration: 0.25, animations: {
-                        self.recipeImage.alpha = 1
-                    })
-                })
+                self.fadeInImage(recipe: self.recipe!, recipeImage: self.recipeImage, downloadedImage: coverImage)
             })
         }
     }

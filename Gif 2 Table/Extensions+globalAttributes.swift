@@ -49,6 +49,7 @@ let fontLemon = UIFont(name: "Lemon/Milk", size: 5)
 let fontPorter = UIFont(name: "Porter", size: 5)
 
 let tintedBlack = UIColor(white: 0.1, alpha: 1)
+let tintedBlackLight = UIColor(white: 0.1, alpha: 0.5)
 
 let globalBackgroundColor = UIColor(white: 0.90, alpha: 1)
 

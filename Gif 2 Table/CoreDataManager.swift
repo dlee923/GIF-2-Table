@@ -122,7 +122,8 @@ class CoreDataManager: NSObject {
             do {
                 if let recipes = try context?.fetch(request) {
                     for recipe in recipes {
-                        let loadRecipe = RecipeObject(link: recipe.recipeLink!, title: recipe.recipeTitle!, imageLink: recipe.recipeImageLink!, ingredients: recipe.recipeIngredients!, favorite: recipe.favorite, like: recipe.isLiked, dislike: recipe.isDisliked, likes: 0, dislikes: 0, child: recipe.recipeChild!, mainVC: mainVC!)
+                        let loadRecipe = RecipeObject(link: recipe.recipeLink!, title: recipe.recipeTitle!, imageLink: recipe.recipeImageLink!, ingredients: recipe.recipeIngredients!, favorite: recipe.favorite, like: recipe.isLiked, dislike: recipe.isDisliked, likes: 0, dislikes: 0, child: recipe.recipeChild!, mainVC: mainVC!, category: " ")
+                        
                         recipeArr.append(loadRecipe)
                     }
                 }
@@ -136,7 +137,7 @@ class CoreDataManager: NSObject {
             do {
                 if let recipes = try context?.fetch(request) {
                     for recipe in recipes {
-                        let loadRecipe = RecipeObject(link: " ", title: recipe.recipeTitle!, imageLink: " ", ingredients: [["":""]], favorite: false, like: true, dislike: true, likes: 0, dislikes: 0, child: " ", mainVC: mainVC!)
+                        let loadRecipe = RecipeObject(link: " ", title: recipe.recipeTitle!, imageLink: " ", ingredients: [["":""]], favorite: false, like: true, dislike: true, likes: 0, dislikes: 0, child: " ", mainVC: mainVC!, category: " ")
                         recipeArr.append(loadRecipe)
                     }
                 }
@@ -150,7 +151,7 @@ class CoreDataManager: NSObject {
             do {
                 if let recipes = try context?.fetch(request) {
                     for recipe in recipes {
-                        let loadRecipe = RecipeObject(link: " ", title: recipe.recipeTitle!, imageLink: " ", ingredients: [["":""]], favorite: false, like: true, dislike: true, likes: 0, dislikes: 0, child: " ", mainVC: mainVC!)
+                        let loadRecipe = RecipeObject(link: " ", title: recipe.recipeTitle!, imageLink: " ", ingredients: [["":""]], favorite: false, like: true, dislike: true, likes: 0, dislikes: 0, child: " ", mainVC: mainVC!, category: " ")
                         recipeArr.append(loadRecipe)
                     }
                 }

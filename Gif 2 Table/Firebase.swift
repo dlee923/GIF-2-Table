@@ -26,7 +26,8 @@ class Firebase {
                     let ingredients = recipeValues["ingredients"] as? [[String: String]],
                     let image = recipeValues["image"] as? String,
                     let likes = recipeValues["likes"] as? Int,
-                    let dislikes = recipeValues["dislikes"] as? Int
+                    let dislikes = recipeValues["dislikes"] as? Int,
+                    let category = recipeValues["category"] as? String
                 {
                     
                     var ingredientArr = [[String: String]]()
@@ -35,7 +36,7 @@ class Firebase {
                         ingredientArr.append(ingredient)
                     }
                     
-                    let recipe = RecipeObject(link: link, title: title, imageLink: image, ingredients: ingredientArr, favorite: false, like: false, dislike: false, likes: likes, dislikes: dislikes, child: snapshot.key, mainVC: self.mainVC!)
+                    let recipe = RecipeObject(link: link, title: title, imageLink: image, ingredients: ingredientArr, favorite: false, like: false, dislike: false, likes: likes, dislikes: dislikes, child: snapshot.key, mainVC: self.mainVC!, category: category)
                     print("successful instantiation of recipeObj")
                     
                     recipes.append(recipe)
@@ -49,10 +50,18 @@ class Firebase {
     }
     
     func pushLikeDislikeValue(recipe: RecipeObject) {
-        if let recipeInDatabase = recipe.recipeChild, let link = recipe.recipeLink, let imageLink = recipe.recipeImageLink, let recipeTitle = recipe.recipeTitle, let ingredients = recipe.recipeIngredients, let likes = recipe.likes, let dislikes = recipe.dislikes {
+        if let recipeInDatabase = recipe.recipeChild,
+            let link = recipe.recipeLink,
+            let imageLink = recipe.recipeImageLink,
+            let recipeTitle = recipe.recipeTitle,
+            let ingredients = recipe.recipeIngredients,
+            let likes = recipe.likes,
+            let dislikes = recipe.dislikes,
+            let category = recipe.category {
+            
             let recipeDatabase = FIRDatabase.database().reference().child("Recipes").child(recipeInDatabase)
             
-            let values = ["dislikes": dislikes, "gifLink": link, "image": imageLink, "likes": likes, "title": recipeTitle, "ingredients": ingredients] as [String : Any]
+            let values = ["dislikes": dislikes, "gifLink": link, "category": category, "image": imageLink, "likes": likes, "title": recipeTitle, "ingredients": ingredients] as [String : Any]
             
             print(values)
             recipeDatabase.updateChildValues(values) { (err, ref) in

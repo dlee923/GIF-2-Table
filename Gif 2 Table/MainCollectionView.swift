@@ -55,21 +55,22 @@ class MainCollectionView: MDCCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if recipes == nil || recipes?.count == 0 || isFavorites {
+        if recipes == nil || recipes?.count == 0 {
             return 1
         }
         
         if let recipeCount = recipes?.count {
+
+            if isFavorites {
+                return recipeCount > maxVisibleRecipes ? maxVisibleRecipes : recipeCount
+            }
+
             print("recipe count is \(recipeCount)")
             switch section {
             case 0:
                 return 1
             case 1:
-                if recipeCount > maxVisibleRecipes {
-                    return maxVisibleRecipes
-                } else {
-                    return recipeCount
-                }
+                return recipeCount > maxVisibleRecipes ? maxVisibleRecipes : recipeCount
             default: break
             }
         }
@@ -143,6 +144,20 @@ class MainCollectionView: MDCCollectionViewController {
                 return emptyCell
             } else {
                 mainCell.recipe = self.recipes?[indexPath.item]
+                mainCell.recipeCardFrame = mainCell.frame
+                mainCell.mainVC = self.mainVC
+                
+                mainCell.recipeImage.contentMode = .scaleAspectFit
+                mainCell.recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
+                
+                mainCell.thumbsUp.isSelected = false
+                mainCell.thumbsDown.isSelected = false
+                mainCell.loveButton.isSelected = false
+                
+                mainCell.thumbsUp.checkIfLiked()
+                mainCell.thumbsDown.checkIfDisliked()
+                mainCell.loveButton.checkIfFavorite()
+                
                 return mainCell
             }
         }
@@ -160,6 +175,18 @@ class MainCollectionView: MDCCollectionViewController {
             mainCell.recipe = self.recipes?[indexPath.item]
             mainCell.recipeCardFrame = mainCell.frame
             mainCell.mainVC = self.mainVC
+            
+            mainCell.recipeImage.contentMode = .scaleAspectFit
+            mainCell.recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
+            
+            mainCell.thumbsUp.isSelected = false
+            mainCell.thumbsDown.isSelected = false
+            mainCell.loveButton.isSelected = false
+            
+            mainCell.thumbsUp.checkIfLiked()
+            mainCell.thumbsDown.checkIfDisliked()
+            mainCell.loveButton.checkIfFavorite()
+            
             return mainCell
         }
 
@@ -172,8 +199,7 @@ class MainCollectionView: MDCCollectionViewController {
         if recipes == nil {
             return
         }
-        if indexPath.section == 1 || isFavorites {
-            
+        if indexPath.section == 1 || isFavorites {            
             if let window = UIApplication.shared.keyWindow {
                 recipeView = RecipeView(frame: window.bounds)
                 if let _recipeView = recipeView {

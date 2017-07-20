@@ -57,6 +57,10 @@ class FeaturedRecipesCV: MDCCollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: featureCellID, for: indexPath) as? FeaturedRecipeCell {
+            
+            cell.recipeImage.contentMode = .scaleAspectFit            
+            cell.recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
+            
             cell.recipe = recipes?[indexPath.item]
             return cell
         }
@@ -64,13 +68,14 @@ class FeaturedRecipesCV: MDCCollectionViewController {
         return FeaturedRecipeCell()
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
         if let window = UIApplication.shared.keyWindow {
-            let recipeView = RecipeView(frame: window.bounds)
-            recipeView.recipe = recipes?[indexPath.item]
-            recipeView.mainVC = self.mainVC
-            window.addSubview(recipeView)
+            mainVC?.mainCollectionView.recipeView = RecipeView(frame: window.bounds)
+            if let _recipeView = mainVC?.mainCollectionView.recipeView {
+                _recipeView.recipe = recipes?[indexPath.item]
+                _recipeView.mainVC = self.mainVC
+                window.addSubview(_recipeView)
+            }
         }
     }
     

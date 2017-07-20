@@ -12,14 +12,13 @@ extension MainCollectionView {
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= (scrollView.contentSize.height - (self.mainVC?.view.frame.height ?? 0)) {
-            print("attempting to load more recipes")
             
             guard let count = self.recipes?.count else { return }
             if self.maxVisibleRecipes < count {
                 self.maxVisibleRecipes += additionalRecipeIncremental
             }
         }
-        scrollNavTitleHandler(scrollView: scrollView)
+//        scrollNavTitleHandler(scrollView: scrollView)
     }
     
     func scrollNavTitleHandler(scrollView: UIScrollView) {

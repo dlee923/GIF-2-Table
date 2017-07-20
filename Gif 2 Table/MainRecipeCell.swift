@@ -25,19 +25,26 @@ class MainFeatureCell: StockMDCCell {
     
     var recipes: [RecipeObject]? {
         didSet {
-            featureCollection.recipes = self.recipes
+            if let featureRecipes = self.recipes?.sorted(by: { (recipe1, recipe2) -> Bool in
+                return recipe1.likes! > recipe2.likes!
+            }) {
+                featureCollection.recipes = Array(featureRecipes.prefix(3))
+            }            
             guard let featureCV = featureCollection.collectionView else { return }
             featureCV.reloadData()
         }
     }
     
-    var mainVC: MainVC?
+    var mainVC: MainVC? {
+        didSet {
+            featureCollection.mainVC = self.mainVC
+        }
+    }
     
     let featureCollection = FeaturedRecipesCV(collectionViewLayout: UICollectionViewFlowLayout())
     
     fileprivate func setUpCollectionView() {
         guard let featureCV = featureCollection.collectionView else { return }
-        featureCollection.mainVC = self.mainVC
         
         self.addSubview(featureCV)
         
@@ -64,19 +71,11 @@ class MainRecipeCell: StockMDCCell {
         didSet {
     
             recipe?.downloadCoverImage(completion: { (coverImage) in
-    
-                UIView.animate(withDuration: 0.25, animations: { 
-                    self.recipeImage.alpha = 0
-                }, completion: { (_) in
-                    self.recipeImage.contentMode = .scaleAspectFill
-                    self.recipeImage.image = coverImage
-                    UIView.animate(withDuration: 0.25, animations: {
-                        self.recipeImage.alpha = 1
-                    })
-                })
+                self.fadeInImage(recipe: self.recipe!, recipeImage: self.recipeImage, downloadedImage: coverImage)            
             })
+            
             titleLabel.text = recipe?.recipeTitle
-            categoryLabel.text = "\(recipe?.favorite)"
+            categoryLabel.text = recipe?.category
             if let count = recipe?.recipeIngredients?.count {
                 ingredientsLabel.text = "\(count) Ingredients"
             }
@@ -105,18 +104,14 @@ class MainRecipeCell: StockMDCCell {
             loveButton.mainViewController = self.mainVC
             
             thumbsUp.opposingButton = self.thumbsDown
-            thumbsDown.opposingButton = self.thumbsUp
-            
-            thumbsUp.checkIfLiked()
-            thumbsDown.checkIfDisliked()
-            loveButton.checkIfFavorite()
+            thumbsDown.opposingButton = self.thumbsUp                        
         }
     }
     
     let recipeImage: UIImageView = {
         let _recipeImage = UIImageView()
         _recipeImage.contentMode = .scaleAspectFit
-        _recipeImage.tintColor = tintedBlack
+        _recipeImage.tintColor = tintedBlackLight
         _recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
         _recipeImage.clipsToBounds = true
         _recipeImage.translatesAutoresizingMaskIntoConstraints = false
@@ -303,6 +298,25 @@ class StockMDCCell: MDCCollectionViewCell {
     
     func setUpCell() {
         
+    }
+    
+    func fadeInImage(recipe: RecipeObject, recipeImage: UIImageView, downloadedImage: UIImage) {
+        if recipe.shouldfade == true {
+            UIView.animate(withDuration: 0.25, animations: {
+                recipeImage.alpha = 0
+            }, completion: { (_) in
+                recipeImage.contentMode = .scaleAspectFill
+                recipeImage.image = downloadedImage
+                
+                UIView.animate(withDuration: 0.25, animations: {
+                    recipeImage.alpha = 1
+                })
+            })
+            recipe.shouldfade = false
+        } else {
+            recipeImage.contentMode = .scaleAspectFill
+            recipeImage.image = downloadedImage
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

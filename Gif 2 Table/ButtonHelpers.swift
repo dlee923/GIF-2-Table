@@ -12,55 +12,74 @@ extension Buttons {
 
     func activateMenu() {
         guard let main = mainVC else { return }
+        guard let window = UIApplication.shared.keyWindow else { return }
         
-        let bottomConstant: CGFloat = main.view.frame.height * buttonMenu.menuHeight
+        bottomConstant = main.view.frame.height * buttonMenu.menuHeight
         
         if !isMenuActive {
-            main.view.addSubview(buttonMenu)
-            buttonMenu.heightAnchor.constraint(equalTo: main.view.heightAnchor, multiplier: buttonMenu.menuHeight).isActive = true
-            buttonMenu.leadingAnchor.constraint(equalTo: main.view.leadingAnchor, constant: main.mainCollectionView.collectionViewSideBorders - 3).isActive = true
-            buttonMenu.trailingAnchor.constraint(equalTo: main.view.trailingAnchor, constant: -main.mainCollectionView.collectionViewSideBorders + 3).isActive = true
-            bottomConstraint = buttonMenu.bottomAnchor.constraint(equalTo: main.view.bottomAnchor, constant: bottomConstant)
+            window.addSubview(menuShadowBackground)
+            menuShadowBackground.topAnchor.constraint(equalTo: window.topAnchor).isActive = true
+            menuShadowBackground.leadingAnchor.constraint(equalTo: window.leadingAnchor).isActive = true
+            menuShadowBackground.trailingAnchor.constraint(equalTo: window.trailingAnchor).isActive = true
+            menuShadowBackground.bottomAnchor.constraint(equalTo: window.bottomAnchor).isActive = true
+            
+            window.addSubview(buttonMenu)
+            buttonMenu.heightAnchor.constraint(equalTo: window.heightAnchor, multiplier: buttonMenu.menuHeight).isActive = true
+            buttonMenu.leadingAnchor.constraint(equalTo: window.leadingAnchor, constant: main.mainCollectionView.collectionViewSideBorders - 3).isActive = true
+            buttonMenu.trailingAnchor.constraint(equalTo: window.trailingAnchor, constant: -main.mainCollectionView.collectionViewSideBorders + 3).isActive = true
+            bottomConstraint = buttonMenu.bottomAnchor.constraint(equalTo: window.bottomAnchor, constant: bottomConstant ?? 0)
             bottomConstraint?.isActive = true
-            main.view.layoutIfNeeded()
+            window.layoutIfNeeded()
             
             UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: .curveEaseInOut, animations: {
+                self.menuShadowBackground.alpha = 1
                 self.bottomConstraint?.constant = -main.mainCollectionView.collectionViewSideBorders + 3
-                main.view.layoutIfNeeded()
+                window.layoutIfNeeded()
             }) { (_) in
                 self.isMenuActive = true
             }
         } else {
-            UIView.animate(withDuration: 0.3, animations: {
-                if self.categoryBarView != nil {
-                    self.bottomConstraint?.constant = (bottomConstant * 2) + 5
-                } else {
-                    self.bottomConstraint?.constant = bottomConstant
-                }
-                main.view.layoutIfNeeded()
-                
-            }, completion: { (finished) in
-                self.buttonMenu.removeFromSuperview()
-                if let _categoryBarView = self.categoryBarView {
-                    _categoryBarView.removeFromSuperview()
-                    self.isFilterActive = false
-                }
-                self.isMenuActive = false
-            })
+            dismissMenu()
         }
     }
     
+    func dismissMenu() {
+        guard let window = UIApplication.shared.keyWindow else { return }
+        UIView.animate(withDuration: 0.3, animations: {
+            
+            if self.categoryBarView != nil {
+                self.bottomConstraint?.constant = ((self.bottomConstant ?? 0) * 2) + 5
+            } else {
+                self.bottomConstraint?.constant = self.bottomConstant ?? 0
+            }
+            self.menuShadowBackground.alpha = 0
+            window.layoutIfNeeded()
+            
+        }, completion: { (finished) in
+            self.menuShadowBackground.removeFromSuperview()
+            self.buttonMenu.removeFromSuperview()
+            if let _categoryBarView = self.categoryBarView {
+                _categoryBarView.removeFromSuperview()
+                self.isFilterActive = false
+            }
+            self.isMenuActive = false
+        })
+    }
+    
+    
+    
     func selectFilter() {
         guard let main = mainVC else { return }
+        guard let window = UIApplication.shared.keyWindow else { return }
         
         if !isFilterActive {
             categoryBarView = CategoryBarView()
             categoryBarView?.translatesAutoresizingMaskIntoConstraints = false
             if categoryBarView != nil {
-                main.view.addSubview(categoryBarView!)
-                categoryBarView?.heightAnchor.constraint(equalTo: main.view.heightAnchor, multiplier: buttonMenu.menuHeight).isActive = true
-                categoryBarView?.leadingAnchor.constraint(equalTo: main.view.leadingAnchor, constant: main.mainCollectionView.collectionViewSideBorders - 3).isActive = true
-                categoryBarView?.trailingAnchor.constraint(equalTo: main.view.trailingAnchor, constant: -main.mainCollectionView.collectionViewSideBorders + 3).isActive = true
+                window.addSubview(categoryBarView!)
+                categoryBarView?.heightAnchor.constraint(equalTo: window.heightAnchor, multiplier: buttonMenu.menuHeight).isActive = true
+                categoryBarView?.leadingAnchor.constraint(equalTo: window.leadingAnchor, constant: main.mainCollectionView.collectionViewSideBorders - 3).isActive = true
+                categoryBarView?.trailingAnchor.constraint(equalTo: window.trailingAnchor, constant: -main.mainCollectionView.collectionViewSideBorders + 3).isActive = true
                 categoryBarView?.bottomAnchor.constraint(equalTo: buttonMenu.topAnchor, constant: -5).isActive = true
                 categoryBarView?.setUpView()
             }
@@ -84,16 +103,23 @@ extension Buttons {
         
         guard let main = mainVC else { return }
         main.mainCollectionView.isFavorites = self.isFavoriteActive
+        
 //        UIView.animate(withDuration: 0.3, animations: { 
 //            main.mainCVLeadingConstraint?.constant = main.view.frame.width
 //            main.view.layoutIfNeeded()
 //        }) { (finished) in
-
+        
             main.mainCollectionView.recipes = main.recipes.filter({ (recipe) -> Bool in
-                main.favoriteRecipes.contains(recipe) == true
+                main.favoriteRecipes.contains(where: { (favRecipe) -> Bool in
+                    favRecipe.recipeTitle == recipe.recipeTitle
+                })
             })
+        
+            print(main.favoriteRecipes.count)
+            print(main.mainCollectionView.recipes)
+        
             main.mainCollectionView.collectionView?.reloadData()
-
+ 
 //            UIView.animate(withDuration: 0.3, animations: {
 //                main.mainCVLeadingConstraint?.constant = 0
 //                main.view.layoutIfNeeded()                

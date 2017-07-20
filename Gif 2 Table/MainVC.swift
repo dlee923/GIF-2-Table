@@ -20,9 +20,19 @@ class MainVC: UIViewController {
         
         loadData()
 
-//        downloadRecipeObjects()
+        downloadRecipeObjects()
         
         setUpCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print("view is appearing...")
+        if self.mainCollectionView.recipeView != nil {
+            print("recipe view must slide back")
+            self.mainCollectionView.recipeView?.statusBar.slideOnRecipe()
+        }
     }
     
     let imageCache = NSCache<AnyObject, AnyObject>()
@@ -86,7 +96,7 @@ class MainVC: UIViewController {
         firebaseMgr.mainVC = self
         firebaseMgr.downloadData { (recipes) in
 //            self.recipes = recipes
-            self.recipes = Array(recipes.prefix(1))
+            self.recipes = Array(recipes.prefix(6))
             self.featureRecipe = recipes.first
             self.featureRecipeStored = recipes.first
             
@@ -103,6 +113,7 @@ class MainVC: UIViewController {
         self.dislikedRecipes = coreDataManager.loadData(entityName: "DislikedRecipe")
         print("liked count: \(likedRecipes.count)")
         print("disliked count: \(dislikedRecipes.count)")
+        print("favorites count: \(favoriteRecipes.count)")
     }
     
 }
