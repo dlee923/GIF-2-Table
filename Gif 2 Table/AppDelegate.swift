@@ -22,14 +22,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-                
-        let rootController = UINavigationController(rootViewController: MainVC())
-        rootController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        rootController.navigationBar.barTintColor = globalBackgroundColor
-        rootController.navigationBar.isTranslucent = false
-        rootController.navigationBar.shadowImage = UIImage()
         
-        window?.rootViewController = rootController
+        if UserDefaults.standard.value(forKey: "tutorial") == nil {
+            print("needs to take tutorial")
+            let introVC = IntroVC()
+            window?.rootViewController = introVC
+        } else {
+            print("already taken tutorial")
+            let rootController = UINavigationController(rootViewController: MainVC())
+            rootController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            rootController.navigationBar.barTintColor = globalBackgroundColor
+            rootController.navigationBar.isTranslucent = false
+            rootController.navigationBar.shadowImage = UIImage()
+            window?.rootViewController = rootController
+        }
         
         return true
     }

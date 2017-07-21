@@ -13,6 +13,7 @@ class IntroVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("creating intro VC")
         instantiateRecipeView()
         instantiateTutorialView()
     }
@@ -50,20 +51,20 @@ class IntroVC: UIViewController {
         highlightedView.text = "PRESS TO PLAY"
         highlightedView.font = fontReno?.withSize(12)
         
+        self.view.addSubview(recipeView!)
+        
+        self.view.addSubview(highlightedView)
+        
         featureHighlight = MDCFeatureHighlightViewController(highlightedView: highlightedView, andShow: highlightedView, completion: { (_) in
-            print("move to real app and flip switch to not play again")
             self.flagUserExperience()
             self.dismiss(animated: true, completion: nil)
+            self.transitionToMainScreen()
         })
 
         featureHighlight?.outerHighlightColor = globalBlueColor
         featureHighlight?.innerHighlightColor = globalBeigeColor
         featureHighlight?.titleText = "Play Recipes!"
         featureHighlight?.bodyText = "Press this button to play recipes!  It's that simple!"
-    
-        self.view.addSubview(recipeView!)
-        
-        self.view.addSubview(highlightedView)
     }
     
     fileprivate func instantiateTutorialView() {
@@ -133,5 +134,18 @@ class IntroVC: UIViewController {
     fileprivate func flagUserExperience() {
         UserDefaults.standard.set("X", forKey: "tutorial")
         UserDefaults.standard.synchronize()
+    }
+    
+    fileprivate func transitionToMainScreen() {
+        let rootController = UINavigationController(rootViewController: MainVC())
+        rootController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        rootController.navigationBar.barTintColor = globalBackgroundColor
+        rootController.navigationBar.isTranslucent = false
+        rootController.navigationBar.shadowImage = UIImage()
+        present(rootController, animated: true)
+    }
+    
+    deinit {
+        print("intro VC deinit")
     }
 }

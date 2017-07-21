@@ -28,7 +28,7 @@ class FeaturedRecipeCell: StockMDCCell {
     let recipeImage: UIImageView = {
         let _recipeImage = UIImageView()
         _recipeImage.contentMode = .scaleAspectFit
-        _recipeImage.tintColor = tintedBlack
+        _recipeImage.tintColor = tintedBlack.withAlphaComponent(0.5)
         _recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
         _recipeImage.clipsToBounds = true
         _recipeImage.translatesAutoresizingMaskIntoConstraints = false

@@ -22,7 +22,7 @@ class CategoryBarCell: UICollectionViewCell {
     let menuLabel: UILabel = {
         let label = UILabel()
         label.font = fontReno?.withSize(11)
-        label.textColor = .white
+        label.textColor = globalBeigeColor
         label.textAlignment = .center
         return label
     }()
@@ -31,7 +31,7 @@ class CategoryBarCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderColor = globalBeigeColor.cgColor
         imageView.layer.borderWidth = 2
         return imageView
     }()
