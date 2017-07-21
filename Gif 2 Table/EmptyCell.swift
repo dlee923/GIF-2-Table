@@ -10,6 +10,7 @@ import UIKit
 
 enum EmptyMessage: String {
     case noFavorites = "No favorite recipes have been selected."
+    case noCategoryType = "No recipes of this type available."
     case noRecipes = "Loading recipes from server..."
 }
 

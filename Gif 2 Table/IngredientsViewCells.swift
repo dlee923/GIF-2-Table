@@ -62,7 +62,7 @@ class IngredientHeader: BaseCell {
     }()
     
     func removeRecipeView() {
-        recipeView?.removeFromSuperview()
+        recipeView?.statusBar.slideOffRecipe(shouldRemove: true, recipeView: recipeView)
     }
     
 }

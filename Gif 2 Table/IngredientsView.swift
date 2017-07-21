@@ -87,6 +87,7 @@ class IngredientsView: UICollectionView, UICollectionViewDelegateFlowLayout, UIC
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerCellID, for: indexPath) as? IngredientHeader {
             header.recipeView = self.recipeView
+            self.recipeView?.ingredientListHeader = header
             return header
         }
         

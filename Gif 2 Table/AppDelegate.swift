@@ -29,7 +29,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootController.navigationBar.isTranslucent = false
         rootController.navigationBar.shadowImage = UIImage()
         
-        window?.rootViewController = rootController
+        let introController = IntroVC()
+        
+        window?.rootViewController = introController
+//        window?.rootViewController = rootController
         
         return true
     }

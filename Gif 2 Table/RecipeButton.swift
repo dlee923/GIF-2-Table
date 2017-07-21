@@ -29,6 +29,7 @@ class RecipeButton: UIButton {
     
     fileprivate func setUpButton() {
         self.translatesAutoresizingMaskIntoConstraints = false
+        self.imageView?.contentMode = .scaleAspectFit
     }
     
     func setTintColor() {

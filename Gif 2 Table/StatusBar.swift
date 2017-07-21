@@ -14,7 +14,7 @@ class StatusBar: MDCRaisedButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setBackgroundColor(tintedBlack, for: .normal)
-        self.clipsToBounds = true
+        self.titleLabel?.font = fontReno?.withSize(12)
         self.setTitleColor(UIColor.white, for: .normal)
         setUpPlayButton()
     }
@@ -24,27 +24,32 @@ class StatusBar: MDCRaisedButton {
     
     let playFunctions = PlayVideo()
     
-    let playImage = UIImageView(image: UIImage(named: "ic_play_circle_outline")?.withRenderingMode(.alwaysTemplate))
+    let playImage: UIImageView = {
+        let _playImage = UIImageView(image: UIImage(named: "ic_play_circle_outline")?.withRenderingMode(.alwaysTemplate))
+        _playImage.tintColor = .white
+        _playImage.backgroundColor = tintedBlack
+        _playImage.contentMode = .center
+        _playImage.translatesAutoresizingMaskIntoConstraints = false
+        return _playImage
+    }()
+    
     let playLabel = UILabel()
     
     func setUpPlayButton() {
         self.setElevation(4, for: .normal)
-        
+        self.setTitle("Press To Play!", for: .normal)
         self.addTarget(self, action: #selector(self.playVideo), for: .touchUpInside)
-        playImage.tintColor = .white
-        
+
         self.addSubview(playImage)
-        playImage.contentMode = .center
-        playImage.translatesAutoresizingMaskIntoConstraints = false
-        playImage.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        playImage.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        playImage.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        playImage.widthAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        playImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        playImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15).isActive = true
+        playImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5).isActive = true
+        playImage.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5).isActive = true
     }
     
     
     func playVideo() {                
-        slideOffRecipe()
+        slideOffRecipe(shouldRemove: false, recipeView: nil)
         
         playFunctions.mainViewController = self.mainVC
         if let link = recipe?.recipeLink {
@@ -52,13 +57,15 @@ class StatusBar: MDCRaisedButton {
         }
     }
     
-    func slideOffRecipe() {
+    func slideOffRecipe(shouldRemove: Bool, recipeView: RecipeView?) {
         // slide off in preparation for playing video
-        guard let newOriginPoint = mainVC?.view.frame.height else { return }
+        guard let newOriginPoint = mainVC?.view.frame.width else { return }
         UIView.animate(withDuration: 0.3, animations: { 
             self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform(translationX: newOriginPoint, y: 0)
         }) { (_) in
-            // do something
+            if shouldRemove {
+                recipeView?.removeFromSuperview()
+            }
         }
     }
     

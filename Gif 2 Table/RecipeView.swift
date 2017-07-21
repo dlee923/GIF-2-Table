@@ -12,8 +12,7 @@ class RecipeView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.alpha = 0
-        setUpView()
+        self.backgroundColor = .clear
     }
     
     var recipe: RecipeObject? {
@@ -22,7 +21,7 @@ class RecipeView: UIView {
                 self.recipeImage.image = image
             }
             ingredientList?.recipe = self.recipe
-            statusBar.recipe = self.recipe
+            statusBar.recipe = self.recipe            
         }
     }
     
@@ -32,7 +31,12 @@ class RecipeView: UIView {
         }
     }
     
-    var recipeCell: StockMDCCell?
+    var recipeCell: StockMDCCell? {
+        didSet {
+            setUpView()
+            addSwipeGestureToRemoveView()
+        }
+    }
     
     let imageHeight: CGFloat = 0.45
     let ingredientViewSideSpacer: CGFloat = 15
@@ -69,36 +73,66 @@ class RecipeView: UIView {
         return _ingredientList
     }()
     
+    var ingredientListHeader: IngredientHeader?
+    
     let statusBar = StatusBar()
     
     var ingredientViewTopAnchor: NSLayoutConstraint?
     
+    let swipeView = UIView()
+    
+    func createFauxImage() -> UIImageView {
+        if let cell = self.recipeCell as? MainRecipeCell {
+            let cellImageFrame = cell.convert(cell.recipeImage.frame, to: nil)
+            let fauxImage = UIImageView(frame: cellImageFrame)
+            fauxImage.contentMode = .scaleAspectFill
+            fauxImage.clipsToBounds = true
+            fauxImage.image = cell.recipeImage.image
+            return fauxImage
+        } else if let cell = self.recipeCell as? FeaturedRecipeCell {
+            let cellImageFrame = cell.convert(cell.recipeImage.frame, to: nil)
+            let fauxImage = UIImageView(frame: cellImageFrame)
+            fauxImage.contentMode = .scaleAspectFill
+            fauxImage.clipsToBounds = true
+            fauxImage.image = cell.recipeImage.image
+            return fauxImage
+        }
+        
+        return UIImageView()
+    }
+    
     func setUpView() {
+        
+        var fauxImg: UIImageView?
         
         UIView.animate(withDuration: 0.2, animations: {
             // add faux image
+            fauxImg = self.createFauxImage()
+            
+            self.addSubview(fauxImg!)
             
             self.backgroundColor = globalBackgroundColor
-            self.alpha = 1
             
         }) { (_) in
             // add elements offscreen
             self.addViewElements()
             self.recipeCanvas.transform = CGAffineTransform(translationX: 0, y: self.frame.height)
             
-            UIView.animate(withDuration: 0.25, animations: { 
-                 // animate faux image into position
-                
+            
+            
+            UIView.animate(withDuration: 0.25, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveLinear, animations: {
+                fauxImg?.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height * self.imageHeight)
             }, completion: { (_) in
-                
                 UIView.animate(withDuration: 0.25, animations: {
                     self.recipeCanvas.transform = CGAffineTransform.identity
                 }, completion: { (_) in
                     self.recipeImage.alpha = 1
-                    // remove faux image
+                    fauxImg?.removeFromSuperview()
                 })
             })
         }
+        
+        
     }
     
     func addViewElements() {
@@ -107,6 +141,10 @@ class RecipeView: UIView {
         self.addSubview(recipeCanvas)
         recipeCanvas.addSubview(recipeImage)
         recipeImage.addSubview(blurView)
+        
+        swipeView.frame = CGRect(x: 0, y: 0, width: self.frame.width / 5, height: self.frame.height)
+        recipeCanvas.addSubview(self.swipeView)
+        
         recipeCanvas.addSubview(ingredientView)
         recipeCanvas.addSubview(statusBar)
         recipeCanvas.addSubview(_ingredientList)
@@ -148,6 +186,10 @@ class RecipeView: UIView {
         _ingredientList.trailingAnchor.constraint(equalTo: ingredientView.trailingAnchor, constant: -statusBarSideSpacer).isActive = true
         _ingredientList.bottomAnchor.constraint(equalTo: statusBar.topAnchor).isActive = true
         _ingredientList.contentInset = UIEdgeInsetsMake(ingredientViewStart ?? 0, 0, 0, 0)
+    }
+    
+    func swipeToRemoveView() {
+        self.statusBar.slideOffRecipe(shouldRemove: true, recipeView: self)
     }
     
     required init?(coder aDecoder: NSCoder) {

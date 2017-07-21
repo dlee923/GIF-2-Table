@@ -57,7 +57,8 @@ let globalButtonTintColor = UIColor(white: 0.90, alpha: 1)
 let globalDetailCardColor = UIColor.white
 let globalDetailCardLblColor = UIColor(white: 0.0, alpha: 0.5)
 
-//let globalBackgroundColor = UIColor(red: 255/255, green: 252/255, blue: 182/255, alpha: 1.0)
+let globalBeigeColor = UIColor(red: 255/255, green: 252/255, blue: 182/255, alpha: 1.0)
+let globalBlueColor = UIColor(red: 4/255, green: 59/255, blue: 110/255, alpha: 1.0)
 //let globalAccessoryColor = UIColor.white
 //let globalButtonTintColor = UIColor(white: 0.90, alpha: 1)
 //let globalDetailCardColor = UIColor(white: 0.90, alpha: 1)

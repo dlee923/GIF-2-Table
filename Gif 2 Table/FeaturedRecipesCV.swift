@@ -74,6 +74,7 @@ class FeaturedRecipesCV: MDCCollectionViewController {
             if let _recipeView = mainVC?.mainCollectionView.recipeView {
                 _recipeView.recipe = recipes?[indexPath.item]
                 _recipeView.mainVC = self.mainVC
+                _recipeView.recipeCell = self.collectionView?.cellForItem(at: indexPath) as? FeaturedRecipeCell
                 window.addSubview(_recipeView)
             }
         }

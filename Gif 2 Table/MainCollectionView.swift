@@ -145,7 +145,11 @@ class MainCollectionView: MDCCollectionViewController {
         
         if isFavorites || isFilteredByFood {
             if recipes == nil || self.recipes?.count == 0{
-                emptyCell.setUpEmptyPrompt(type: .noFavorites)
+                if isFavorites {
+                    emptyCell.setUpEmptyPrompt(type: .noFavorites)
+                } else if isFilteredByFood {
+                    emptyCell.setUpEmptyPrompt(type: .noCategoryType)
+                }
                 return emptyCell
             } else {
                 mainCell.recipe = self.recipes?[indexPath.item]
@@ -210,6 +214,7 @@ class MainCollectionView: MDCCollectionViewController {
                 if let _recipeView = recipeView {
                     _recipeView.recipe = recipes?[indexPath.item]
                     _recipeView.mainVC = self.mainVC
+                    _recipeView.recipeCell = self.collectionView?.cellForItem(at: indexPath) as? MainRecipeCell
                     window.addSubview(_recipeView)
                 }
             }
