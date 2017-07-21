@@ -23,6 +23,8 @@ class MainVC: UIViewController {
         downloadRecipeObjects()
         
         setUpCollectionView()
+        
+        checkForTutorial()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,7 +96,7 @@ class MainVC: UIViewController {
         firebaseMgr.mainVC = self
         firebaseMgr.downloadData { (recipes) in
 //            self.recipes = recipes
-            self.recipes = Array(recipes.prefix(1))
+            self.recipes = Array(recipes.prefix(6))
             self.featureRecipe = recipes.first
             self.featureRecipeStored = recipes.first
             
@@ -114,5 +116,13 @@ class MainVC: UIViewController {
         print("favorites count: \(favoriteRecipes.count)")
     }
     
+    fileprivate func checkForTutorial() {
+        if UserDefaults.standard.value(forKey: "tutorial") == nil {
+            let introVC = IntroVC()
+            present(introVC, animated: false, completion: nil)
+        } else {
+            print("already taken tutorial")
+        }
+    }
 }
 

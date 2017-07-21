@@ -37,7 +37,7 @@ class IntroVC: UIViewController {
     
     var featureHighlight: MDCFeatureHighlightViewController?
     
-    func instantiateRecipeView() {
+    fileprivate func instantiateRecipeView() {
         recipeView = RecipeView(frame: self.view.frame)
         recipeView?.setUpView()
         recipeView?.recipeImage.image = UIImage(named: "steak")
@@ -47,18 +47,15 @@ class IntroVC: UIViewController {
         highlightedView.backgroundColor = tintedBlack
         highlightedView.textColor = .white
         highlightedView.textAlignment = .center
-        highlightedView.text = "Press To Play"
+        highlightedView.text = "PRESS TO PLAY"
         highlightedView.font = fontReno?.withSize(12)
         
         featureHighlight = MDCFeatureHighlightViewController(highlightedView: highlightedView, andShow: highlightedView, completion: { (_) in
             print("move to real app and flip switch to not play again")
+            self.flagUserExperience()
             self.dismiss(animated: true, completion: nil)
         })
 
-//        featureHighlight = MDCFeatureHighlightViewController(highlightedView: highlightedView) { (_) in
-//            // do what here?
-//            print("move to real app and flip switch to not play again")
-//        }
         featureHighlight?.outerHighlightColor = globalBlueColor
         featureHighlight?.innerHighlightColor = globalBeigeColor
         featureHighlight?.titleText = "Play Recipes!"
@@ -69,7 +66,7 @@ class IntroVC: UIViewController {
         self.view.addSubview(highlightedView)
     }
     
-    func instantiateTutorialView() {
+    fileprivate func instantiateTutorialView() {
         helloView.frame = self.view.bounds
         helloView.backgroundColor = globalBeigeColor
         self.view.addSubview(helloView)
@@ -85,7 +82,7 @@ class IntroVC: UIViewController {
         }
     }
     
-    func changeMessage() {
+    fileprivate func changeMessage() {
         UIView.animate(withDuration: self.fadeDuration, animations: {
             self.greetingsLabel.alpha = 1
         }) { (_) in
@@ -95,7 +92,7 @@ class IntroVC: UIViewController {
         }
     }
     
-    func changeMessage2() {
+    fileprivate func changeMessage2() {
         UIView.animate(withDuration: self.fadeDuration, animations: {
             self.greetingsLabel.alpha = 0
         }) { (_) in
@@ -112,7 +109,7 @@ class IntroVC: UIViewController {
         }
     }
     
-    func changeMessage3() {
+    fileprivate func changeMessage3() {
         UIView.animate(withDuration: self.fadeDuration, animations: {
             self.greetingsLabel.alpha = 0
         }) { (_) in
@@ -122,7 +119,7 @@ class IntroVC: UIViewController {
         }
     }
     
-    func fadeOutView() {
+    fileprivate func fadeOutView() {
         UIView.animate(withDuration: self.fadeDuration, animations: {
             self.helloView.alpha = 0
         }, completion: { (_) in
@@ -131,5 +128,10 @@ class IntroVC: UIViewController {
                 // do something?
             })
         })
+    }
+    
+    fileprivate func flagUserExperience() {
+        UserDefaults.standard.set("X", forKey: "tutorial")
+        UserDefaults.standard.synchronize()
     }
 }
