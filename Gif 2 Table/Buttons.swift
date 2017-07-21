@@ -14,7 +14,7 @@ enum ButtonType: String {
     case favorite = "ic_favorite"
     case home = "ic_home"
     case playButton = "ic_play_circle_outline"
-    case filter = "ic_search"
+    case filter = "ic_assignment"
 }
 
 class Buttons: UIBarButtonItem {
@@ -57,7 +57,8 @@ class Buttons: UIBarButtonItem {
         let button = UIButton(type: .system)
         button.frame = CGRect(x: 0, y: 0, width: buttonSize, height: buttonSize)
         button.setImage(UIImage(named: buttonType.rawValue)?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = globalBackgroundColor
+//        button.tintColor = globalBackgroundColor
+        button.tintColor = globalBeigeColor
         
         switch buttonType {
         case .menu: button.addTarget(self, action: #selector(self.activateMenu), for: .touchUpInside)

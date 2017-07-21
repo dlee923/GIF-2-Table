@@ -59,9 +59,9 @@ class StatusBar: MDCRaisedButton {
     
     func slideOffRecipe(shouldRemove: Bool, recipeView: RecipeView?) {
         // slide off in preparation for playing video
-        guard let newOriginPoint = mainVC?.view.frame.width else { return }
-        UIView.animate(withDuration: 0.3, animations: { 
-            self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform(translationX: newOriginPoint, y: 0)
+        guard let newOriginPoint = mainVC?.view.frame.height else { return }
+        UIView.animate(withDuration: 0.4, animations: {
+            self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform(translationX: newOriginPoint + CGFloat(64), y: 0)
         }) { (_) in
             if shouldRemove {
                 recipeView?.removeFromSuperview()
@@ -70,7 +70,7 @@ class StatusBar: MDCRaisedButton {
     }
     
     func slideOnRecipe() {
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 0.4, animations: {
             self.mainVC?.mainCollectionView.recipeView?.transform = CGAffineTransform.identity
         }) { (_) in
             // do something

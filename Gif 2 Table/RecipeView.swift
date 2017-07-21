@@ -86,6 +86,7 @@ class RecipeView: UIView {
             let cellImageFrame = cell.convert(cell.recipeImage.frame, to: nil)
             let fauxImage = UIImageView(frame: cellImageFrame)
             fauxImage.contentMode = .scaleAspectFill
+            fauxImage.layer.cornerRadius = 4
             fauxImage.clipsToBounds = true
             fauxImage.image = cell.recipeImage.image
             return fauxImage
@@ -93,6 +94,7 @@ class RecipeView: UIView {
             let cellImageFrame = cell.convert(cell.recipeImage.frame, to: nil)
             let fauxImage = UIImageView(frame: cellImageFrame)
             fauxImage.contentMode = .scaleAspectFill
+            fauxImage.layer.cornerRadius = 4
             fauxImage.clipsToBounds = true
             fauxImage.image = cell.recipeImage.image
             return fauxImage

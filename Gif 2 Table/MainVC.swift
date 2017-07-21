@@ -95,8 +95,8 @@ class MainVC: UIViewController {
         let firebaseMgr = Firebase()
         firebaseMgr.mainVC = self
         firebaseMgr.downloadData { (recipes) in
-//            self.recipes = recipes
-            self.recipes = Array(recipes.prefix(6))
+            self.recipes = recipes
+//            self.recipes = Array(recipes.prefix(6))
             self.featureRecipe = recipes.first
             self.featureRecipeStored = recipes.first
             

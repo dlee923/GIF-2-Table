@@ -9,19 +9,25 @@
 import UIKit
 
 extension MainCollectionView {
-
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y >= (scrollView.contentSize.height - (self.mainVC?.view.frame.height ?? 0)) {
-            
-            guard let count = self.recipes?.count else { return }
-            if self.maxVisibleRecipes < count {
-                self.maxVisibleRecipes += additionalRecipeIncremental
-            }
+    
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if targetContentOffset.pointee.y >= (scrollView.contentSize.height - (self.mainVC?.view.frame.height ?? 0)) - 10 {
+                increaseRecipeList()
         }
-//        scrollNavTitleHandler(scrollView: scrollView)
     }
     
-    func scrollNavTitleHandler(scrollView: UIScrollView) {
+    fileprivate func increaseRecipeList() {
+        guard let count = self.recipes?.count else { return }
+        if self.maxVisibleRecipes < count {
+            DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 0.5, execute: { 
+                self.maxVisibleRecipes += self.additionalRecipeIncremental
+            })
+        }
+    }
+    
+    // ---- methods to use for didScroll to change logo...
+    
+    fileprivate func scrollNavTitleHandler(scrollView: UIScrollView) {
         let calculatedTrigger = scrollView.contentOffset.y >= CGFloat(250) ? false : true
         let trigger = self.mainVC?.titleViewFadeTrigger
         
@@ -33,7 +39,7 @@ extension MainCollectionView {
         }
     }
     
-    func navTitleFadeControl(fadeLogo: Bool) {
+    fileprivate func navTitleFadeControl(fadeLogo: Bool) {
         if fadeLogo == true {
             UIView.animate(withDuration: 0.2, animations: {
                 self.mainVC?.titleView.titleLabel.alpha = 0
