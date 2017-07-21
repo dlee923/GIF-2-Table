@@ -152,16 +152,16 @@ class MainCollectionView: MDCCollectionViewController {
                 }
                 return emptyCell
             } else {
-                mainCell.recipe = self.recipes?[indexPath.item]
-                mainCell.recipeCardFrame = mainCell.frame
-                mainCell.mainVC = self.mainVC
-                
                 mainCell.recipeImage.contentMode = .scaleAspectFit
                 mainCell.recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
                 
                 mainCell.thumbsUp.isSelected = false
                 mainCell.thumbsDown.isSelected = false
                 mainCell.loveButton.isSelected = false
+                
+                mainCell.recipe = self.recipes?[indexPath.item]
+                mainCell.recipeCardFrame = mainCell.frame
+                mainCell.mainVC = self.mainVC
                 
                 mainCell.thumbsUp.checkIfLiked()
                 mainCell.thumbsDown.checkIfDisliked()
@@ -181,16 +181,16 @@ class MainCollectionView: MDCCollectionViewController {
                 return cell
             }
         } else if indexPath.section == 1 {
-            mainCell.recipe = self.recipes?[indexPath.item]
-            mainCell.recipeCardFrame = mainCell.frame
-            mainCell.mainVC = self.mainVC
-            
             mainCell.recipeImage.contentMode = .scaleAspectFit
             mainCell.recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
             
             mainCell.thumbsUp.isSelected = false
             mainCell.thumbsDown.isSelected = false
             mainCell.loveButton.isSelected = false
+            
+            mainCell.recipe = self.recipes?[indexPath.item]
+            mainCell.recipeCardFrame = mainCell.frame
+            mainCell.mainVC = self.mainVC
             
             mainCell.thumbsUp.checkIfLiked()
             mainCell.thumbsDown.checkIfDisliked()
