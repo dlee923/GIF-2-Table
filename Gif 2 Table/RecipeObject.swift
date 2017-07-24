@@ -26,6 +26,7 @@ class RecipeObject: NSObject {
     var difficulty: Difficulty?
     var shouldfade: Bool = true
     var category: String?
+    var downloadedImage: UIImage?
     
     init(link: String, title: String, imageLink: String, ingredients: [[String: String]], favorite: Bool, like: Bool, dislike: Bool, likes: Int, dislikes: Int, child: String, mainVC: MainVC?, category: String) {
         recipeLink = link
@@ -81,7 +82,7 @@ class RecipeObject: NSObject {
 
 extension RecipeObject {
     
-    func downloadCoverImage(completion: @escaping (UIImage) -> () ) {
+    func downloadCoverImage(completion: @escaping (_ image: UIImage, _ title: String) -> () ) {
         
         let imageLink = self.recipeImageLink
         guard let imageURL = URL(string: imageLink!) else { return }
@@ -89,7 +90,7 @@ extension RecipeObject {
         
         if let cachedImage = mainVC?.imageCache.object(forKey: imageLink as AnyObject) as? UIImage {
             DispatchQueue.main.async {
-                completion(cachedImage)
+                completion(cachedImage, self.recipeTitle!)
                 print("using cached image")
                 return
             }
@@ -100,12 +101,13 @@ extension RecipeObject {
                     return
                 }
                 
-                DispatchQueue.main.async {
+                if self.passedImageURL == imageLink {                    
                     guard let coverImage = UIImage(data: data!) else { return }
+                    self.mainVC?.imageCache.setObject(coverImage, forKey: imageLink as AnyObject)
                     
-                    if self.passedImageURL == imageLink {
-                        completion(coverImage)
-                        self.mainVC?.imageCache.setObject(coverImage, forKey: imageLink as AnyObject)
+                    DispatchQueue.main.async {
+                        completion(coverImage, self.recipeTitle!)
+                        self.downloadedImage = coverImage
                         print("downloaded new image")
                     }
                 }

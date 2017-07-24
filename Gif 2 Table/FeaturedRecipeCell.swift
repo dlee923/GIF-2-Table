@@ -19,9 +19,15 @@ class FeaturedRecipeCell: StockMDCCell {
     
     var recipe: RecipeObject? {
         didSet {
-            recipe?.downloadCoverImage(completion: { (coverImage) in
-                self.fadeInImage(recipe: self.recipe!, recipeImage: self.recipeImage, downloadedImage: coverImage)
-            })
+            if let downloadedImg = recipe?.downloadedImage {
+                self.fadeInImage(recipe: self.recipe!, recipeImage: self.recipeImage, downloadedImage: downloadedImg)
+            } else {
+                recipe?.downloadCoverImage(completion: { (coverImage, sameTitle) in
+                    if self.recipe?.recipeTitle == sameTitle {
+                        self.fadeInImage(recipe: self.recipe!, recipeImage: self.recipeImage, downloadedImage: coverImage)
+                    }
+                })
+            }
         }
     }
     

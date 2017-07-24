@@ -17,9 +17,10 @@ class RecipeView: UIView {
     
     var recipe: RecipeObject? {
         didSet {
-            recipe?.downloadCoverImage { (image) in
+            recipe?.downloadCoverImage(completion: { (image, sameTitle) in
                 self.recipeImage.image = image
-            }
+            })
+            
             ingredientList?.recipe = self.recipe
             statusBar.recipe = self.recipe            
         }

@@ -69,10 +69,16 @@ class MainRecipeCell: StockMDCCell {
     
     var recipe: RecipeObject? {
         didSet {
-    
-            recipe?.downloadCoverImage(completion: { (coverImage) in
-                self.fadeInImage(recipe: self.recipe!, recipeImage: self.recipeImage, downloadedImage: coverImage)            
-            })
+            
+            if let downloadedImg = recipe?.downloadedImage {
+                self.fadeInImage(recipe: self.recipe!, recipeImage: self.recipeImage, downloadedImage: downloadedImg)
+            } else {
+                recipe?.downloadCoverImage(completion: { (coverImage, sameTitle) in
+                    if self.recipe?.recipeTitle == sameTitle {
+                        self.fadeInImage(recipe: self.recipe!, recipeImage: self.recipeImage, downloadedImage: coverImage)
+                    }
+                })
+            }
             
             titleLabel.text = recipe?.recipeTitle
             categoryLabel.text = recipe?.category
@@ -234,7 +240,7 @@ class MainRecipeCell: StockMDCCell {
         thumbsUp.topAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
         thumbsUp.leadingAnchor.constraint(equalTo: likeCountLabel.trailingAnchor).isActive = true
         thumbsUp.widthAnchor.constraint(equalTo: detailView.widthAnchor, multiplier: 0.125).isActive = true
-        thumbsUp.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -labelLeadSpace).isActive = true
+        thumbsUp.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -labelLeadSpace/2.5).isActive = true
         
         dislikeCountLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
         dislikeCountLabel.leadingAnchor.constraint(equalTo: thumbsUp.trailingAnchor).isActive = true
@@ -244,7 +250,7 @@ class MainRecipeCell: StockMDCCell {
         thumbsDown.topAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
         thumbsDown.leadingAnchor.constraint(equalTo: dislikeCountLabel.trailingAnchor).isActive = true
         thumbsDown.trailingAnchor.constraint(equalTo: detailView.trailingAnchor).isActive = true
-        thumbsDown.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -labelLeadSpace).isActive = true
+        thumbsDown.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -labelLeadSpace/2.5).isActive = true
     }
     
     func setUpLoveButton() {
