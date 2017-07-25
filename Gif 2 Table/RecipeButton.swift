@@ -15,8 +15,8 @@ class RecipeButton: UIButton {
         setUpButton()
     }
     
-    let highlightedColor = tintedBlack
-    let unhighlightedColor = globalButtonTintColor
+    var highlightedColor = tintedBlack
+    var unhighlightedColor = globalButtonTintColor
     
     let firebaseManager = Firebase()
     let coreDataManager = CoreDataManager()

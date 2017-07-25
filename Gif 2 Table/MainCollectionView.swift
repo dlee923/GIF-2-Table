@@ -18,7 +18,18 @@ class MainCollectionView: MDCCollectionViewController {
         setUpCollectionView()
     }
     
-    var recipes: [RecipeObject]?
+    var recipes: [RecipeObject]? {
+        didSet {
+            latestRecipe = recipes?.first
+            pastRecipes = Array((recipes?.suffix(from: 0))!)
+        }
+    }
+    var latestRecipe: RecipeObject?
+    var pastRecipes: [RecipeObject]? {
+        didSet {
+            pastRecipes?.removeFirst()
+        }
+    }
     var mainVC: MainVC?
     let recipesPerView: CGFloat = 3.5
     let featureCellHeight: CGFloat = 0.2
@@ -29,6 +40,7 @@ class MainCollectionView: MDCCollectionViewController {
     var filterCategoryTitle: String?
     
     let mainRecipeCell = "mainRecipeCell"
+    let mainRecipeCellLatest = "mainRecipeCellLatest"
     let mainHeaderCell = "mainHeaderCell"
     let mainFeatureCell = "mainFeatureCell"
     let emptyCell = "emptyCell"
@@ -44,6 +56,7 @@ class MainCollectionView: MDCCollectionViewController {
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
         self.collectionView?.register(MainRecipeCell.self, forCellWithReuseIdentifier: mainRecipeCell)
+        self.collectionView?.register(MainRecipeCellLatest.self, forCellWithReuseIdentifier: mainRecipeCellLatest)
         self.collectionView?.register(MainFeatureCell.self, forCellWithReuseIdentifier: mainFeatureCell)
         self.collectionView?.register(EmptyCell.self, forCellWithReuseIdentifier: emptyCell)
         self.collectionView?.register(MainHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: mainHeaderCell)
@@ -53,7 +66,7 @@ class MainCollectionView: MDCCollectionViewController {
         if isFavorites || isFilteredByFood {
             return 1
         } else {
-            return 2
+            return 3
         }
     }
     
@@ -62,7 +75,7 @@ class MainCollectionView: MDCCollectionViewController {
             return 1
         }
         
-        if let recipeCount = recipes?.count {
+        if let recipeCount = recipes?.count, let pastRecipeCount = pastRecipes?.count {
 
             if isFavorites || isFilteredByFood {
                 return recipeCount > self.maxVisibleRecipes ? maxVisibleRecipes : recipeCount
@@ -73,7 +86,9 @@ class MainCollectionView: MDCCollectionViewController {
             case 0:
                 return 1
             case 1:
-                return recipeCount > maxVisibleRecipes ? maxVisibleRecipes : recipeCount
+                return 1
+            case 2:
+                return pastRecipeCount > maxVisibleRecipes ? maxVisibleRecipes : pastRecipeCount
             default: break
             }
         }
@@ -101,6 +116,7 @@ class MainCollectionView: MDCCollectionViewController {
                 switch indexPath.section {
                 case 0: return featuredCellSize
                 case 1: return normalCellSize
+                case 2: return normalCellSize
                 default: break
                 }
             }
@@ -118,13 +134,14 @@ class MainCollectionView: MDCCollectionViewController {
             header.collectionViewSideSpacing = self.collectionViewSideBorders
             
             if isFavorites {
-                header.headerLabel.text = "FAVORITE RECIPES"
+                header.headerLabel.text = "FAVORITE  RECIPES"
             } else if isFilteredByFood {
                 header.headerLabel.text = filterCategoryTitle
             } else {
                 switch indexPath.section {
-                case 0: header.headerLabel.text = "FEATURE RECIPES"
+                case 0: header.headerLabel.text = "POPULAR  RECIPES"
                 case 1: header.headerLabel.text = "LATEST"
+                case 2: header.headerLabel.text = "PAST  RECIPES"
                 default: break
                 }
             }
@@ -140,6 +157,10 @@ class MainCollectionView: MDCCollectionViewController {
         }
         
         guard let mainCell = collectionView.dequeueReusableCell(withReuseIdentifier: mainRecipeCell, for: indexPath) as? MainRecipeCell else {
+            return UICollectionViewCell()
+        }
+        
+        guard let mainCellLatest = collectionView.dequeueReusableCell(withReuseIdentifier: mainRecipeCellLatest, for: indexPath) as? MainRecipeCellLatest else {
             return UICollectionViewCell()
         }
         
@@ -181,6 +202,23 @@ class MainCollectionView: MDCCollectionViewController {
                 return cell
             }
         } else if indexPath.section == 1 {
+            mainCellLatest.recipeImage.contentMode = .scaleAspectFit
+            mainCellLatest.recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
+            
+            mainCellLatest.thumbsUp.isSelected = false
+            mainCellLatest.thumbsDown.isSelected = false
+            mainCellLatest.loveButton.isSelected = false
+            
+            mainCellLatest.recipe = latestRecipe
+            mainCellLatest.recipeCardFrame = mainCell.frame
+            mainCellLatest.mainVC = self.mainVC
+            
+            mainCellLatest.thumbsUp.checkIfLiked()
+            mainCellLatest.thumbsDown.checkIfDisliked()
+            mainCellLatest.loveButton.checkIfFavorite()
+            
+            return mainCellLatest
+        } else if indexPath.section == 2 {
             mainCell.recipeImage.contentMode = .scaleAspectFit
             mainCell.recipeImage.image = UIImage(named: "g2tplaceholder")?.withRenderingMode(.alwaysTemplate)
             
@@ -188,7 +226,7 @@ class MainCollectionView: MDCCollectionViewController {
             mainCell.thumbsDown.isSelected = false
             mainCell.loveButton.isSelected = false
             
-            mainCell.recipe = self.recipes?[indexPath.item]
+            mainCell.recipe = self.pastRecipes?[indexPath.item]
             mainCell.recipeCardFrame = mainCell.frame
             mainCell.mainVC = self.mainVC
             
@@ -213,6 +251,16 @@ class MainCollectionView: MDCCollectionViewController {
                 recipeView = RecipeView(frame: window.bounds)
                 if let _recipeView = recipeView {
                     _recipeView.recipe = recipes?[indexPath.item]
+                    _recipeView.mainVC = self.mainVC
+                    _recipeView.recipeCell = self.collectionView?.cellForItem(at: indexPath) as? MainRecipeCell
+                    window.addSubview(_recipeView)
+                }
+            }
+        } else if indexPath.section == 2 {
+            if let window = UIApplication.shared.keyWindow {
+                recipeView = RecipeView(frame: window.bounds)
+                if let _recipeView = recipeView {
+                    _recipeView.recipe = pastRecipes?[indexPath.item]
                     _recipeView.mainVC = self.mainVC
                     _recipeView.recipeCell = self.collectionView?.cellForItem(at: indexPath) as? MainRecipeCell
                     window.addSubview(_recipeView)
