@@ -42,7 +42,6 @@ class RecipeButton: UIButton {
             recipe.recipeTitle == self.recipeObj?.recipeTitle
         })
         if likedIndex != nil {
-            print("liked exists \(likedIndex ?? 0)")
             self.isSelected = true
         }        
         setTintColor()
