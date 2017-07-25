@@ -271,20 +271,20 @@ class MainRecipeCellLatest: MainRecipeCell {
     
     override func setUpCell() {
         super.setUpCell()
-        detailView.backgroundColor = globalBeigeColor
-        titleLabel.textColor = globalBlueColor
-        categoryLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
-        difficultyLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
-        ingredientsLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
-        likeCountLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
-        dislikeCountLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
-        loveButton.backgroundColor = globalBeigeColor
-        loveButton.highlightedColor = globalBlueColor
-        thumbsUp.highlightedColor = globalBlueColor
-        thumbsDown.highlightedColor = globalBlueColor
-        loveButton.unhighlightedColor = UIColor.black.withAlphaComponent(0.1)
-        thumbsUp.unhighlightedColor = UIColor.black.withAlphaComponent(0.1)
-        thumbsDown.unhighlightedColor = UIColor.black.withAlphaComponent(0.1)
+//        detailView.backgroundColor = globalBeigeColor
+//        titleLabel.textColor = globalBlueColor
+//        categoryLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
+//        difficultyLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
+//        ingredientsLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
+//        likeCountLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
+//        dislikeCountLabel.textColor = globalBlueColor.withAlphaComponent(0.8)
+//        loveButton.backgroundColor = globalBeigeColor
+//        loveButton.highlightedColor = globalBlueColor
+//        thumbsUp.highlightedColor = globalBlueColor
+//        thumbsDown.highlightedColor = globalBlueColor
+//        loveButton.unhighlightedColor = UIColor.black.withAlphaComponent(0.1)
+//        thumbsUp.unhighlightedColor = UIColor.black.withAlphaComponent(0.1)
+//        thumbsDown.unhighlightedColor = UIColor.black.withAlphaComponent(0.1)
     }
 }
 
