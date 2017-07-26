@@ -27,7 +27,11 @@ class MainCollectionView: MDCCollectionViewController {
     var latestRecipe: RecipeObject?
     var pastRecipes: [RecipeObject]? {
         didSet {
-            pastRecipes?.removeFirst()
+            if let count = recipes?.count {
+                if count > 0 {
+                    pastRecipes?.removeFirst()
+                }
+            }                        
         }
     }
     var mainVC: MainVC?
