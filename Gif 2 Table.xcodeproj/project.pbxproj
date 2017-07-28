@@ -26,7 +26,6 @@
 		7028884A1ECA107C005B27BA /* DislikedRecipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702888461ECA107C005B27BA /* DislikedRecipe+CoreDataProperties.swift */; };
 		7028884B1ECA107C005B27BA /* LikedRecipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702888471ECA107C005B27BA /* LikedRecipe+CoreDataClass.swift */; };
 		7028884C1ECA107C005B27BA /* LikedRecipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702888481ECA107C005B27BA /* LikedRecipe+CoreDataProperties.swift */; };
-		70294BCD1EC5EE8E0097B61B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70294BCC1EC5EE8E0097B61B /* GoogleService-Info.plist */; };
 		70294BCF1EC5FC110097B61B /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70294BCE1EC5FC110097B61B /* Firebase.swift */; };
 		702C25201F19A23A0022C068 /* Geometos.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 702C251F1F19A23A0022C068 /* Geometos.ttf */; };
 		702C25221F19AAF40022C068 /* Porter Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 702C25211F19AAF40022C068 /* Porter Bold.ttf */; };
@@ -83,7 +82,6 @@
 		702888461ECA107C005B27BA /* DislikedRecipe+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DislikedRecipe+CoreDataProperties.swift"; path = "Gif 2 Table/DislikedRecipe+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		702888471ECA107C005B27BA /* LikedRecipe+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LikedRecipe+CoreDataClass.swift"; path = "Gif 2 Table/LikedRecipe+CoreDataClass.swift"; sourceTree = "<group>"; };
 		702888481ECA107C005B27BA /* LikedRecipe+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LikedRecipe+CoreDataProperties.swift"; path = "Gif 2 Table/LikedRecipe+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		70294BCC1EC5EE8E0097B61B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70294BCE1EC5FC110097B61B /* Firebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
 		702C251F1F19A23A0022C068 /* Geometos.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Geometos.ttf; sourceTree = "<group>"; };
 		702C25211F19AAF40022C068 /* Porter Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Porter Bold.ttf"; sourceTree = "<group>"; };
@@ -196,7 +194,6 @@
 				700BC9221EAA6843002EB83A /* Assets.xcassets */,
 				700BC9241EAA6843002EB83A /* LaunchScreen.storyboard */,
 				700BC9271EAA6843002EB83A /* Info.plist */,
-				70294BCC1EC5EE8E0097B61B /* GoogleService-Info.plist */,
 				700BC91F1EAA6843002EB83A /* Gif_2_Table.xcdatamodeld */,
 			);
 			path = "Gif 2 Table";
@@ -358,7 +355,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				700178E21EB97F86006AEF48 /* KGLifeisMessy.ttf in Resources */,
-				70294BCD1EC5EE8E0097B61B /* GoogleService-Info.plist in Resources */,
 				702C25241F19AAFB0022C068 /* LemonMilk.otf in Resources */,
 				702C25221F19AAF40022C068 /* Porter Bold.ttf in Resources */,
 				700178DB1EB9788C006AEF48 /* Luna.ttf in Resources */,
